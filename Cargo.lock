@@ -229,15 +229,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dioxus-cross"
-version = "0.1.0"
-dependencies = [
- "dioxus",
- "dioxus-router",
- "dioxus-web",
-]
-
-[[package]]
 name = "dioxus-debug-cell"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1054,6 +1045,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "taigla"
+version = "0.1.0"
+dependencies = [
+ "dioxus",
+ "dioxus-router",
+ "dioxus-web",
 ]
 
 [[package]]

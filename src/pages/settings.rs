@@ -2,10 +2,9 @@
 use dioxus::prelude::*;
 use crate::components::Header;
 
-#[inline_props]
-pub fn Home(cx: Scope) -> Element {
+pub fn Settings(cx: Scope) -> Element {
     render! {
         Header {}
-        "test"
+        "settings"
     }
 }

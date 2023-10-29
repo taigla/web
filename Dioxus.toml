@@ -9,13 +9,15 @@ asset_dir = "public"
 
 [web.app]
 title = "Taigla"
+base_path = "."
 
 [web.watcher]
 reload_html = true
+index_on_404 = true
 watch_path = ["src", "public"]
 
 [web.resource]
-style = []
+style = ["tailwind.css"]
 script = []
 
 [web.resource.dev]
