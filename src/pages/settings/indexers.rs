@@ -19,6 +19,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
                 key: "{indexer.id}",
                 td { "{indexer.name}" }
                 td { "{indexer.priority}" }
+                td { "Edit" }
             }
         }
     });
@@ -28,8 +29,9 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
             class: "table bordered",
             thead {
                 tr {
-                    th { class: "w-11/12", "Name" }
+                    th { class: "w-10/12", "Name" }
                     th { class: "w-1/12", "Priority" }
+                    th { class: "w-1/12", "" }
                 }
             }
             tbody {
@@ -45,7 +47,7 @@ pub fn Indexers(cx: Scope) -> Element {
 
     render! {
         div {
-            class: "flex flex-col w-full px-24",
+            class: "flex flex-col w-full",
             div {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-2xl", "Indexers" }
