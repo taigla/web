@@ -25,11 +25,12 @@ fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
 
     render! {
         table {
+            class: "table bordered",
             thead {
                 tr {
-                    td { class: "w-1/12", "ID" }
-                    td { class: "w-10/12", "Name" }
-                    td { class: "w-1/12", "Disabled" }
+                    th { class: "w-1/12", "ID" }
+                    th { class: "w-10/12", "Name" }
+                    th { class: "w-1/12", "Disabled" }
                 }
             }
             tbody {
@@ -45,7 +46,7 @@ pub fn Users(cx: Scope) -> Element {
     render! {
         div {
             class: "flex flex-col w-full",
-            "Users"
+            p { class: "text-2xl", "Users" }
             match users {
                 State::Ok(users) => rsx! { UserList { users: users } },
                 _ => rsx! { "Loading" }
