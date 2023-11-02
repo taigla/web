@@ -16,7 +16,10 @@ pub fn SettingsNavbar(cx: Scope) -> Element {
         div {
             class: "flex flex-row",
             LinkList {}
-            Outlet::<Routes> {}
+            div {
+                class: "w-full overflow-y-scroll h-screen pt-16",
+                Outlet::<Routes> {}
+            }
         }
     }
 }
@@ -32,7 +35,7 @@ fn LinkList(cx: Scope) -> Element {
 
     render! {
         div {
-            class: "flex flex-col p-2 min-w-max",
+            class: "flex flex-col p-2 pt-16 min-w-max",
             links
         }
     }
