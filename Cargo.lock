@@ -1529,6 +1529,8 @@ dependencies = [
  "dioxus-web",
  "log",
  "reqwest",
+ "serde",
+ "web-sys",
 ]
 
 [[package]]
