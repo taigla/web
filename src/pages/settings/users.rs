@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use serde::Deserialize;
-use crate::hooks::use_taigla_api;
+use crate::hooks::use_swr::{use_swr, State};
 
 #[derive(Deserialize, PartialEq)]
 struct User {
@@ -10,55 +10,46 @@ struct User {
     disable: bool
 }
 
-enum State<T> {
-    Loading,
-    Ok(T),
-    Err,
-}
-
-fn use_users(cx: Scope) -> &UseState<State<Vec<User>>> {
-    let users = use_state::<State<Vec<User>>>(cx, || State::Loading);
-    let taigla_api = use_taigla_api(cx);
-
-    use_effect(cx, (), |_| {
-        to_owned![taigla_api, users];
-        async move {
-            let response = taigla_api.read().get("/api/v1/users")
-                .send()
-                .await
-                .unwrap()
-                .json::<Vec<User>>()
-                .await
-                .expect("Failed to parse user list");
-            users.set(State::Ok(response));
-        }
-    });
-
-    users
-}
-
 #[inline_props]
 fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
     let row = users.iter().map(|user| {
         rsx! {
-            p {
+            tr {
                 key: "{user.id}",
-                "{user.name}"
+                td { "{user.id}" }
+                td { "{user.name}" }
+                td { "{user.disable}" }
             }
         }
     });
 
-    render! { row }
+    render! {
+        table {
+            thead {
+                tr {
+                    td { class: "w-1/12", "ID" }
+                    td { class: "w-10/12", "Name" }
+                    td { class: "w-1/12", "Disabled" }
+                }
+            }
+            tbody {
+                row
+            }
+        }
+    }
 }
 
 pub fn Users(cx: Scope) -> Element {
-    let users = use_users(cx);
+    let users = use_swr(&cx, "/api/v1/users");
 
     render! {
-        "Users"
-        match users.get() {
-            State::Ok(users) => rsx! { UserList { users: users } },
-            _ => rsx! { "Loading" }
+        div {
+            class: "flex flex-col w-full",
+            "Users"
+            match users {
+                State::Ok(users) => rsx! { UserList { users: users } },
+                _ => rsx! { "Loading" }
+            }
         }
     }
 }

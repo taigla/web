@@ -21,15 +21,17 @@ pub fn SettingsNavbar(cx: Scope) -> Element {
 }
 
 fn LinkList(cx: Scope) -> Element {
+    let route = use_route::<Routes>(&cx).unwrap();
     let links = LINKS.iter().cloned().map(|(name, link)| {
+        let active = if link.is_child_of(&route) { "text-accent" } else { "" };
         return rsx! {
-            Link { key: "{name}", to: link, name }
+            Link { key: "{name}", class: "py-1 px-2 rounded-md hover:bg-gray-500 {active}", to: link, name }
         };
     });
 
     render! {
         div {
-            class: "flex flex-col w-20",
+            class: "flex flex-col p-2 min-w-max",
             links
         }
     }
