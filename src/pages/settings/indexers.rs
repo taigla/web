@@ -1,8 +1,7 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use dioxus_router::prelude::*;
 use serde::Deserialize;
-use crate::{hooks::use_swr::{use_swr, State}, routes::Routes};
+use crate::hooks::use_swr::{use_swr, State};
 use crate::components::modal::Indexer;
 
 #[derive(Deserialize)]
@@ -29,8 +28,8 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
             class: "table",
             thead {
                 tr {
-                    td { class: "w-11/12", "Name" }
-                    td { class: "w-1/12", "Priority" }
+                    th { class: "w-11/12", "Name" }
+                    th { class: "w-1/12", "Priority" }
                 }
             }
             tbody {
@@ -50,7 +49,9 @@ pub fn Indexers(cx: Scope) -> Element {
             div {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-2xl", "Indexers" }
-                Link { to: Routes::Home {}, class: "btn solid sm primary", "New" }
+                p {
+                    onclick: move |_| modal_visible.set(true),
+                    class: "btn solid sm primary", "New" }
             }
             match indexers {
                 State::Ok(indexers) => rsx! { IndexerList { indexers: indexers } },
@@ -59,7 +60,7 @@ pub fn Indexers(cx: Scope) -> Element {
             Indexer {
                 id: "12".to_string(),
                 visible: modal_visible.get(),
-                close: move |_| {}
+                on_close: move |_| modal_visible.set(false)
             }
         }
     }
