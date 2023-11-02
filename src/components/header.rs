@@ -15,7 +15,7 @@ pub fn Header(cx: Scope) -> Element {
                 class: "flex flex-row justify-between",
                 Link { to: Routes::Home {}, class: "w-30", "Taigla" }
                 LinkList {}
-                p { class: "w-30", "Taigla" }
+                p { class: "w-30", "Profile" }
             }
             Outlet::<Routes> {}
         }
