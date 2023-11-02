@@ -4,19 +4,17 @@ use dioxus_router::prelude::*;
 use crate::routes::Routes;
 
 static LINKS: &'static [(&str, Routes)] = &[
-    ("Home", Routes::Home {}),
-    ("Settings", Routes::Settings {})
+    ("User", Routes::Users {}),
+    ("Invite", Routes::Invites {}),
+    ("Indexer", Routes::Indexers {}),
+    ("Request profile", Routes::RequestProfiles {})
 ];
 
-pub fn Header(cx: Scope) -> Element {
+pub fn SettingsNavbar(cx: Scope) -> Element {
     render! {
         div {
-                div {
-                class: "flex flex-row justify-between",
-                Link { to: Routes::Home {}, class: "w-30", "Taigla" }
-                LinkList {}
-                p { class: "w-30", "Taigla" }
-            }
+            class: "flex flex-row",
+            LinkList {}
             Outlet::<Routes> {}
         }
     }
@@ -31,7 +29,7 @@ fn LinkList(cx: Scope) -> Element {
 
     render! {
         div {
-            class: "flex flex-row",
+            class: "flex flex-col w-20 bg-red-500",
             links
         }
     }

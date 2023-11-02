@@ -1,7 +1,11 @@
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
-use crate::pages::{Home, Settings};
-use crate::components::Header;
+use crate::pages::{
+    Home,
+    Settings,
+    settings::{Indexers, Invites, RequestProfiles, Users}
+};
+use crate::components::{Header, SettingsNavbar};
 
 #[derive(Clone, Routable)]
 pub enum Routes {
@@ -9,7 +13,19 @@ pub enum Routes {
         #[route("/")]
         #[redirect("/:.._segments", |_segments: Vec<String>| Routes::Home {})]
         Home {},
-        #[route("/settings")]
-        Settings {},
+        #[layout(SettingsNavbar)]
+            #[nest("/settings")]
+                #[route("/")]
+                Settings {},
+                #[route("/indexers")]
+                Indexers {},
+                #[route("/invites")]
+                Invites {},
+                #[route("/request-profiles")]
+                RequestProfiles {},
+                #[route("/users")]
+                Users {},
+            // #[end_nest]
+        // #[end_layout]
     // #[end_layout]
 }
