@@ -12,7 +12,7 @@ struct User {
 
 #[inline_props]
 fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
-    let row = users.iter().map(|user| {
+    let rows = users.iter().map(|user| {
         rsx! {
             tr {
                 key: "{user.id}",
@@ -33,7 +33,7 @@ fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
                 }
             }
             tbody {
-                row
+                rows
             }
         }
     }

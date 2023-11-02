@@ -15,6 +15,9 @@ pub fn use_swr<'a, T: 'static + DeserializeOwned>(cx: &'a ScopeState, url: &'a s
     use_effect(cx, (&url,), |(url,)| {
         to_owned![taigla_api, data];
         async move {
+            if url.len() == 0 {
+                return;
+            }
             let response = taigla_api.read().get(&url)
                 .send()
                 .await
