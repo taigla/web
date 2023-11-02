@@ -29,7 +29,7 @@ fn LinkList(cx: Scope) -> Element {
 
     render! {
         div {
-            class: "flex flex-col w-20 bg-red-500",
+            class: "flex flex-col w-20",
             links
         }
     }
