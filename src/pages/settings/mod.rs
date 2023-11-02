@@ -2,14 +2,12 @@
 use dioxus::prelude::*;
 
 pub use indexers::Indexers;
-pub use indexer::Indexer;
 pub use invites::Invites;
 pub use request_profiles::RequestProfiles;
 pub use users::Users;
 pub use background_job::BackgroundJobs;
 
 mod indexers;
-mod indexer;
 mod invites;
 mod request_profiles;
 mod users;

@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   mode: "all",
   content: [
@@ -15,6 +15,24 @@ module.exports = {
     },
   },
   plugins: [
-    require('@sira-ui/tailwind')
+    require("@sira-ui/tailwind")({
+      themes: [
+        {
+          name: "dark",
+          colorScheme: "dark",
+          prefersColorScheme: true,
+          colors: {
+            primary: "#9141ac",
+          }
+        },
+        {
+          name: "light",
+          colorScheme: "light",
+          colors: {
+            primary: "#9141ac",
+          }
+        }
+      ]
+    })
   ],
 }

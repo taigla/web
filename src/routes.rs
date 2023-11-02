@@ -3,7 +3,7 @@ use dioxus_router::prelude::*;
 use crate::pages::{
     Home,
     Settings,
-    settings::{Indexers, Indexer, Invites, RequestProfiles, Users, BackgroundJobs},
+    settings::{Indexers, Invites, RequestProfiles, Users, BackgroundJobs},
     auth::Login
 };
 use crate::components::{Header, SettingsNavbar, LoginRequired};
@@ -21,8 +21,6 @@ pub enum Routes {
                     Settings {},
                     #[route("/indexers")]
                     Indexers {},
-                    #[route("/indexers/:id")]
-                    Indexer { id: String },
                     #[route("/invites")]
                     Invites {},
                     #[route("/request-profiles")]

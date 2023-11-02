@@ -16,7 +16,7 @@ pub fn Header(cx: Scope) -> Element {
                 div {
                     class: "flex flex-row justify-between items-center",
                     Link { to: Routes::Home {}, class: "w-40 flex flex-row items-center",
-                        img { class: "mr-1", src: "/favicon-32.png" }
+                        img { class: "mr-1 rounded-none", src: "/favicon-32.png" }
                         p { class:"font-semibold", "Taigla" }
                     }
                     LinkList {}
