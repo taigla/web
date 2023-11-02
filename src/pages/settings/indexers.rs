@@ -47,7 +47,7 @@ pub fn Indexers(cx: Scope) -> Element {
             div {
                 class: "flex flex-row justify-between  pb-2",
                 p { class: "text-2xl", "Indexers" }
-                Link { to: Routes::Indexer { id: "new".to_string() }, class: "", "New" }
+                Link { to: Routes::Indexer { id: "new".to_string() }, class: "btn solid sm accent", "New" }
             }
             match indexers {
                 State::Ok(indexers) => rsx! { IndexerList { indexers: indexers } },
