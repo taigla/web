@@ -25,7 +25,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
 
     render! {
         table {
-            class: "table",
+            class: "table bordered",
             thead {
                 tr {
                     th { class: "w-11/12", "Name" }
