@@ -26,4 +26,10 @@ impl TaiglaApi {
             .post(self.address.join(url).expect("Invalid url"))
             .header("Authorization", &self.token)
     }
+
+    pub fn patch(&self, url: &str) -> reqwest::RequestBuilder {
+        self.client
+            .patch(self.address.join(url).expect("Invalid url"))
+            .header("Authorization", &self.token)
+    }
 }

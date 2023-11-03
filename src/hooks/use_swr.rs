@@ -12,7 +12,7 @@ pub enum State<T> {
     Error(Error)
 }
 
-pub fn use_swr<'a, T: 'static + DeserializeOwned>(cx: &'a ScopeState, url: &'a str) -> &'a State<T> {
+pub fn use_swr<'a, T: 'static + DeserializeOwned>(cx: &'a ScopeState, url: &str) -> &'a State<T> {
     let data = use_state::<State<T>>(cx, || State::Loading);
     let taigla_api = use_taigla_api(cx);
     let url = url.to_string();
