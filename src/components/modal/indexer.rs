@@ -1,9 +1,12 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
+use fermi::{use_read, use_set, Atom};
 use serde_json::json;
 use serde::Deserialize;
 use super::Modal;
 use crate::hooks::{use_taigla_api, use_swr::{use_swr, State, Error as SwrError}};
+
+pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
 #[derive(PartialEq)]
 pub enum IndexerModalState {
@@ -34,13 +37,14 @@ fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Opti
 }
 
 #[inline_props]
-fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>, indexer: Option<&'a Indexer>) -> Element<'a> {
+fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>) -> Element<'a> {
     let api = use_taigla_api(&cx);
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
     let id = if let Some(indexer) = indexer { indexer.id }  else { 0 };
+    let set_state = use_set(cx, &STATE);
 
     let submit = move |evt: Event<FormData>| {
-        to_owned![api, id];
+        to_owned![api, id, set_state];
         cx.spawn(async move {
             log::info!("{:?}", evt);
             let body = json!({
@@ -68,6 +72,7 @@ fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>, indexer: Option<&'a Index
                     .await
                     .unwrap();
             }
+            set_state(IndexerModalState::Close);
         })
     };
 
@@ -99,7 +104,7 @@ fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>, indexer: Option<&'a Index
                 class: "flex flex-row justify-end col-span-12 gap-2",
                 p {
                     class: "btn solid md",
-                    onclick: move |_| on_close.call(()),
+                    onclick: move |_| set_state(IndexerModalState::Close),
                     "Close"
                 }
                 input {
@@ -113,7 +118,7 @@ fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>, indexer: Option<&'a Index
 }
 
 #[inline_props]
-fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHandler<'a, ()>) -> Element<'a> {
+fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState) -> Element<'a> {
     let url = if let IndexerModalState::Id(id) = *state { format!("/api/v1/indexers/{}", id) } else { "".to_string() };
     let indexer = use_swr::<Indexer>(cx, &url);
 
@@ -122,9 +127,9 @@ fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHand
             class: "flex flex-col p-6",
             p { class: "text-2xl", "Indexer" }
             match indexer {
-                State::Ok(i) => rsx! { Form { on_close: move |_| on_close.call(()), indexer: i } },
+                State::Ok(i) => rsx! { Form { indexer: i } },
                 State::Loading => rsx! { div { class: "loader bw sm", div { class: "spin" } } },
-                State::Error(SwrError::EmptyUrl) => rsx! { Form { on_close: move |_| on_close.call(()) } },
+                State::Error(SwrError::EmptyUrl) => rsx! { Form { } },
                 State::Error(_) => rsx! { "Error while fetching indexer" }
             }
         }
@@ -132,14 +137,15 @@ fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHand
 }
 
 #[inline_props]
-pub fn Indexer<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHandler<'a, ()>) -> Element<'a> {
+pub fn Indexer(cx: Scope) -> Element {
+    let state = use_read(cx, &STATE);
+    // let write
 
     render! {
         Modal {
-            visible: **state != IndexerModalState::Close,
+            visible: *state != IndexerModalState::Close,
             ModalContent {
-                state: state,
-                on_close: move |_| on_close.call(())
+                state: state
             }
         }
     }

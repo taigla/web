@@ -1,8 +1,9 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use serde::Deserialize;
+use fermi::use_set;
 use crate::hooks::use_swr::{use_swr, State};
-use crate::components::modal::indexer::{Indexer, IndexerModalState};
+use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
 
 #[derive(Deserialize)]
 pub struct Indexer {
@@ -49,7 +50,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>, on_indexer_select:
 
 pub fn Indexers(cx: Scope) -> Element {
     let indexers = use_swr::<Vec<Indexer>>(&cx, "/api/v1/indexers");
-    let modal_visible = use_state(cx, || IndexerModalState::Close);
+    let set_modal_status = use_set(cx, &STATE);
 
     render! {
         div {
@@ -58,24 +59,19 @@ pub fn Indexers(cx: Scope) -> Element {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-2xl", "Indexers" }
                 p {
-                    onclick: move |_| modal_visible.set(IndexerModalState::New),
+                    onclick: move |_| set_modal_status(IndexerModalState::New),
                     class: "btn solid sm primary", "New" }
             }
             match indexers {
                 State::Ok(indexers) => rsx! {
                     IndexerList {
                         indexers: indexers,
-                        on_indexer_select: move |id| {
-                            modal_visible.set(IndexerModalState::Id(id));
-                        }
+                        on_indexer_select: move |id| set_modal_status(IndexerModalState::Id(id))
                     }
                 },
                 _ => rsx! { "Loading" }
             }
-            Indexer {
-                state: modal_visible.get(),
-                on_close: move |_| modal_visible.set(IndexerModalState::Close)
-            }
+            Indexer {}
         }
     }
 }
