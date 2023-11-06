@@ -1,4 +1,8 @@
 pub use use_taigla_api::use_taigla_api;
+pub use use_query::{use_query, UseQuery};
+pub use use_query_provider::{Fetcher, UseQueryProvider, use_init_query_provider, use_query_provider};
 
 mod use_taigla_api;
 pub mod use_swr;
+mod use_query;
+mod use_query_provider;

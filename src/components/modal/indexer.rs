@@ -4,7 +4,7 @@ use fermi::{use_read, use_set, Atom};
 use serde_json::json;
 use serde::Deserialize;
 use super::Modal;
-use crate::hooks::{use_taigla_api, use_swr::{use_swr, State, Error as SwrError}};
+use crate::hooks::{use_taigla_api, use_swr::{use_swr, State, Error as SwrError}, use_query};
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
@@ -139,7 +139,6 @@ fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState) -> Element<'a> {
 #[inline_props]
 pub fn Indexer(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
-    // let write
 
     render! {
         Modal {

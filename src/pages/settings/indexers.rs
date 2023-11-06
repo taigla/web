@@ -2,6 +2,7 @@
 use dioxus::prelude::*;
 use serde::Deserialize;
 use fermi::use_set;
+use crate::hooks::use_query;
 use crate::hooks::use_swr::{use_swr, State};
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
 
@@ -52,6 +53,11 @@ pub fn Indexers(cx: Scope) -> Element {
     let indexers = use_swr::<Vec<Indexer>>(&cx, "/api/v1/indexers");
     let set_modal_status = use_set(cx, &STATE);
 
+    let query = use_query::<Indexer>(cx, "url");
+    // let write
+    let omg = use_state(cx, || false);
+    log::info!("render");
+
     render! {
         div {
             class: "flex flex-col w-full",
@@ -62,6 +68,14 @@ pub fn Indexers(cx: Scope) -> Element {
                     onclick: move |_| set_modal_status(IndexerModalState::New),
                     class: "btn solid sm primary", "New"
                 }
+            }
+            button {
+                class: "h-20 bg-green-600",
+                onclick: move |_| {
+                    omg.set(!omg)
+                },
+                value: "Hello",
+                name: "Hello"
             }
             match indexers {
                 State::Ok(indexers) => rsx! {
