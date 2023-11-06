@@ -7,22 +7,24 @@ enum QueryState<T> {
     Loading,
     Ok(T),
     Validating(T),
-    Err,
+    // Network related error
+    Error,
+    // Error from the api, the server didn't response with an OK HTTP code
+    UserError
 }
 
 pub struct UseQuery<T: DeserializeOwned> {
     value: QueryState<T>,
-    mutate: u32,
-    provider: UseQueryProvider
+    mutate: u32
 }
 
 impl<T: DeserializeOwned> UseQuery<T> {
-    pub fn new(provider: UseQueryProvider, url: &str, scope_id: ScopeId) -> Self {
-        provider.add_listener(url, scope_id);
+    pub fn new(provider: &UseQueryProvider, url: &str, scope_id: ScopeId) -> Self {
+        let value = provider.add_listener(url, scope_id);
+
         Self {
-            value: QueryState::Loading,
-            mutate: 0,
-            provider
+            value: QueryState::Ok(serde_json::from_value::<T>(value).unwrap()),
+            mutate: 0
         }
     }
 }
@@ -31,6 +33,14 @@ pub fn use_query<'a, T: DeserializeOwned + 'static>(cx: &'a ScopeState, url: &st
     let provider = use_query_provider(&cx);
     cx.use_hook(|| {
         log::info!("New use query");
-        UseQuery::<T>::new(provider, url, cx.scope_id())
+        let query = UseQuery::<T>::new(&provider, url, cx.scope_id());
+
+        cx.spawn({
+            to_owned![url, provider];
+            async move {
+                provider.update(&url).await;
+            }
+        });
+        query
     })
 }
