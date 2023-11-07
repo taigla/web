@@ -7,17 +7,27 @@ use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use serde_json::Value;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
+pub(super) enum QueryValue {
+    Loading,
+    Ok(Value),
+    Validating(Value),
+    Error,
+}
+
+#[derive(Clone, Debug)]
 pub(super) struct Entry {
     listeners: Vec<ScopeId>,
-    pub value: Value
+    pub value: QueryValue,
+    pub hash: ValueHash
 }
 
 pub trait Fetcher {
     fn get(&self, url: &str) -> Pin<Box<dyn Future<Output = Value>>>;
 }
 
-type RegistryEntry = Arc<RwLock<Entry>>;
+pub(super) type RegistryEntry = Arc<RwLock<Entry>>;
+pub(super) type ValueHash = u32;
 
 #[derive(Clone)]
 pub struct UseQueryProvider {
@@ -27,18 +37,15 @@ pub struct UseQueryProvider {
 }
 
 impl UseQueryProvider {
-    pub(super) fn add_listener<'a>(&'a self, url: &str, scope: ScopeId) -> Value {
+    pub(super) fn add_listener<'a>(&'a self, url: &str, scope: ScopeId) -> RegistryEntry {
         self.registry
             .borrow_mut()
             .entry(url.to_string())
             .or_insert(Arc::new(RwLock::new(Entry {
                 listeners: vec![scope],
-                value: Value::Null
+                value: QueryValue::Loading,
+                hash: 0
             })))
-            .clone()
-            .read()
-            .unwrap()
-            .value
             .clone()
     }
 
@@ -47,10 +54,14 @@ impl UseQueryProvider {
         let entry = registry.get(url).unwrap();
 
         let response = self.fetcher.get(url).await;
-        entry.write().unwrap().value = response;
+        let mut writable_entry = entry.write().unwrap();
+        writable_entry.value = QueryValue::Ok(response);
+        writable_entry.hash += 1;
+        drop(writable_entry);
 
         for listener in entry.read().unwrap().listeners.iter() {
             (self.scheduler)(listener.clone());
+            log::info!("Send event");
         }
     }
 }

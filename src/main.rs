@@ -14,7 +14,7 @@ fn main() {
 
 fn App(cx: Scope) -> Element {
     use_init_atom_root(cx);
-    let api = TaiglaApi::new("http://localhost:8000", "ok");
+    let api = TaiglaApi::new("http://localhost:8000", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjowfQ.G4LrOObkkMwdriFpWgCBuXAt7yMDYmFSQCpohpQP96g");
     use_init_query_provider(cx, api);
 
     cx.render(rsx! {

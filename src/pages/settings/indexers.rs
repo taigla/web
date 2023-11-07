@@ -6,7 +6,7 @@ use crate::hooks::use_query;
 use crate::hooks::use_swr::{use_swr, State};
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct Indexer {
     id: u64,
     name: String,
@@ -53,8 +53,9 @@ pub fn Indexers(cx: Scope) -> Element {
     let indexers = use_swr::<Vec<Indexer>>(&cx, "/api/v1/indexers");
     let set_modal_status = use_set(cx, &STATE);
 
-    let query = use_query::<Indexer>(cx, "url");
+    let query = use_query::<Vec<Indexer>>(cx, "/api/v1/indexers");
     // let write
+    log::info!("{:?}", query);
     let omg = use_state(cx, || false);
     log::info!("render");
 
