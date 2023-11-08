@@ -77,10 +77,10 @@ impl UseQueryProvider {
     }
 
     pub async fn update(&self, url: &str) {
+        let response = self.fetcher.get(url).await;
+
         let registry = self.registry.borrow_mut();
         let entry = registry.get(url).unwrap();
-
-        let response = self.fetcher.get(url).await;
         match response {
             Ok(r) => match r {
                 Ok(s) => self.mutate(entry, QueryValue::Ok(s)),

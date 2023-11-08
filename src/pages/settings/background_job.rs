@@ -1,7 +1,8 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use serde::Deserialize;
-use crate::hooks::use_swr::{use_swr, State};
+use crate::hooks::{use_query, QueryState};
+use crate::states::ApiError;
 
 #[derive(Deserialize)]
 pub enum WorkerState {
@@ -61,14 +62,15 @@ fn WorkerList<'a>(cx: Scope, workers: &'a Vec<WorkerState>) -> Element {
 }
 
 fn Workers(cx: Scope) -> Element {
-    let workers = use_swr::<Vec<WorkerState>>(cx, "/api/v1/job/workers");
+    let workers = use_query::<Vec<WorkerState>, ApiError>(cx, "/api/v1/job/workers");
 
     render! {
         div {
             p { class: "text-xl", "Worker" }
-            match workers {
-                State::Ok(w) => rsx! { WorkerList { workers: &w } },
-                _ => rsx! { "Loading" }
+            match &workers.value {
+                QueryState::Ok(w) => rsx! { WorkerList { workers: &w } },
+                QueryState::Loading => rsx! { "Loading" },
+                _ => rsx! { "Error" }
             }
         }
     }
@@ -103,14 +105,15 @@ fn CronjobList<'a>(cx: Scope, jobs: &'a Vec<Job>) -> Element {
 }
 
 fn Cronjobs(cx: Scope) -> Element {
-    let cronjobs = use_swr::<Vec<Job>>(cx, "/api/v1/job/cronjobs");
+    let cronjobs = use_query::<Vec<Job>, ApiError>(cx, "/api/v1/job/cronjobs");
 
     render! {
         div {
             p { class: "text-xl", "Cronjob" }
-            match cronjobs {
-                State::Ok(j) => rsx! { CronjobList { jobs: &j } },
-                _ => rsx! { "Loading" }
+            match &cronjobs.value {
+                QueryState::Ok(j) => rsx! { CronjobList { jobs: &j } },
+                QueryState::Loading => rsx! { "Loading" },
+                _ => rsx! { "Error" }
             }
         }
     }

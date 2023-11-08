@@ -22,3 +22,19 @@ pub fn Modal<'a>(cx: Scope, visible: bool, children: Element<'a>) -> Element {
         None
     }
 }
+
+#[allow(non_snake_case)]
+#[inline_props]
+pub fn ModalWithTitle<'a>(cx: Scope, visible: bool, title: &'a str, children: Element<'a>) -> Element {
+    render! {
+        Modal {
+            visible: *visible,
+            div {
+                class: "flex flex-col p-6",
+                p { class: "text-2xl", "{title}" }
+                button { class: "absolute right-4 top-3", value: "x"}
+                children
+            }
+        }
+    }
+}

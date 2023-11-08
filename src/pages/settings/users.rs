@@ -1,7 +1,8 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use serde::Deserialize;
-use crate::hooks::use_swr::{use_swr, State};
+use crate::hooks::{use_query, QueryState};
+use crate::states::ApiError;
 
 #[derive(Deserialize, PartialEq)]
 struct User {
@@ -41,15 +42,16 @@ fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
 }
 
 pub fn Users(cx: Scope) -> Element {
-    let users = use_swr(&cx, "/api/v1/users");
+    let users = use_query::<Vec<User>, ApiError>(&cx, "/api/v1/users");
 
     render! {
         div {
             class: "flex flex-col w-full",
             p { class: "text-2xl", "Users" }
-            match users {
-                State::Ok(users) => rsx! { UserList { users: users } },
-                _ => rsx! { "Loading" }
+            match &users.value {
+                QueryState::Ok(users) => rsx! { UserList { users: users } },
+                QueryState::Loading => rsx! { "Loading" },
+                _ => rsx! { "Error" }
             }
         }
     }
