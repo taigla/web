@@ -1,42 +1,41 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
-use super::use_query_provider::{UseQueryProvider, use_query_provider, QueryValue, RegistryEntry, ValueHash};
+use super::use_query_provider::{UseQueryProvider, use_query_provider, QueryValue, RegistryEntry, ValueHash, QueryError};
 
 #[derive(Debug)]
-pub enum QueryState<T> {
+pub enum QueryState<T, U> {
     Loading,
     Ok(T),
     Validating(T),
     // Network related error
-    Error,
+    NetworkError(QueryError),
     // Error from the api, the server didn't response with an OK HTTP code
-    UserError
+    UserError(U)
 }
 
-pub struct UseQuery<T: DeserializeOwned> {
-    pub value: QueryState<T>,
+pub struct UseQuery<T: DeserializeOwned, U: DeserializeOwned> {
+    pub value: QueryState<T, U>,
     value_hash: ValueHash,
     registry_entry: RegistryEntry,
     query_provider: UseQueryProvider,
     scope_id: ScopeId
 }
 
-impl<T: DeserializeOwned> UseQuery<T> {
+impl<T: DeserializeOwned, U: DeserializeOwned> UseQuery<T, U> {
     fn check_update(&mut self) {
         let readable_entry = self.registry_entry
             .read()
             .unwrap();
         if self.value_hash != readable_entry.hash {
-            log::info!("Update data");
             let query_value = readable_entry
                 .value
                 .clone();
 
             self.value = match query_value {
                 QueryValue::Ok(v) => QueryState::Ok(serde_json::from_value::<T>(v).unwrap()),
-                QueryValue::Validating(v) => QueryState::Validating(serde_json::from_value::<T>(v).unwrap()),
-                QueryValue::Error => QueryState::Error,
+                QueryValue::NetworkError(e) => QueryState::NetworkError(e),
+                QueryValue::UserError(e) => QueryState::UserError(serde_json::from_value::<U>(e).unwrap()),
                 QueryValue::Loading => QueryState::Loading,
                 QueryValue::NotFetch => QueryState::Loading
             };
@@ -44,18 +43,18 @@ impl<T: DeserializeOwned> UseQuery<T> {
         }
     }
 
-    pub fn mutate<U: Serialize>(&self, new_value: U) {
-        self.query_provider.mutate(&self.registry_entry, serde_json::to_value(new_value).unwrap());
+    pub fn mutate<V: Serialize>(&self, new_value: V) {
+        self.query_provider.mutate(&self.registry_entry, QueryValue::Ok(serde_json::to_value(new_value).unwrap()));
     }
 }
 
-impl<T: DeserializeOwned> Drop for UseQuery<T> {
+impl<T: DeserializeOwned, U: DeserializeOwned> Drop for UseQuery<T, U> {
     fn drop(&mut self) {
         self.query_provider.remove_listener(&self.registry_entry, self.scope_id);
     }
 }
 
-pub fn use_query<'a, T: DeserializeOwned + 'static>(cx: &'a ScopeState, url: &str) -> &'a UseQuery<T> {
+pub fn use_query<'a, T: DeserializeOwned + 'static, U: DeserializeOwned + 'static>(cx: &'a ScopeState, url: &str) -> &'a UseQuery<T, U> {
     let provider = use_query_provider(&cx);
 
     let hook = cx.use_hook(|| {
@@ -71,8 +70,8 @@ pub fn use_query<'a, T: DeserializeOwned + 'static>(cx: &'a ScopeState, url: &st
 
         let value = match query_value {
             QueryValue::Ok(v) => QueryState::Ok(serde_json::from_value::<T>(v).unwrap()),
-            QueryValue::Validating(v) => QueryState::Validating(serde_json::from_value::<T>(v).unwrap()),
-            QueryValue::Error => QueryState::Error,
+            QueryValue::NetworkError(e) => QueryState::NetworkError(e),
+            QueryValue::UserError(e) => QueryState::UserError(serde_json::from_value::<U>(e).unwrap()),
             QueryValue::Loading => QueryState::Loading,
             QueryValue::NotFetch => {
                 let mut writable_entry = registry_entry
@@ -89,7 +88,7 @@ pub fn use_query<'a, T: DeserializeOwned + 'static>(cx: &'a ScopeState, url: &st
             }
         };
 
-        let query = UseQuery::<T> {
+        let query = UseQuery::<T, U> {
             value: value,
             value_hash: hash,
             registry_entry: registry_entry,

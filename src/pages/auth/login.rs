@@ -4,6 +4,7 @@ use dioxus_router::prelude::*;
 use serde::{Serialize, Deserialize};
 use web_sys::window;
 use crate::routes::Routes;
+use crate::states::Token;
 
 #[derive(Serialize)]
 struct BodyLogin<'a> {
@@ -18,13 +19,14 @@ struct ResponseLogin {
 
 pub fn Login(cx: Scope) -> Element {
     let navigator = use_navigator(&cx);
+    let token = use_shared_state::<Token>(cx).unwrap();
 
     render! {
         "Login"
         form {
             onsubmit: move |event| {
                 cx.spawn({
-                    let navigator = navigator.to_owned();
+                    to_owned!(navigator, token);
                     async move {
                         log::info!("{:?}", event);
                         let username: &str = event.data.values.get("name").unwrap().get(0).unwrap();
@@ -44,8 +46,9 @@ pub fn Login(cx: Scope) -> Element {
                             .unwrap()
                             .unwrap();
                         local_storage.set_item("token", &response.token).unwrap();
-                        navigator.replace(Routes::Home {});
                         log::info!("{}", response.token);
+                        token.write().set(&response.token);
+                        navigator.replace(Routes::Home {});
                     }
                 })
             },
