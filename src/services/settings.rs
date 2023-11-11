@@ -2,7 +2,7 @@ use dioxus::prelude::*;
 use std::rc::Rc;
 use fermi::prelude::*;
 use futures_util::stream::StreamExt;
-use crate::api::{TaiglaApi, IndexerRow, ApiError};
+use crate::api::{TaiglaApi, IndexerRow, UserRow, ApiError};
 
 #[derive(Clone)]
 pub enum QueryState<T> {
@@ -15,14 +15,15 @@ pub enum QueryState<T> {
 pub enum SettingCommand {
     FetchIndexerList,
     UpdateIndexer(IndexerRow),
-    AddIndexer(IndexerRow)
+    AddIndexer(IndexerRow),
+    FetchUserList
 }
 
-type IndexerStore = QueryState<Vec<IndexerRow>>;
+pub type IndexerStore = QueryState<Vec<IndexerRow>>;
+pub static INDEXER_LIST_STORE: Atom<IndexerStore> = Atom(|_| QueryState::NotFetch);
 
-pub static INDEXER_LIST_STORE: Atom<IndexerStore> = Atom(|_| {
-    IndexerStore::NotFetch
-});
+pub type UserStore = QueryState<Vec<UserRow>>;
+pub static USER_LIST_STORE: Atom<UserStore> = Atom(|_| QueryState::NotFetch);
 
 pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: TaiglaApi, atoms: Rc<AtomRoot>) {
     while let Some(msg) = rx.next().await {
@@ -60,6 +61,17 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                     },
                     _ => ()
                 };
+            },
+            SettingCommand::FetchUserList => {
+                if !matches!(*atoms.read(&USER_LIST_STORE), QueryState::NotFetch) {
+                    return;
+                }
+                let users = api.get_users().await;
+                let new_value = match users {
+                    Ok(k) => QueryState::Ok(k),
+                    Err(e) => QueryState::Err(e)
+                };
+                atoms.set((&USER_LIST_STORE).unique_id(), new_value);
             }
         }
     }
