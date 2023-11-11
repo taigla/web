@@ -15,6 +15,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_sele
                 td { "{indexer.name}" }
                 td { "{indexer.priority}" }
                 td {
+                    style: "padding-top: 0; padding-bottom: 0;",
                     button {
                         class: "btn sm",
                         onclick: move |_| on_indexer_select.call(indexer.id),
@@ -43,7 +44,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_sele
 }
 
 pub fn Indexers(cx: Scope) -> Element {
-    let set_modal_status = use_set(cx, &STATE);
+    let set_modal_state = use_set(cx, &STATE);
     let indexers = use_read(cx, &INDEXER_LIST_STORE);
     let setting_handle = use_coroutine_handle::<SettingCommand>(cx);
 
@@ -58,7 +59,7 @@ pub fn Indexers(cx: Scope) -> Element {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-2xl", "Indexers" }
                 p {
-                    onclick: move |_| set_modal_status(IndexerModalState::New),
+                    onclick: move |_| set_modal_state(IndexerModalState::New),
                     class: "btn solid sm primary", "New"
                 }
             }
@@ -66,7 +67,7 @@ pub fn Indexers(cx: Scope) -> Element {
                 QueryState::Ok(indexers) => rsx! {
                     IndexerList {
                         indexers: indexers,
-                        on_indexer_select: move |id| set_modal_status(IndexerModalState::Id(id))
+                        on_indexer_select: move |id| set_modal_state(IndexerModalState::Id(id))
                     }
                 },
                 QueryState::Loading => rsx! { "Loading" },

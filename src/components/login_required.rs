@@ -2,7 +2,7 @@
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use crate::routes::Routes;
-use crate::states::Token;
+use crate::api::Token;
 
 pub fn LoginRequired(cx: Scope) -> Element {
     let navigator = use_navigator(cx);

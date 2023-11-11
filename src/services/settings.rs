@@ -2,7 +2,7 @@ use dioxus::prelude::*;
 use std::rc::Rc;
 use fermi::prelude::*;
 use futures_util::stream::StreamExt;
-use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, ApiError};
+use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, ApiError, Invite};
 
 #[derive(Clone)]
 pub enum QueryState<T> {
@@ -17,8 +17,9 @@ pub enum SettingCommand {
     UpdateIndexer(IndexerRow),
     AddIndexer(IndexerRow),
     FetchUserList,
-    FetchWorkers,
-    FetchCronjobs
+    FetchWorkersList,
+    FetchCronjobsList,
+    FetchInvitesList
 }
 
 pub type IndexerStore = QueryState<Vec<IndexerRow>>;
@@ -33,13 +34,13 @@ pub static WORKER_LIST_STORE: Atom<WorkerStore> = Atom(|_| QueryState::NotFetch)
 pub type CronjobStore = QueryState<Vec<Job>>;
 pub static CRONJOB_LIST_STORE: Atom<CronjobStore> = Atom(|_| QueryState::NotFetch);
 
+pub type InviteStore = QueryState<Vec<Invite>>;
+pub static INVITE_LIST_STORE: Atom<InviteStore> = Atom(|_| QueryState::NotFetch);
+
 pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: TaiglaApi, atoms: Rc<AtomRoot>) {
     while let Some(msg) = rx.next().await {
         match msg {
             SettingCommand::FetchIndexerList => {
-                if !matches!(*atoms.read(&INDEXER_LIST_STORE), QueryState::NotFetch) {
-                    return;
-                }
                 let indexers = api.get_indexers().await;
                 let new_value = match indexers {
                     Ok(k) => QueryState::Ok(k),
@@ -71,9 +72,6 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                 };
             },
             SettingCommand::FetchUserList => {
-                if !matches!(*atoms.read(&USER_LIST_STORE), QueryState::NotFetch) {
-                    return;
-                }
                 let users = api.get_users().await;
                 let new_value = match users {
                     Ok(k) => QueryState::Ok(k),
@@ -81,10 +79,7 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                 };
                 atoms.set((&USER_LIST_STORE).unique_id(), new_value);
             },
-            SettingCommand::FetchWorkers => {
-                if !matches!(*atoms.read(&WORKER_LIST_STORE), QueryState::NotFetch) {
-                    return;
-                }
+            SettingCommand::FetchWorkersList => {
                 let workers = api.get_workers().await;
                 let new_value = match workers {
                     Ok(k) => QueryState::Ok(k),
@@ -92,16 +87,21 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                 };
                 atoms.set((&WORKER_LIST_STORE).unique_id(), new_value);
             },
-            SettingCommand::FetchCronjobs => {
-                if !matches!(*atoms.read(&CRONJOB_LIST_STORE), QueryState::NotFetch) {
-                    return;
-                }
+            SettingCommand::FetchCronjobsList => {
                 let cronjobs = api.get_cronjobs().await;
                 let new_value = match cronjobs {
                     Ok(k) => QueryState::Ok(k),
                     Err(e) => QueryState::Err(e)
                 };
                 atoms.set((&CRONJOB_LIST_STORE).unique_id(), new_value);
+            },
+            SettingCommand::FetchInvitesList => {
+                let invites = api.get_invites().await;
+                let new_value = match invites {
+                    Ok(k) => QueryState::Ok(k),
+                    Err(e) => QueryState::Err(e)
+                };
+                atoms.set((&INVITE_LIST_STORE).unique_id(), new_value);
             }
         }
     }
