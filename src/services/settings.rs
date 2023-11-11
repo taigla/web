@@ -1,24 +1,15 @@
 use dioxus::prelude::*;
-use serde::Deserialize;
-use crate::states::TaiglaApi;
 use std::rc::Rc;
 use fermi::prelude::*;
 use futures_util::stream::StreamExt;
+use crate::api::{TaiglaApi, IndexerRow, ApiError};
 
-#[derive(Deserialize, Debug, Clone, PartialEq)]
-pub struct IndexerRow {
-    pub id: u64,
-    pub name: String,
-    pub priority: u8
-}
-
-pub type Indexers = Vec<IndexerRow>;
-
-#[derive(Clone, PartialEq)]
-pub enum State<T> {
+#[derive(Clone)]
+pub enum QueryState<T> {
     NotFetch,
     Loading,
-    Ok(T)
+    Ok(T),
+    Err(ApiError)
 }
 
 pub enum SettingCommand {
@@ -27,7 +18,7 @@ pub enum SettingCommand {
     AddIndexer(IndexerRow)
 }
 
-type IndexerStore = State<Indexers>;
+type IndexerStore = QueryState<Vec<IndexerRow>>;
 
 pub static INDEXER_LIST_STORE: Atom<IndexerStore> = Atom(|_| {
     IndexerStore::NotFetch
@@ -37,27 +28,24 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
     while let Some(msg) = rx.next().await {
         match msg {
             SettingCommand::FetchIndexerList => {
-                if *atoms.read(&INDEXER_LIST_STORE) != State::NotFetch {
+                if !matches!(*atoms.read(&INDEXER_LIST_STORE), QueryState::NotFetch) {
                     return;
                 }
-                let indexers = api.get("/api/v1/indexers")
-                    .send()
-                    .await
-                    .unwrap()
-                    .json::<Indexers>()
-                    .await
-                    .unwrap();
-                let new_value = State::Ok(indexers);
+                let indexers = api.get_indexers().await;
+                let new_value = match indexers {
+                    Ok(k) => QueryState::Ok(k),
+                    Err(e) => QueryState::Err(e)
+                };
                 atoms.set((&INDEXER_LIST_STORE).unique_id(), new_value);
             },
             SettingCommand::UpdateIndexer(indexer) => {
                 let current = (*atoms.read(&INDEXER_LIST_STORE)).clone();
                 match current {
-                    State::Ok(mut c) => {
+                    QueryState::Ok(mut c) => {
                         let i = c.iter_mut().find(|e| e.id == indexer.id);
                         if let Some(index) = i {
                             *index = indexer;
-                            atoms.set((&INDEXER_LIST_STORE).unique_id(), State::Ok(c));
+                            atoms.set((&INDEXER_LIST_STORE).unique_id(), QueryState::Ok(c));
                         }
                     },
                     _ => ()
@@ -66,9 +54,9 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
             SettingCommand::AddIndexer(indexer) => {
                 let current = (*atoms.read(&INDEXER_LIST_STORE)).clone();
                 match current {
-                    State::Ok(mut c) => {
+                    QueryState::Ok(mut c) => {
                         c.push(indexer);
-                        atoms.set((&INDEXER_LIST_STORE).unique_id(), State::Ok(c));
+                        atoms.set((&INDEXER_LIST_STORE).unique_id(), QueryState::Ok(c));
                     },
                     _ => ()
                 };

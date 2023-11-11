@@ -3,10 +3,11 @@ use dioxus::prelude::*;
 use fermi::prelude::*;
 use fermi::use_set;
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
-use crate::services::settings::{Indexers, INDEXER_LIST_STORE, State, SettingCommand};
+use crate::services::settings::{INDEXER_LIST_STORE, QueryState, SettingCommand};
+use crate::api::IndexerRow;
 
 #[inline_props]
-pub fn IndexerList<'a>(cx: Scope, indexers: &'a Indexers, on_indexer_select: EventHandler<'a, u64>) -> Element {
+pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_select: EventHandler<'a, u64>) -> Element {
     let rows = indexers.iter().map(|indexer| {
         rsx! {
             tr {
@@ -63,13 +64,13 @@ pub fn Indexers(cx: Scope) -> Element {
                 }
             }
             match &indexers {
-                State::Ok(indexers) => rsx! {
+                QueryState::Ok(indexers) => rsx! {
                     IndexerList {
                         indexers: indexers,
                         on_indexer_select: move |id| set_modal_status(IndexerModalState::Id(id))
                     }
                 },
-                State::Loading => rsx! { "Loading" },
+                QueryState::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }
             }
             Indexer {}
