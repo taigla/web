@@ -1,20 +1,12 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use serde::Deserialize;
+use fermi::prelude::*;
 use fermi::use_set;
-use crate::hooks::{use_query, QueryState};
-use crate::states::ApiError;
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
-
-#[derive(Deserialize, Debug)]
-pub struct Indexer {
-    id: u64,
-    name: String,
-    priority: u8
-}
+use crate::services::settings::{Indexers, INDEXER_LIST_STORE, State, SettingCommand};
 
 #[inline_props]
-pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>, on_indexer_select: EventHandler<'a, u64>) -> Element {
+pub fn IndexerList<'a>(cx: Scope, indexers: &'a Indexers, on_indexer_select: EventHandler<'a, u64>) -> Element {
     let rows = indexers.iter().map(|indexer| {
         rsx! {
             tr {
@@ -51,7 +43,13 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>, on_indexer_select:
 
 pub fn Indexers(cx: Scope) -> Element {
     let set_modal_status = use_set(cx, &STATE);
-    let query = use_query::<Vec<Indexer>, ApiError>(cx, "/api/v1/indexers");
+    let indexers = use_read(cx, &INDEXER_LIST_STORE);
+    let setting_handle = use_coroutine_handle::<SettingCommand>(cx);
+
+    use_memo(cx, (), |_| {
+        setting_handle.map(|h| h.send(SettingCommand::FetchIndexerList));
+        log::info!("Hello")
+    });
 
     render! {
         div {
@@ -64,14 +62,14 @@ pub fn Indexers(cx: Scope) -> Element {
                     class: "btn solid sm primary", "New"
                 }
             }
-            match &query.value {
-                QueryState::Ok(indexers) => rsx! {
+            match &indexers {
+                State::Ok(indexers) => rsx! {
                     IndexerList {
                         indexers: indexers,
                         on_indexer_select: move |id| set_modal_status(IndexerModalState::Id(id))
                     }
                 },
-                QueryState::Loading => rsx! { "Loading" },
+                State::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }
             }
             Indexer {}
