@@ -4,9 +4,11 @@ use crate::states::Token;
 
 pub use indexer::*;
 pub use user::*;
+pub use job::*;
 
 mod indexer;
 mod user;
+mod job;
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct ApiError {
