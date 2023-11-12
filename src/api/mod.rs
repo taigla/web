@@ -13,6 +13,14 @@ mod user;
 mod job;
 mod invite;
 
+#[derive(Clone)]
+pub enum QueryState<T> {
+    NotFetch,
+    Loading,
+    Ok(T),
+    Err(ApiError)
+}
+
 #[derive(Deserialize, Debug, Clone)]
 pub struct ApiError {
     pub err_code: String,

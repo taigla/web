@@ -1,8 +1,8 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use fermi::prelude::use_read;
-use crate::services::settings::{WORKER_LIST_STORE, QueryState, SettingCommand, CRONJOB_LIST_STORE};
-use crate::api::{WorkerState, Job};
+use crate::services::settings::{WORKER_LIST_STORE, SettingCommand, CRONJOB_LIST_STORE};
+use crate::api::{QueryState, WorkerState, Job};
 
 #[inline_props]
 fn WorkerList<'a>(cx: Scope, workers: &'a Vec<WorkerState>) -> Element {

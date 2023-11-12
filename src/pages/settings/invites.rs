@@ -1,8 +1,8 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use fermi::prelude::*;
-use crate::services::settings::{INVITE_LIST_STORE, QueryState, SettingCommand};
-use crate::api::Invite;
+use crate::services::settings::{INVITE_LIST_STORE, SettingCommand};
+use crate::api::{QueryState, Invite};
 use crate::components::modal::invite::{InviteModalState, STATE, Invite};
 
 #[inline_props]

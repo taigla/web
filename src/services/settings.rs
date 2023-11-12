@@ -2,15 +2,7 @@ use dioxus::prelude::*;
 use std::rc::Rc;
 use fermi::prelude::*;
 use futures_util::stream::StreamExt;
-use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, ApiError, Invite};
-
-#[derive(Clone)]
-pub enum QueryState<T> {
-    NotFetch,
-    Loading,
-    Ok(T),
-    Err(ApiError)
-}
+use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, QueryState, Invite};
 
 pub enum SettingCommand {
     FetchIndexerList,
