@@ -1,17 +1,19 @@
 use reqwest::Url;
 use serde::{Deserialize, de::DeserializeOwned, Serialize};
 
+pub use token::Token;
 pub use indexer::*;
 pub use user::*;
 pub use job::*;
 pub use invite::*;
-pub use token::Token;
+pub use request_profile::*;
 
 mod token;
 mod indexer;
 mod user;
 mod job;
 mod invite;
+mod request_profile;
 
 #[derive(Clone)]
 pub enum QueryState<T> {

@@ -2,6 +2,7 @@ use dioxus::prelude::*;
 
 pub mod indexer;
 pub mod invite;
+pub mod request_profile;
 
 #[allow(non_snake_case)]
 #[inline_props]
