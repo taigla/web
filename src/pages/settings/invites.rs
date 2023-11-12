@@ -52,7 +52,7 @@ pub fn Invites(cx: Scope) -> Element {
                 p { class: "text-2xl", "Invites" }
                 p {
                     onclick: move |_| set_modal_state(InviteModalState::New),
-                    class: "btn solid sm primary", "New"
+                    class: "btn btn-primary", "New"
                 }
             }
             match &invites {

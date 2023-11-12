@@ -5,6 +5,7 @@ use super::ModalWithTitle;
 use crate::hooks::use_taigla_api;
 use crate::services::settings::SettingCommand;
 use crate::api::InviteCreate;
+use crate::components::ui::Input;
 
 pub static STATE: Atom<InviteModalState> = Atom(|_| InviteModalState::Close);
 
@@ -12,18 +13,6 @@ pub static STATE: Atom<InviteModalState> = Atom(|_| InviteModalState::Close);
 pub enum InviteModalState {
     New,
     Close
-}
-
-#[inline_props]
-fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>) -> Element<'a> {
-    render! {
-        Fragment {
-            if let Some(lbl) = *lbl {
-                rsx! { label { class: "col-span-12 md:col-span-3", lbl } }
-            }
-            rsx! { input { class: "input col-span-12 md:col-span-9", initial_value: *default_value, name: *name } }
-        }
-    }
 }
 
 #[inline_props]
@@ -54,12 +43,12 @@ fn Form<'a>(cx: Scope, on_update: EventHandler<'a, InviteCreate>) -> Element<'a>
             div {
                 class: "flex flex-row justify-end col-span-12 gap-2",
                 p {
-                    class: "btn solid md",
+                    class: "btn",
                     onclick: move |_| set_state(InviteModalState::Close),
                     "Close"
                 }
                 input {
-                    class: "btn solid primary md",
+                    class: "btn btn-primary",
                     r#type: "submit",
                     value: "Save"
                 }

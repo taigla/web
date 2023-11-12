@@ -7,32 +7,15 @@ module.exports = {
     // include all html files in the output (dist) directory
     "./dist/**/*.html",
   ],
-  theme: {
-    extend: {
-      colors: {
-        accent: "#9141ac"
-      }
-    },
-  },
   plugins: [
-    require("@sira-ui/tailwind")({
-      themes: [
-        {
-          name: "dark",
-          colorScheme: "dark",
-          prefersColorScheme: true,
-          colors: {
-            primary: "#9141ac",
-          }
-        },
-        {
-          name: "light",
-          colorScheme: "light",
-          colors: {
-            primary: "#9141ac",
-          }
-        }
-      ]
-    })
+    require("daisyui")
   ],
+  daisyui: {
+    themes: [{
+      dark: {
+        ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
+        "primary": "#9141ac"
+      }
+    }]
+  },
 }

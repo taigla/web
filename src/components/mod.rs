@@ -6,3 +6,4 @@ mod header;
 mod settings_navbar;
 mod login_required;
 pub mod modal;
+pub mod ui;

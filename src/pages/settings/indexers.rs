@@ -17,7 +17,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_sele
                 td {
                     style: "padding-top: 0; padding-bottom: 0;",
                     button {
-                        class: "btn sm",
+                        class: "btn btn-sm",
                         onclick: move |_| on_indexer_select.call(indexer.id),
                         "Edit"
                     }
@@ -60,7 +60,7 @@ pub fn Indexers(cx: Scope) -> Element {
                 p { class: "text-2xl", "Indexers" }
                 p {
                     onclick: move |_| set_modal_state(IndexerModalState::New),
-                    class: "btn solid sm primary", "New"
+                    class: "btn btn-primary", "New"
                 }
             }
             match &indexers {
