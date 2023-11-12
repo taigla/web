@@ -109,7 +109,7 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
                 .await;
             if let Ok(indexer) = indexer {
                 set_state(IndexerModalState::Close);
-                setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
+                setting_handle.send(SettingCommand::UpdateIndexer(IndexerRow {
                     id: indexer.id,
                     name: indexer.name,
                     priority: indexer.priority
