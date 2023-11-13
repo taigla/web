@@ -151,10 +151,12 @@ fn ModalNewIndexer(cx: Scope) -> Element {
 #[inline_props]
 pub fn Indexer(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
+    let set_state = use_set(cx, &STATE);
 
     render! {
         ModalWithTitle {
             visible: *state != IndexerModalState::Close,
+            on_close: move |_| set_state(IndexerModalState::Close),
             title: "Indexer",
             match state {
                 IndexerModalState::Id(id) => rsx! { ModalEditIndexer { id: id } },
