@@ -49,7 +49,7 @@ pub fn Invites(cx: Scope) -> Element {
             class: "flex flex-col w-full",
             div {
                 class: "flex flex-row justify-between pb-2",
-                p { class: "text-2xl", "Invites" }
+                p { class: "text-3xl", "Invites" }
                 p {
                     onclick: move |_| set_modal_state(InviteModalState::New),
                     class: "btn btn-primary", "New"

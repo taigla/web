@@ -119,7 +119,7 @@ pub fn BackgroundJobs(cx: Scope) -> Element {
             class: "flex flex-col w-full",
             div {
                 class: "flex flex-row justify-between pb-2",
-                p { class: "text-2xl", "Background jobs" }
+                p { class: "text-3xl", "Background jobs" }
             }
             Workers {}
             Cronjobs {}

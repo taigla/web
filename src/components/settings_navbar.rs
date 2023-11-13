@@ -17,7 +17,7 @@ pub fn SettingsNavbar(cx: Scope) -> Element {
             class: "flex flex-row",
             LinkList {}
             div {
-                class: "w-full overflow-y-scroll h-screen pt-16 pb-2 px-24",
+                class: "w-full overflow-y-scroll h-screen pt-20 pb-2 px-24",
                 Outlet::<Routes> {}
             }
         }
@@ -27,15 +27,17 @@ pub fn SettingsNavbar(cx: Scope) -> Element {
 fn LinkList(cx: Scope) -> Element {
     let route = use_route::<Routes>(&cx).unwrap();
     let links = LINKS.iter().cloned().map(|(name, link)| {
-        let active = if link.is_child_of(&route) { "text-primary" } else { "" };
+        let active = if link.is_child_of(&route) { "text-primary active" } else { "" };
         return rsx! {
-            Link { key: "{name}", class: "py-1 px-2 rounded-md hover:bg-gray-500 {active}", to: link, name }
+            li {
+                Link { key: "{name}", class: "{active}", to: link, name }
+            }
         };
     });
 
     render! {
-        div {
-            class: "flex flex-col p-2 pt-16 min-w-max",
+        ul {
+            class: "menu menu-vertical pt-20 min-w-max",
             links
         }
     }

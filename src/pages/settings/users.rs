@@ -47,7 +47,7 @@ pub fn Users(cx: Scope) -> Element {
             class: "flex flex-col w-full",
             div {
                 class: "flex flex-row justify-between pb-2",
-                p { class: "text-2xl", "Users" }
+                p { class: "text-3xl", "Users" }
             }
             match &users {
                 QueryState::Ok(users) => rsx! { UserList { users: users } },

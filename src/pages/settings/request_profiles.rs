@@ -55,7 +55,7 @@ pub fn RequestProfiles(cx: Scope) -> Element {
             class: "flex flex-col w-full",
             div {
                 class: "flex flex-row justify-between pb-2",
-                p { class: "text-2xl", "Indexers" }
+                p { class: "text-3xl", "Request profiles" }
                 button {
                     onclick: move |_| set_modal_state(RequestProfileModalState::New),
                     class: "btn btn-primary",
