@@ -3,7 +3,8 @@ use dioxus_router::prelude::*;
 use crate::pages::{
     Home,
     Settings,
-    settings::{Indexers, Invites, RequestProfiles, Users}
+    settings::{Indexers, Invites, RequestProfiles, Users},
+    auth::Login
 };
 use crate::components::{Header, SettingsNavbar};
 
@@ -25,7 +26,10 @@ pub enum Routes {
                 RequestProfiles {},
                 #[route("/users")]
                 Users {},
-            // #[end_nest]
-        // #[end_layout]
-    // #[end_layout]
+            #[end_nest]
+        #[end_layout]
+    #[end_layout]
+    #[nest("/auth")]
+        #[route("/login")]
+        Login {},
 }
