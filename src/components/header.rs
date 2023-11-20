@@ -12,7 +12,7 @@ pub fn Header(cx: Scope) -> Element {
     render! {
         Fragment {
             div {
-                class: "p-2.5 border-b dark:border-neutral-600",
+                class: "p-2.5 border-b dark:border-neutral-600 fixed top-0 w-full bg-bw-100",
                 div {
                     class: "flex flex-row justify-between items-center",
                     Link { to: Routes::Home {}, class: "w-40 flex flex-row items-center",
