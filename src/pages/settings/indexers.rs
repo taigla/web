@@ -60,7 +60,8 @@ pub fn Indexers(cx: Scope) -> Element {
                 p { class: "text-2xl", "Indexers" }
                 p {
                     onclick: move |_| set_modal_status(IndexerModalState::New),
-                    class: "btn solid sm primary", "New" }
+                    class: "btn solid sm primary", "New"
+                }
             }
             match indexers {
                 State::Ok(indexers) => rsx! {
