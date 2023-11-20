@@ -80,6 +80,7 @@ pub fn Invite(cx: Scope) -> Element {
     render! {
         ModalWithTitle {
             visible: *state != InviteModalState::Close,
+            on_close: move |_| set_state(InviteModalState::Close),
             title: "Invite",
             match state {
                 InviteModalState::New => rsx! { Form {

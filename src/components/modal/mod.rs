@@ -27,14 +27,24 @@ pub fn Modal<'a>(cx: Scope, visible: bool, children: Element<'a>) -> Element {
 
 #[allow(non_snake_case)]
 #[inline_props]
-pub fn ModalWithTitle<'a>(cx: Scope, visible: bool, title: &'a str, children: Element<'a>) -> Element {
+pub fn ModalWithTitle<'a>(
+    cx: Scope,
+    visible: bool,
+    title: &'a str,
+    on_close: EventHandler<'a, ()>,
+    children: Element<'a>
+) -> Element {
     render! {
         Modal {
             visible: *visible,
             div {
                 class: "flex flex-row pb-3 justify-between",
                 p { class: "text-2xl", "{title}" }
-                button { class: "btn btn-sm btn-circle btn-ghost", "✕" }
+                button {
+                    class: "btn btn-sm btn-circle btn-ghost",
+                    onclick: move |_| on_close.call(()),
+                    "✕"
+                }
             }
             children
         }

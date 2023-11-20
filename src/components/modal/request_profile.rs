@@ -149,10 +149,12 @@ fn ModalNewRequestProfile(cx: Scope) -> Element {
 #[inline_props]
 pub fn RequestProfile(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
+    let set_state = use_set(cx, &STATE);
 
     render! {
         ModalWithTitle {
             visible: *state != RequestProfileModalState::Close,
+            on_close: move |_| set_state(RequestProfileModalState::Close),
             title: "RequestProfile",
             match state {
                 RequestProfileModalState::Id(id) => rsx! { ModalEditRequestProfile { id: id } },
