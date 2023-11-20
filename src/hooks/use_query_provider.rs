@@ -70,6 +70,18 @@ impl UseQueryProvider {
             .clone()
     }
 
+    pub(super) fn get_registry_entry<'a>(&'a self, url: &str) -> RegistryEntry {
+        self.registry
+            .borrow_mut()
+            .entry(url.to_string())
+            .or_insert(Arc::new(RwLock::new(Entry {
+                listeners: vec![],
+                value: QueryValue::NotFetch,
+                hash: 0
+            })))
+            .clone()
+    }
+
     pub(super) fn remove_listener(&self, entry: &RegistryEntry, scope: ScopeId) {
         let mut writable_entry = entry.write().unwrap();
 
