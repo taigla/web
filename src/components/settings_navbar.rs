@@ -7,7 +7,8 @@ static LINKS: &'static [(&str, Routes)] = &[
     ("User", Routes::Users {}),
     ("Invite", Routes::Invites {}),
     ("Indexer", Routes::Indexers {}),
-    ("Request profile", Routes::RequestProfiles {})
+    ("Request profile", Routes::RequestProfiles {}),
+    ("Background jobs", Routes::BackgroundJobs {})
 ];
 
 pub fn SettingsNavbar(cx: Scope) -> Element {
