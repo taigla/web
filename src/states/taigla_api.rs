@@ -1,3 +1,5 @@
+use std::{pin::Pin, future::Future};
+
 use reqwest::Url;
 use crate::hooks::Fetcher;
 
@@ -36,9 +38,17 @@ impl TaiglaApi {
 }
 
 impl Fetcher for TaiglaApi {
-    fn get(&self, url: &str) -> serde_json::Value {
-        // TaiglaApi::get(&self, url)
-        //     .send()
-        serde_json::Value::Null
+    fn get(&self, url: &str) -> Pin<Box<dyn Future<Output = serde_json::Value>>> {
+        let client = self.client.clone();
+        let url = self.address.join(url).expect("Invalid url");
+        Box::pin(async move {
+            client.get(url)
+                .send()
+                .await
+                .unwrap()
+                .json::<serde_json::Value>()
+                .await
+                .unwrap()
+        })
     }
 }
