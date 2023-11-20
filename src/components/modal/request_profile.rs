@@ -6,6 +6,7 @@ use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query};
 use crate::services::settings::SettingCommand;
 use crate::api::{RequestProfileRow, RequestProfile, QueryState};
+use crate::components::ui::{Input, Select};
 
 pub static STATE: Atom<RequestProfileModalState> = Atom(|_| RequestProfileModalState::Close);
 
@@ -14,43 +15,6 @@ pub enum RequestProfileModalState {
     New,
     Id(u64),
     Close
-}
-
-#[inline_props]
-fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>) -> Element<'a> {
-    render! {
-        Fragment {
-            if let Some(lbl) = *lbl {
-                rsx! { label { class: "col-span-12 md:col-span-3", lbl } }
-            }
-            rsx! { input { class: "input col-span-12 md:col-span-9", initial_value: *default_value, name: *name } }
-        }
-    }
-}
-
-#[inline_props]
-fn Select<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>, options: Vec<&'a str>) -> Element<'a> {
-    let selected = default_value.unwrap_or("");
-    let child = options.iter().map(|opt| {
-        rsx! {
-            option {selected: *opt == selected , *opt }
-        }
-    });
-
-    render! {
-        Fragment {
-            if let Some(lbl) = *lbl {
-                rsx! { label { class: "col-span-12 md:col-span-3", lbl } }
-            }
-            rsx! {
-                select {
-                    class: "select col-span-12 md:col-span-9",
-                    name: *name,
-                    child
-                }
-            }
-        }
-    }
 }
 
 #[inline_props]
@@ -105,12 +69,12 @@ fn Form<'a>(cx: Scope, request_profile: Option<&'a RequestProfile>, on_update: E
             div {
                 class: "flex flex-row justify-end col-span-12 gap-2",
                 p {
-                    class: "btn solid md",
+                    class: "btn",
                     onclick: move |_| set_state(RequestProfileModalState::Close),
                     "Close"
                 }
                 input {
-                    class: "btn solid primary md",
+                    class: "btn btn-primary",
                     r#type: "submit",
                     value: "Save"
                 }

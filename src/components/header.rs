@@ -12,7 +12,7 @@ pub fn Header(cx: Scope) -> Element {
     render! {
         Fragment {
             div {
-                class: "p-2.5 border-b dark:border-bw-500 fixed top-0 w-full bg-bw-50",
+                class: "p-2.5 fixed top-0 w-full",
                 div {
                     class: "flex flex-row justify-between items-center",
                     Link { to: Routes::Home {}, class: "w-40 flex flex-row items-center",
@@ -33,12 +33,12 @@ fn LinkList(cx: Scope) -> Element {
     let links = LINKS.iter().cloned().map(|(name, link)| {
         let active = match &route {
             Routes::Home { .. } => match link {
-                Routes::Home { .. } => "text-accent",
+                Routes::Home { .. } => "text-primary",
                 _ => ""
             },
             _ => match &link {
                 Routes::Home { .. } => "",
-                l => if l.is_child_of(&route) { "text-accent" } else { "" }
+                l => if l.is_child_of(&route) { "text-primary" } else { "" }
             }
         };
 

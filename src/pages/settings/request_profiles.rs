@@ -16,7 +16,7 @@ pub fn RequestProfileList<'a>(cx: Scope, request_profiles: &'a Vec<RequestProfil
                 td {
                     style: "padding-top: 0; padding-bottom: 0;",
                     button {
-                        class: "btn sm",
+                        class: "btn btn-sm",
                         onclick: move |_| on_request_profile_select.call(request_profile.id),
                         "Edit"
                     }
@@ -56,9 +56,10 @@ pub fn RequestProfiles(cx: Scope) -> Element {
             div {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-2xl", "Indexers" }
-                p {
+                button {
                     onclick: move |_| set_modal_state(RequestProfileModalState::New),
-                    class: "btn solid sm primary", "New"
+                    class: "btn btn-primary",
+                    "New"
                 }
             }
             match &request_profiles {
