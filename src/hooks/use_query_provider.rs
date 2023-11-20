@@ -8,15 +8,31 @@ use std::sync::{Arc, RwLock};
 use serde_json::Value;
 
 #[derive(Clone, Debug)]
-pub(super) enum QueryValue {
-    Loading,
-    Ok(Value),
-    Validating(Value),
-    NotFetch,
-    Error,
+pub struct QueryError {
+    pub code: String,
+    pub msg: String
+}
+
+impl QueryError {
+    pub fn new(code: &str, msg: &str) -> Self {
+        Self {
+            code: code.to_string(),
+            msg: msg.to_string()
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
+pub(super) enum QueryValue {
+    Loading,
+    Ok(Value),
+    UserError(Value),
+    // Validating(Value),
+    NotFetch,
+    NetworkError(QueryError),
+}
+
+#[derive(Debug)]
 pub(super) struct Entry {
     pub listeners: Vec<ScopeId>,
     pub value: QueryValue,
@@ -28,7 +44,7 @@ pub(super) struct Entry {
 }
 
 pub trait Fetcher {
-    fn get(&self, url: &str) -> Pin<Box<dyn Future<Output = Value>>>;
+    fn get(&self, url: &str) -> Pin<Box<dyn Future<Output = Result<Result<Value, Value>, QueryError>>>>;
 }
 
 pub(super) type RegistryEntry = Arc<RwLock<Entry>>;
@@ -65,10 +81,16 @@ impl UseQueryProvider {
         let entry = registry.get(url).unwrap();
 
         let response = self.fetcher.get(url).await;
-        self.mutate(entry, response);
+        match response {
+            Ok(r) => match r {
+                Ok(s) => self.mutate(entry, QueryValue::Ok(s)),
+                Err(e) => self.mutate(entry, QueryValue::UserError(e)),
+            }
+            Err(e) => self.mutate(entry, QueryValue::NetworkError(e))
+        }
     }
 
-    pub(super) fn mutate(&self, entry: &RegistryEntry, new_value: Value) {
+    pub(super) fn mutate(&self, entry: &RegistryEntry, new_value: QueryValue) {
         self.mutate_silent(entry, new_value);
 
         for listener in entry.read().unwrap().listeners.iter() {
@@ -76,9 +98,9 @@ impl UseQueryProvider {
         }
     }
 
-    pub(super) fn mutate_silent(&self, entry: &RegistryEntry, new_value: Value) {
+    pub(super) fn mutate_silent(&self, entry: &RegistryEntry, new_value: QueryValue) {
         let mut writable_entry = entry.write().unwrap();
-        writable_entry.value = QueryValue::Ok(new_value);
+        writable_entry.value = new_value;
         writable_entry.hash += 1;
         drop(writable_entry);
     }
