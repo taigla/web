@@ -3,8 +3,8 @@ use dioxus::prelude::*;
 use fermi::prelude::*;
 use fermi::use_set;
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
-use crate::services::settings::{INDEXER_LIST_STORE, QueryState, SettingCommand};
-use crate::api::IndexerRow;
+use crate::services::settings::{INDEXER_LIST_STORE, SettingCommand};
+use crate::api::{QueryState, IndexerRow};
 
 #[inline_props]
 pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_select: EventHandler<'a, u64>) -> Element {

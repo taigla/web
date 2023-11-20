@@ -4,9 +4,9 @@ use fermi::{use_read, use_set, Atom};
 use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
-use crate::hooks::{use_taigla_api};
+use crate::hooks::{use_taigla_api, use_query};
 use crate::services::settings::SettingCommand;
-use crate::api::{IndexerRow, ApiError};
+use crate::api::{IndexerRow, QueryState};
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
@@ -19,7 +19,6 @@ pub enum IndexerModalState {
 
 #[derive(Deserialize)]
 struct Indexer {
-    id: u64,
     name: String,
     url: String,
     api_key: Option<String>,
@@ -98,38 +97,36 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
 #[inline_props]
 fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     let api = use_taigla_api(&cx);
-    let url = format!("/api/v1/indexers/{}", id);
-    // let indexer = use_query::<Indexer, ApiError>(cx, &url);
+    let indexer = use_query::<Indexer>(cx, &format!("/api/v1/indexers/{}", id));
     let set_state = use_set(cx, &STATE);
     let id = **id;
     let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
 
-    // let edit = move |v| {
-    //     to_owned![api, id, set_state, setting_handle];
-    //     cx.spawn(async move {
-    //         let indexer = api.read().patch_indexer(id, v)
-    //             .await;
-    //         if let Ok(indexer) = indexer {
-    //             set_state(IndexerModalState::Close);
-    //             setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
-    //                 id: indexer.id,
-    //                 name: indexer.name,
-    //                 priority: indexer.priority
-    //             }));
-    //         }
-    //     });
-    // };
+    let edit = move |v| {
+        to_owned![api, id, set_state, setting_handle];
+        cx.spawn(async move {
+            let indexer = api.read().patch_indexer(id, v)
+                .await;
+            if let Ok(indexer) = indexer {
+                set_state(IndexerModalState::Close);
+                setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
+                    id: indexer.id,
+                    name: indexer.name,
+                    priority: indexer.priority
+                }));
+            }
+        });
+    };
 
     render! {
-        ""
-        // match &indexer.value {
-        //     QueryState::Ok(i) => rsx! { Form {
-        //         indexer: i,
-        //         on_update: edit
-        //     } },
-        //     QueryState::Loading => rsx! { "Loading" },
-        //     _ => rsx! { "Error" }
-        // }
+        match &indexer {
+            QueryState::Ok(i) => rsx! { Form {
+                indexer: i,
+                on_update: edit
+            } },
+            QueryState::Loading => rsx! { "Loading" },
+            _ => rsx! { "Error" }
+        }
     }
 }
 

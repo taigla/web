@@ -1,8 +1,8 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use fermi::prelude::*;
-use crate::api::UserRow;
-use crate::services::settings::{SettingCommand, USER_LIST_STORE, QueryState};
+use crate::api::{QueryState, UserRow};
+use crate::services::settings::{SettingCommand, USER_LIST_STORE};
 
 #[inline_props]
 fn UserList<'a>(cx: Scope, users: &'a Vec<UserRow>) -> Element {
@@ -45,7 +45,10 @@ pub fn Users(cx: Scope) -> Element {
     render! {
         div {
             class: "flex flex-col w-full",
-            p { class: "text-2xl", "Users" }
+            div {
+                class: "flex flex-row justify-between pb-2",
+                p { class: "text-2xl", "Users" }
+            }
             match &users {
                 QueryState::Ok(users) => rsx! { UserList { users: users } },
                 QueryState::Loading => rsx! { "Loading" },
