@@ -11,6 +11,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_sele
     let rows = indexers.iter().map(|indexer| {
         rsx! {
             tr {
+                class: "hover",
                 key: "{indexer.id}",
                 td { "{indexer.name}" }
                 td { "{indexer.priority}" }
@@ -57,7 +58,7 @@ pub fn Indexers(cx: Scope) -> Element {
             class: "flex flex-col w-full",
             div {
                 class: "flex flex-row justify-between pb-2",
-                p { class: "text-2xl", "Indexers" }
+                p { class: "text-3xl", "Indexers" }
                 p {
                     onclick: move |_| set_modal_state(IndexerModalState::New),
                     class: "btn btn-primary", "New"
