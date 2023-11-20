@@ -55,9 +55,9 @@ pub fn Login(cx: Scope) -> Element {
                     class: "flex flex-col",
                     onsubmit: on_submit,
                     div {
-                        class: "flex flex-row items-center justify-center mb-6",
-                        TaiglaLogo { width: 100, height: 100 }
-                        p { class:"font-semibold text-4xl", "Taigla" }
+                        class: "flex flex-row items-center justify-center mb-10 mt-2",
+                        TaiglaLogo { width: 75, height: 75 }
+                        p { class:"ml-4 font-semibold text-4xl", "Taigla" }
                     }
                     label { "Name:" }
                     input { class: "input input-bordered", name: "name" },

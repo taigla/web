@@ -19,7 +19,6 @@ mod auth;
 
 #[derive(Clone)]
 pub enum QueryState<T> {
-    NotFetch,
     Loading,
     Ok(T),
     Err(ApiError)

@@ -18,22 +18,22 @@ pub enum SettingCommand {
 }
 
 pub type IndexerStore = QueryState<Vec<IndexerRow>>;
-pub static INDEXER_LIST_STORE: Atom<IndexerStore> = Atom(|_| QueryState::NotFetch);
+pub static INDEXER_LIST_STORE: Atom<IndexerStore> = Atom(|_| QueryState::Loading);
 
 pub type UserStore = QueryState<Vec<UserRow>>;
-pub static USER_LIST_STORE: Atom<UserStore> = Atom(|_| QueryState::NotFetch);
+pub static USER_LIST_STORE: Atom<UserStore> = Atom(|_| QueryState::Loading);
 
 pub type WorkerStore = QueryState<Vec<WorkerState>>;
-pub static WORKER_LIST_STORE: Atom<WorkerStore> = Atom(|_| QueryState::NotFetch);
+pub static WORKER_LIST_STORE: Atom<WorkerStore> = Atom(|_| QueryState::Loading);
 
 pub type CronjobStore = QueryState<Vec<Job>>;
-pub static CRONJOB_LIST_STORE: Atom<CronjobStore> = Atom(|_| QueryState::NotFetch);
+pub static CRONJOB_LIST_STORE: Atom<CronjobStore> = Atom(|_| QueryState::Loading);
 
 pub type InviteStore = QueryState<Vec<Invite>>;
-pub static INVITE_LIST_STORE: Atom<InviteStore> = Atom(|_| QueryState::NotFetch);
+pub static INVITE_LIST_STORE: Atom<InviteStore> = Atom(|_| QueryState::Loading);
 
 pub type RequestProfileStore = QueryState<Vec<RequestProfileRow>>;
-pub static REQUEST_PROFILE_LIST_STORE: Atom<RequestProfileStore> = Atom(|_| QueryState::NotFetch);
+pub static REQUEST_PROFILE_LIST_STORE: Atom<RequestProfileStore> = Atom(|_| QueryState::Loading);
 
 pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: TaiglaApi, atoms: Rc<AtomRoot>) {
     while let Some(msg) = rx.next().await {
