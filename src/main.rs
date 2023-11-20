@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
+use fermi::use_init_atom_root;
 use log::LevelFilter;
 use taigla::routes::Routes;
 
@@ -10,6 +11,8 @@ fn main() {
 }
 
 fn App(cx: Scope) -> Element {
+    use_init_atom_root(cx);
+
     cx.render(rsx! {
         div {
             class: "h-screen bg-bw-50 text-neutral-950 dark:text-neutral-50",
