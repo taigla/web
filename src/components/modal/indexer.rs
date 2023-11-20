@@ -18,7 +18,7 @@ fn Input<'a>(cx: Scope, lbl: Option<&'a str>) -> Element {
 pub fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>) -> Element<'a> {
     render! {
         form {
-            class: "grid grid-cols-12 gap-y-5",
+            class: "grid grid-cols-12 gap-y-5 items-center",
             onsubmit: move |_| {},
             Input { lbl: "Name:" }
             Input { lbl: "Url:" }
