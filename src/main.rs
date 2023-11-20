@@ -3,6 +3,7 @@ use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use fermi::use_init_atom_root;
 use log::LevelFilter;
+use taigla::hooks::use_init_query_provider;
 use taigla::routes::Routes;
 
 fn main() {
@@ -12,6 +13,7 @@ fn main() {
 
 fn App(cx: Scope) -> Element {
     use_init_atom_root(cx);
+    use_init_query_provider(cx);
 
     cx.render(rsx! {
         div {

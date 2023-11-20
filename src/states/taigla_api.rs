@@ -1,4 +1,5 @@
 use reqwest::Url;
+use crate::hooks::Fetcher;
 
 pub struct TaiglaApi {
     client: reqwest::Client,
@@ -31,5 +32,13 @@ impl TaiglaApi {
         self.client
             .patch(self.address.join(url).expect("Invalid url"))
             .header("Authorization", &self.token)
+    }
+}
+
+impl Fetcher for TaiglaApi {
+    fn get(&self, url: &str) -> serde_json::Value {
+        // TaiglaApi::get(&self, url)
+        //     .send()
+        serde_json::Value::Null
     }
 }
