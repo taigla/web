@@ -6,6 +6,7 @@ use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query, QueryState};
 use crate::states::ApiError;
+use crate::services::settings::{SettingCommand, IndexerRow};
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
@@ -18,6 +19,7 @@ pub enum IndexerModalState {
 
 #[derive(Deserialize)]
 struct Indexer {
+    id: u64,
     name: String,
     url: String,
     api_key: Option<String>,
@@ -100,11 +102,12 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     let indexer = use_query::<Indexer, ApiError>(cx, &url);
     let set_state = use_set(cx, &STATE);
     let id = **id;
+    let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
 
     let edit = move |v| {
-        to_owned![api, id, set_state];
+        to_owned![api, id, set_state, setting_handle];
         cx.spawn(async move {
-            let _ = api.read().patch(&format!("/api/v1/indexers/{id}"))
+            let indexer = api.read().patch(&format!("/api/v1/indexers/{id}"))
                 .json(&v)
                 .send()
                 .await
@@ -113,6 +116,11 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
                 .await
                 .unwrap();
             set_state(IndexerModalState::Close);
+            setting_handle.send(SettingCommand::UpdateIndexer(IndexerRow {
+                id: indexer.id,
+                name: indexer.name,
+                priority: indexer.priority
+            }));
         });
     };
 
@@ -132,11 +140,12 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
 fn ModalNewIndexer(cx: Scope) -> Element {
     let set_state = use_set(cx, &STATE);
     let api = use_taigla_api(&cx);
+    let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
 
     let create = move |v| {
-        to_owned![api, set_state];
+        to_owned![api, set_state, setting_handle];
         cx.spawn(async move {
-            let _ = api.read().post("/api/v1/indexers")
+            let indexer = api.read().post("/api/v1/indexers")
                 .json(&v)
                 .send()
                 .await
@@ -145,6 +154,11 @@ fn ModalNewIndexer(cx: Scope) -> Element {
                 .await
                 .unwrap();
             set_state(IndexerModalState::Close);
+            setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
+                id: indexer.id,
+                name: indexer.name,
+                priority: indexer.priority
+            }));
         });
     };
 

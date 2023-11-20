@@ -1588,6 +1588,7 @@ dependencies = [
  "dioxus-router",
  "dioxus-web",
  "fermi",
+ "futures-util",
  "log",
  "reqwest",
  "serde",
