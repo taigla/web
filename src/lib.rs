@@ -3,5 +3,6 @@ pub mod components;
 pub mod hooks;
 pub mod states;
 pub mod services;
+pub mod api;
 
 pub mod routes;

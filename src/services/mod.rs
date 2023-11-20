@@ -1,6 +1,6 @@
 use dioxus::prelude::{ScopeState, use_coroutine};
 use fermi::use_atom_root;
-use crate::states::TaiglaApi;
+use crate::api::TaiglaApi;
 
 pub mod settings;
 

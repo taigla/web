@@ -6,7 +6,8 @@ use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query, QueryState};
 use crate::states::ApiError;
-use crate::services::settings::{SettingCommand, IndexerRow};
+use crate::services::settings::SettingCommand;
+use crate::api::IndexerRow;
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
