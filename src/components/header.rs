@@ -2,13 +2,52 @@
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use crate::routes::Routes;
+use crate::api::Token;
 
 static LINKS: &'static [(&str, Routes)] = &[
     ("Home", Routes::Home {}),
     ("Settings", Routes::Settings {})
 ];
 
+#[inline_props]
+pub fn Dropdown<'a>(
+    cx: Scope,
+    options: Vec<&'static str>,
+    on_click: EventHandler<'a, usize>,
+    children: Element<'a>
+) -> Element<'a> {
+    let options = options.iter().enumerate().map(|(index, option)| {
+        rsx! {
+            li { a { onclick: move |_| on_click.call(index), *option } }
+        }
+    });
+
+    render! {
+        div {
+            class: "dropdown dropdown-end",
+            tabindex: 0,
+            children
+            ul {
+                tabindex: 0,
+                class: "mt-3 z-[1] p-2 shadow menu bg-base-200 dropdown-content rounded-box w-52",
+                options
+            }
+        }
+    }
+}
+
 pub fn Header(cx: Scope) -> Element {
+    let navigator = use_navigator(cx);
+    let token = use_shared_state::<Token>(cx).unwrap();
+
+    let on_downdown_item_pressed = move |index| {
+        match index {
+            0 => { navigator.push(Routes::Home {}); },
+            1 => { token.read().remove(); },
+            _ => {}
+        }
+    };
+
     render! {
         Fragment {
             div {
@@ -26,7 +65,17 @@ pub fn Header(cx: Scope) -> Element {
                 }
                 div {
                     class: "navbar-end",
-                    p { "Profile" }
+                    Dropdown {
+                        options: vec!["Settings", "Logout"],
+                        on_click: on_downdown_item_pressed,
+                        div {
+                            class: "btn btn-ghost btn-circle avatar placeholder",
+                            div {
+                                class: "bg-neutral-focus text-neutral-content rounded-full w-10",
+                                "U"
+                            }
+                        }
+                    }
                 }
             }
             Outlet::<Routes> {}

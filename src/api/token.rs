@@ -17,6 +17,16 @@ impl Token {
     pub fn get<'a>(&'a self) -> String {
         (*self.0.borrow()).clone()
     }
+
+    pub fn remove(&self) {
+        let window = window().unwrap();
+        window.local_storage()
+            .unwrap()
+            .unwrap()
+            .remove_item("token")
+            .unwrap();
+        window.location().reload().unwrap();
+    }
 }
 
 impl Debug for Token {
@@ -28,7 +38,11 @@ impl Debug for Token {
 impl Default for Token {
     fn default() -> Self {
         let window = window().unwrap();
-        let token = window.local_storage().unwrap().unwrap().get("token").unwrap();
+        let token = window.local_storage()
+            .unwrap()
+            .unwrap()
+            .get("token")
+            .unwrap();
         if let Some(token) = token {
             Self(Rc::new(RefCell::new(token)))
         } else {
