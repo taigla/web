@@ -2,9 +2,14 @@ use dioxus::prelude::*;
 use serde::de::DeserializeOwned;
 use crate::hooks::use_taigla_api;
 
+pub enum Error {
+    EmptyUrl
+}
+
 pub enum State<T> {
     Loading,
-    Ok(T)
+    Ok(T),
+    Error(Error)
 }
 
 pub fn use_swr<'a, T: 'static + DeserializeOwned>(cx: &'a ScopeState, url: &'a str) -> &'a State<T> {
@@ -16,6 +21,7 @@ pub fn use_swr<'a, T: 'static + DeserializeOwned>(cx: &'a ScopeState, url: &'a s
         to_owned![taigla_api, data];
         async move {
             if url.len() == 0 {
+                data.set(State::Error(Error::EmptyUrl));
                 return;
             }
             let response = taigla_api.read().get(&url)

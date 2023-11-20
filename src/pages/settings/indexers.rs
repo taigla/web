@@ -2,7 +2,7 @@
 use dioxus::prelude::*;
 use serde::Deserialize;
 use crate::hooks::use_swr::{use_swr, State};
-use crate::components::modal::Indexer;
+use crate::components::modal::indexer::{Indexer, IndexerModalState};
 
 #[derive(Deserialize)]
 pub struct Indexer {
@@ -12,14 +12,20 @@ pub struct Indexer {
 }
 
 #[inline_props]
-pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
+pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>, on_indexer_select: EventHandler<'a, u64>) -> Element {
     let rows = indexers.iter().map(|indexer| {
         rsx! {
             tr {
                 key: "{indexer.id}",
                 td { "{indexer.name}" }
                 td { "{indexer.priority}" }
-                td { "Edit" }
+                td {
+                    button {
+                        class: "btn sm",
+                        onclick: move |_| on_indexer_select.call(indexer.id),
+                        "Edit"
+                    }
+                }
             }
         }
     });
@@ -43,7 +49,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
 
 pub fn Indexers(cx: Scope) -> Element {
     let indexers = use_swr::<Vec<Indexer>>(&cx, "/api/v1/indexers");
-    let modal_visible = use_state(cx, || false);
+    let modal_visible = use_state(cx, || IndexerModalState::Close);
 
     render! {
         div {
@@ -52,17 +58,23 @@ pub fn Indexers(cx: Scope) -> Element {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-2xl", "Indexers" }
                 p {
-                    onclick: move |_| modal_visible.set(true),
+                    onclick: move |_| modal_visible.set(IndexerModalState::New),
                     class: "btn solid sm primary", "New" }
             }
             match indexers {
-                State::Ok(indexers) => rsx! { IndexerList { indexers: indexers } },
+                State::Ok(indexers) => rsx! {
+                    IndexerList {
+                        indexers: indexers,
+                        on_indexer_select: move |id| {
+                            modal_visible.set(IndexerModalState::Id(id));
+                        }
+                    }
+                },
                 _ => rsx! { "Loading" }
             }
             Indexer {
-                id: "12".to_string(),
-                visible: modal_visible.get(),
-                on_close: move |_| modal_visible.set(false)
+                state: modal_visible.get(),
+                on_close: move |_| modal_visible.set(IndexerModalState::Close)
             }
         }
     }

@@ -1,7 +1,6 @@
 use dioxus::prelude::*;
-pub use indexer::Indexer;
 
-mod indexer;
+pub mod indexer;
 
 #[allow(non_snake_case)]
 #[inline_props]
