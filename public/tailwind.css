@@ -434,6 +434,1409 @@ video {
   display: none;
 }
 
+:root {
+  color-scheme: light;
+  --sira-colors-bw-50: 255,255,255;
+  --sira-colors-bw-50-contrast: 0,0,0;
+  --sira-colors-bw-100: 249,249,249;
+  --sira-colors-bw-100-contrast: 0,0,0;
+  --sira-colors-bw-200: 240,240,240;
+  --sira-colors-bw-200-contrast: 0,0,0;
+  --sira-colors-bw-300: 231,231,231;
+  --sira-colors-bw-300-contrast: 0,0,0;
+  --sira-colors-bw-400: 223,223,223;
+  --sira-colors-bw-400-contrast: 0,0,0;
+  --sira-colors-bw-500: 215,215,215;
+  --sira-colors-bw-500-contrast: 0,0,0;
+  --sira-colors-bw-600: 208,208,208;
+  --sira-colors-bw-600-contrast: 0,0,0;
+  --sira-colors-bw-700: 196,196,196;
+  --sira-colors-bw-700-contrast: 0,0,0;
+  --sira-colors-bw-800: 46,46,46;
+  --sira-colors-bw-800-contrast: 255,255,255;
+  --sira-colors-bw-900: 33,33,33;
+  --sira-colors-bw-900-contrast: 255,255,255;
+  --sira-colors-bw-1000: 18,18,18;
+  --sira-colors-bw-1000-contrast: 255,255,255;
+  --sira-colors-bw-1100: 0,0,0;
+  --sira-colors-bw-1100-contrast: 255,255,255;
+  --sira-colors-success-50: 251,254,252;
+  --sira-colors-success-50-contrast: 0,0,0;
+  --sira-colors-success-100: 242,252,245;
+  --sira-colors-success-100-contrast: 0,0,0;
+  --sira-colors-success-200: 233,249,238;
+  --sira-colors-success-200-contrast: 0,0,0;
+  --sira-colors-success-300: 221,243,228;
+  --sira-colors-success-300-contrast: 0,0,0;
+  --sira-colors-success-400: 204,235,215;
+  --sira-colors-success-400-contrast: 0,0,0;
+  --sira-colors-success-500: 180,223,196;
+  --sira-colors-success-500-contrast: 0,0,0;
+  --sira-colors-success-600: 146,206,172;
+  --sira-colors-success-600-contrast: 0,0,0;
+  --sira-colors-success-700: 91,185,140;
+  --sira-colors-success-700-contrast: 0,0,0;
+  --sira-colors-success-800: 48,164,108;
+  --sira-colors-success-800-contrast: 255,255,255;
+  --sira-colors-success-900: 41,151,100;
+  --sira-colors-success-900-contrast: 255,255,255;
+  --sira-colors-success-1000: 24,121,78;
+  --sira-colors-success-1000-contrast: 255,255,255;
+  --sira-colors-success-1100: 21,50,38;
+  --sira-colors-success-1100-contrast: 255,255,255;
+  --sira-colors-warn-50: 254,252,251;
+  --sira-colors-warn-50-contrast: 0,0,0;
+  --sira-colors-warn-100: 254,248,244;
+  --sira-colors-warn-100-contrast: 0,0,0;
+  --sira-colors-warn-200: 255,241,231;
+  --sira-colors-warn-200-contrast: 0,0,0;
+  --sira-colors-warn-300: 255,232,215;
+  --sira-colors-warn-300-contrast: 0,0,0;
+  --sira-colors-warn-400: 255,220,195;
+  --sira-colors-warn-400-contrast: 0,0,0;
+  --sira-colors-warn-500: 255,204,167;
+  --sira-colors-warn-500-contrast: 0,0,0;
+  --sira-colors-warn-600: 255,179,129;
+  --sira-colors-warn-600-contrast: 0,0,0;
+  --sira-colors-warn-700: 250,147,78;
+  --sira-colors-warn-700-contrast: 0,0,0;
+  --sira-colors-warn-800: 247,104,8;
+  --sira-colors-warn-800-contrast: 0,0,0;
+  --sira-colors-warn-900: 237,95,0;
+  --sira-colors-warn-900-contrast: 255,255,255;
+  --sira-colors-warn-1000: 189,75,0;
+  --sira-colors-warn-1000-contrast: 255,255,255;
+  --sira-colors-warn-1100: 69,30,17;
+  --sira-colors-warn-1100-contrast: 255,255,255;
+  --sira-colors-danger-50: 255,252,252;
+  --sira-colors-danger-50-contrast: 0,0,0;
+  --sira-colors-danger-100: 255,248,248;
+  --sira-colors-danger-100-contrast: 0,0,0;
+  --sira-colors-danger-200: 255,239,239;
+  --sira-colors-danger-200-contrast: 0,0,0;
+  --sira-colors-danger-300: 255,229,229;
+  --sira-colors-danger-300-contrast: 0,0,0;
+  --sira-colors-danger-400: 253,216,216;
+  --sira-colors-danger-400-contrast: 0,0,0;
+  --sira-colors-danger-500: 249,198,198;
+  --sira-colors-danger-500-contrast: 0,0,0;
+  --sira-colors-danger-600: 243,174,175;
+  --sira-colors-danger-600-contrast: 0,0,0;
+  --sira-colors-danger-700: 235,144,145;
+  --sira-colors-danger-700-contrast: 0,0,0;
+  --sira-colors-danger-800: 229,72,77;
+  --sira-colors-danger-800-contrast: 255,255,255;
+  --sira-colors-danger-900: 220,61,67;
+  --sira-colors-danger-900-contrast: 255,255,255;
+  --sira-colors-danger-1000: 205,43,49;
+  --sira-colors-danger-1000-contrast: 255,255,255;
+  --sira-colors-danger-1100: 56,19,22;
+  --sira-colors-danger-1100-contrast: 255,255,255;
+  --sira-colors-info-50: 251,253,255;
+  --sira-colors-info-50-contrast: 0,0,0;
+  --sira-colors-info-100: 245,250,255;
+  --sira-colors-info-100-contrast: 0,0,0;
+  --sira-colors-info-200: 237,246,255;
+  --sira-colors-info-200-contrast: 0,0,0;
+  --sira-colors-info-300: 225,240,255;
+  --sira-colors-info-300-contrast: 0,0,0;
+  --sira-colors-info-400: 206,231,254;
+  --sira-colors-info-400-contrast: 0,0,0;
+  --sira-colors-info-500: 183,217,248;
+  --sira-colors-info-500-contrast: 0,0,0;
+  --sira-colors-info-600: 150,199,242;
+  --sira-colors-info-600-contrast: 0,0,0;
+  --sira-colors-info-700: 94,176,239;
+  --sira-colors-info-700-contrast: 0,0,0;
+  --sira-colors-info-800: 0,145,255;
+  --sira-colors-info-800-contrast: 255,255,255;
+  --sira-colors-info-900: 0,129,241;
+  --sira-colors-info-900-contrast: 255,255,255;
+  --sira-colors-info-1000: 0,106,220;
+  --sira-colors-info-1000-contrast: 255,255,255;
+  --sira-colors-info-1100: 0,37,77;
+  --sira-colors-info-1100-contrast: 255,255,255;
+  --sira-colors-primary-50: 251,247,252;
+  --sira-colors-primary-50-contrast: 0,0,0;
+  --sira-colors-primary-100: 243,232,246;
+  --sira-colors-primary-100-contrast: 0,0,0;
+  --sira-colors-primary-200: 236,219,241;
+  --sira-colors-primary-200-contrast: 0,0,0;
+  --sira-colors-primary-300: 229,206,237;
+  --sira-colors-primary-300-contrast: 0,0,0;
+  --sira-colors-primary-400: 222,193,232;
+  --sira-colors-primary-400-contrast: 0,0,0;
+  --sira-colors-primary-500: 216,182,228;
+  --sira-colors-primary-500-contrast: 0,0,0;
+  --sira-colors-primary-600: 205,161,220;
+  --sira-colors-primary-600-contrast: 0,0,0;
+  --sira-colors-primary-700: 187,129,207;
+  --sira-colors-primary-700-contrast: 0,0,0;
+  --sira-colors-primary-800: 164,85,191;
+  --sira-colors-primary-800-contrast: 255,255,255;
+  --sira-colors-primary-900: 141,63,168;
+  --sira-colors-primary-900-contrast: 255,255,255;
+  --sira-colors-primary-1000: 84,38,100;
+  --sira-colors-primary-1000-contrast: 255,255,255;
+  --sira-colors-primary-1100: 27,12,32;
+  --sira-colors-primary-1100-contrast: 255,255,255;
+}
+
+.info {
+  --sira-color-50: 251,253,255;
+  --sira-color-50-contrast: 0,0,0;
+  --sira-color-100: 245,250,255;
+  --sira-color-100-contrast: 0,0,0;
+  --sira-color-200: 237,246,255;
+  --sira-color-200-contrast: 0,0,0;
+  --sira-color-300: 225,240,255;
+  --sira-color-300-contrast: 0,0,0;
+  --sira-color-400: 206,231,254;
+  --sira-color-400-contrast: 0,0,0;
+  --sira-color-500: 183,217,248;
+  --sira-color-500-contrast: 0,0,0;
+  --sira-color-600: 150,199,242;
+  --sira-color-600-contrast: 0,0,0;
+  --sira-color-700: 94,176,239;
+  --sira-color-700-contrast: 0,0,0;
+  --sira-color-800: 0,145,255;
+  --sira-color-800-contrast: 255,255,255;
+  --sira-color-900: 0,129,241;
+  --sira-color-900-contrast: 255,255,255;
+  --sira-color-1000: 0,106,220;
+  --sira-color-1000-contrast: 255,255,255;
+  --sira-color-1100: 0,37,77;
+  --sira-color-1100-contrast: 255,255,255;
+}
+
+.primary {
+  --sira-color-50: 251,247,252;
+  --sira-color-50-contrast: 0,0,0;
+  --sira-color-100: 243,232,246;
+  --sira-color-100-contrast: 0,0,0;
+  --sira-color-200: 236,219,241;
+  --sira-color-200-contrast: 0,0,0;
+  --sira-color-300: 229,206,237;
+  --sira-color-300-contrast: 0,0,0;
+  --sira-color-400: 222,193,232;
+  --sira-color-400-contrast: 0,0,0;
+  --sira-color-500: 216,182,228;
+  --sira-color-500-contrast: 0,0,0;
+  --sira-color-600: 205,161,220;
+  --sira-color-600-contrast: 0,0,0;
+  --sira-color-700: 187,129,207;
+  --sira-color-700-contrast: 0,0,0;
+  --sira-color-800: 164,85,191;
+  --sira-color-800-contrast: 255,255,255;
+  --sira-color-900: 141,63,168;
+  --sira-color-900-contrast: 255,255,255;
+  --sira-color-1000: 84,38,100;
+  --sira-color-1000-contrast: 255,255,255;
+  --sira-color-1100: 27,12,32;
+  --sira-color-1100-contrast: 255,255,255;
+}
+
+[data-theme=light] {
+  color-scheme: light;
+  --sira-colors-bw-50: 255,255,255;
+  --sira-colors-bw-50-contrast: 0,0,0;
+  --sira-colors-bw-100: 249,249,249;
+  --sira-colors-bw-100-contrast: 0,0,0;
+  --sira-colors-bw-200: 240,240,240;
+  --sira-colors-bw-200-contrast: 0,0,0;
+  --sira-colors-bw-300: 231,231,231;
+  --sira-colors-bw-300-contrast: 0,0,0;
+  --sira-colors-bw-400: 223,223,223;
+  --sira-colors-bw-400-contrast: 0,0,0;
+  --sira-colors-bw-500: 215,215,215;
+  --sira-colors-bw-500-contrast: 0,0,0;
+  --sira-colors-bw-600: 208,208,208;
+  --sira-colors-bw-600-contrast: 0,0,0;
+  --sira-colors-bw-700: 196,196,196;
+  --sira-colors-bw-700-contrast: 0,0,0;
+  --sira-colors-bw-800: 46,46,46;
+  --sira-colors-bw-800-contrast: 255,255,255;
+  --sira-colors-bw-900: 33,33,33;
+  --sira-colors-bw-900-contrast: 255,255,255;
+  --sira-colors-bw-1000: 18,18,18;
+  --sira-colors-bw-1000-contrast: 255,255,255;
+  --sira-colors-bw-1100: 0,0,0;
+  --sira-colors-bw-1100-contrast: 255,255,255;
+  --sira-colors-success-50: 251,254,252;
+  --sira-colors-success-50-contrast: 0,0,0;
+  --sira-colors-success-100: 242,252,245;
+  --sira-colors-success-100-contrast: 0,0,0;
+  --sira-colors-success-200: 233,249,238;
+  --sira-colors-success-200-contrast: 0,0,0;
+  --sira-colors-success-300: 221,243,228;
+  --sira-colors-success-300-contrast: 0,0,0;
+  --sira-colors-success-400: 204,235,215;
+  --sira-colors-success-400-contrast: 0,0,0;
+  --sira-colors-success-500: 180,223,196;
+  --sira-colors-success-500-contrast: 0,0,0;
+  --sira-colors-success-600: 146,206,172;
+  --sira-colors-success-600-contrast: 0,0,0;
+  --sira-colors-success-700: 91,185,140;
+  --sira-colors-success-700-contrast: 0,0,0;
+  --sira-colors-success-800: 48,164,108;
+  --sira-colors-success-800-contrast: 255,255,255;
+  --sira-colors-success-900: 41,151,100;
+  --sira-colors-success-900-contrast: 255,255,255;
+  --sira-colors-success-1000: 24,121,78;
+  --sira-colors-success-1000-contrast: 255,255,255;
+  --sira-colors-success-1100: 21,50,38;
+  --sira-colors-success-1100-contrast: 255,255,255;
+  --sira-colors-warn-50: 254,252,251;
+  --sira-colors-warn-50-contrast: 0,0,0;
+  --sira-colors-warn-100: 254,248,244;
+  --sira-colors-warn-100-contrast: 0,0,0;
+  --sira-colors-warn-200: 255,241,231;
+  --sira-colors-warn-200-contrast: 0,0,0;
+  --sira-colors-warn-300: 255,232,215;
+  --sira-colors-warn-300-contrast: 0,0,0;
+  --sira-colors-warn-400: 255,220,195;
+  --sira-colors-warn-400-contrast: 0,0,0;
+  --sira-colors-warn-500: 255,204,167;
+  --sira-colors-warn-500-contrast: 0,0,0;
+  --sira-colors-warn-600: 255,179,129;
+  --sira-colors-warn-600-contrast: 0,0,0;
+  --sira-colors-warn-700: 250,147,78;
+  --sira-colors-warn-700-contrast: 0,0,0;
+  --sira-colors-warn-800: 247,104,8;
+  --sira-colors-warn-800-contrast: 0,0,0;
+  --sira-colors-warn-900: 237,95,0;
+  --sira-colors-warn-900-contrast: 255,255,255;
+  --sira-colors-warn-1000: 189,75,0;
+  --sira-colors-warn-1000-contrast: 255,255,255;
+  --sira-colors-warn-1100: 69,30,17;
+  --sira-colors-warn-1100-contrast: 255,255,255;
+  --sira-colors-danger-50: 255,252,252;
+  --sira-colors-danger-50-contrast: 0,0,0;
+  --sira-colors-danger-100: 255,248,248;
+  --sira-colors-danger-100-contrast: 0,0,0;
+  --sira-colors-danger-200: 255,239,239;
+  --sira-colors-danger-200-contrast: 0,0,0;
+  --sira-colors-danger-300: 255,229,229;
+  --sira-colors-danger-300-contrast: 0,0,0;
+  --sira-colors-danger-400: 253,216,216;
+  --sira-colors-danger-400-contrast: 0,0,0;
+  --sira-colors-danger-500: 249,198,198;
+  --sira-colors-danger-500-contrast: 0,0,0;
+  --sira-colors-danger-600: 243,174,175;
+  --sira-colors-danger-600-contrast: 0,0,0;
+  --sira-colors-danger-700: 235,144,145;
+  --sira-colors-danger-700-contrast: 0,0,0;
+  --sira-colors-danger-800: 229,72,77;
+  --sira-colors-danger-800-contrast: 255,255,255;
+  --sira-colors-danger-900: 220,61,67;
+  --sira-colors-danger-900-contrast: 255,255,255;
+  --sira-colors-danger-1000: 205,43,49;
+  --sira-colors-danger-1000-contrast: 255,255,255;
+  --sira-colors-danger-1100: 56,19,22;
+  --sira-colors-danger-1100-contrast: 255,255,255;
+  --sira-colors-info-50: 251,253,255;
+  --sira-colors-info-50-contrast: 0,0,0;
+  --sira-colors-info-100: 245,250,255;
+  --sira-colors-info-100-contrast: 0,0,0;
+  --sira-colors-info-200: 237,246,255;
+  --sira-colors-info-200-contrast: 0,0,0;
+  --sira-colors-info-300: 225,240,255;
+  --sira-colors-info-300-contrast: 0,0,0;
+  --sira-colors-info-400: 206,231,254;
+  --sira-colors-info-400-contrast: 0,0,0;
+  --sira-colors-info-500: 183,217,248;
+  --sira-colors-info-500-contrast: 0,0,0;
+  --sira-colors-info-600: 150,199,242;
+  --sira-colors-info-600-contrast: 0,0,0;
+  --sira-colors-info-700: 94,176,239;
+  --sira-colors-info-700-contrast: 0,0,0;
+  --sira-colors-info-800: 0,145,255;
+  --sira-colors-info-800-contrast: 255,255,255;
+  --sira-colors-info-900: 0,129,241;
+  --sira-colors-info-900-contrast: 255,255,255;
+  --sira-colors-info-1000: 0,106,220;
+  --sira-colors-info-1000-contrast: 255,255,255;
+  --sira-colors-info-1100: 0,37,77;
+  --sira-colors-info-1100-contrast: 255,255,255;
+  --sira-colors-primary-50: 251,247,252;
+  --sira-colors-primary-50-contrast: 0,0,0;
+  --sira-colors-primary-100: 243,232,246;
+  --sira-colors-primary-100-contrast: 0,0,0;
+  --sira-colors-primary-200: 236,219,241;
+  --sira-colors-primary-200-contrast: 0,0,0;
+  --sira-colors-primary-300: 229,206,237;
+  --sira-colors-primary-300-contrast: 0,0,0;
+  --sira-colors-primary-400: 222,193,232;
+  --sira-colors-primary-400-contrast: 0,0,0;
+  --sira-colors-primary-500: 216,182,228;
+  --sira-colors-primary-500-contrast: 0,0,0;
+  --sira-colors-primary-600: 205,161,220;
+  --sira-colors-primary-600-contrast: 0,0,0;
+  --sira-colors-primary-700: 187,129,207;
+  --sira-colors-primary-700-contrast: 0,0,0;
+  --sira-colors-primary-800: 164,85,191;
+  --sira-colors-primary-800-contrast: 255,255,255;
+  --sira-colors-primary-900: 141,63,168;
+  --sira-colors-primary-900-contrast: 255,255,255;
+  --sira-colors-primary-1000: 84,38,100;
+  --sira-colors-primary-1000-contrast: 255,255,255;
+  --sira-colors-primary-1100: 27,12,32;
+  --sira-colors-primary-1100-contrast: 255,255,255;
+}
+
+[data-theme=light] .info {
+  --sira-color-50: 251,253,255;
+  --sira-color-50-contrast: 0,0,0;
+  --sira-color-100: 245,250,255;
+  --sira-color-100-contrast: 0,0,0;
+  --sira-color-200: 237,246,255;
+  --sira-color-200-contrast: 0,0,0;
+  --sira-color-300: 225,240,255;
+  --sira-color-300-contrast: 0,0,0;
+  --sira-color-400: 206,231,254;
+  --sira-color-400-contrast: 0,0,0;
+  --sira-color-500: 183,217,248;
+  --sira-color-500-contrast: 0,0,0;
+  --sira-color-600: 150,199,242;
+  --sira-color-600-contrast: 0,0,0;
+  --sira-color-700: 94,176,239;
+  --sira-color-700-contrast: 0,0,0;
+  --sira-color-800: 0,145,255;
+  --sira-color-800-contrast: 255,255,255;
+  --sira-color-900: 0,129,241;
+  --sira-color-900-contrast: 255,255,255;
+  --sira-color-1000: 0,106,220;
+  --sira-color-1000-contrast: 255,255,255;
+  --sira-color-1100: 0,37,77;
+  --sira-color-1100-contrast: 255,255,255;
+}
+
+[data-theme=light] .primary {
+  --sira-color-50: 251,247,252;
+  --sira-color-50-contrast: 0,0,0;
+  --sira-color-100: 243,232,246;
+  --sira-color-100-contrast: 0,0,0;
+  --sira-color-200: 236,219,241;
+  --sira-color-200-contrast: 0,0,0;
+  --sira-color-300: 229,206,237;
+  --sira-color-300-contrast: 0,0,0;
+  --sira-color-400: 222,193,232;
+  --sira-color-400-contrast: 0,0,0;
+  --sira-color-500: 216,182,228;
+  --sira-color-500-contrast: 0,0,0;
+  --sira-color-600: 205,161,220;
+  --sira-color-600-contrast: 0,0,0;
+  --sira-color-700: 187,129,207;
+  --sira-color-700-contrast: 0,0,0;
+  --sira-color-800: 164,85,191;
+  --sira-color-800-contrast: 255,255,255;
+  --sira-color-900: 141,63,168;
+  --sira-color-900-contrast: 255,255,255;
+  --sira-color-1000: 84,38,100;
+  --sira-color-1000-contrast: 255,255,255;
+  --sira-color-1100: 27,12,32;
+  --sira-color-1100-contrast: 255,255,255;
+}
+
+[data-theme=dark] {
+  color-scheme: dark;
+  --sira-colors-bw-50: 0,0,0;
+  --sira-colors-bw-50-contrast: 255,255,255;
+  --sira-colors-bw-100: 9,9,9;
+  --sira-colors-bw-100-contrast: 255,255,255;
+  --sira-colors-bw-200: 19,19,19;
+  --sira-colors-bw-200-contrast: 255,255,255;
+  --sira-colors-bw-300: 26,26,26;
+  --sira-colors-bw-300-contrast: 255,255,255;
+  --sira-colors-bw-400: 31,31,31;
+  --sira-colors-bw-400-contrast: 255,255,255;
+  --sira-colors-bw-500: 40,40,40;
+  --sira-colors-bw-500-contrast: 255,255,255;
+  --sira-colors-bw-600: 48,48,48;
+  --sira-colors-bw-600-contrast: 255,255,255;
+  --sira-colors-bw-700: 57,57,57;
+  --sira-colors-bw-700-contrast: 255,255,255;
+  --sira-colors-bw-800: 232,232,232;
+  --sira-colors-bw-800-contrast: 0,0,0;
+  --sira-colors-bw-900: 240,240,240;
+  --sira-colors-bw-900-contrast: 0,0,0;
+  --sira-colors-bw-1000: 249,249,249;
+  --sira-colors-bw-1000-contrast: 0,0,0;
+  --sira-colors-bw-1100: 255,255,255;
+  --sira-colors-bw-1100-contrast: 0,0,0;
+  --sira-colors-success-50: 13,25,18;
+  --sira-colors-success-50-contrast: 255,255,255;
+  --sira-colors-success-100: 12,31,23;
+  --sira-colors-success-100-contrast: 255,255,255;
+  --sira-colors-success-200: 15,41,30;
+  --sira-colors-success-200-contrast: 255,255,255;
+  --sira-colors-success-300: 17,49,35;
+  --sira-colors-success-300-contrast: 255,255,255;
+  --sira-colors-success-400: 19,57,41;
+  --sira-colors-success-400-contrast: 255,255,255;
+  --sira-colors-success-500: 22,68,48;
+  --sira-colors-success-500-contrast: 255,255,255;
+  --sira-colors-success-600: 27,84,58;
+  --sira-colors-success-600-contrast: 255,255,255;
+  --sira-colors-success-700: 35,110,74;
+  --sira-colors-success-700-contrast: 255,255,255;
+  --sira-colors-success-800: 48,164,108;
+  --sira-colors-success-800-contrast: 255,255,255;
+  --sira-colors-success-900: 60,177,121;
+  --sira-colors-success-900-contrast: 0,0,0;
+  --sira-colors-success-1000: 76,195,138;
+  --sira-colors-success-1000-contrast: 0,0,0;
+  --sira-colors-success-1100: 229,251,235;
+  --sira-colors-success-1100-contrast: 0,0,0;
+  --sira-colors-warn-50: 31,18,6;
+  --sira-colors-warn-50-contrast: 255,255,255;
+  --sira-colors-warn-100: 43,20,0;
+  --sira-colors-warn-100-contrast: 255,255,255;
+  --sira-colors-warn-200: 57,26,3;
+  --sira-colors-warn-200-contrast: 255,255,255;
+  --sira-colors-warn-300: 68,31,4;
+  --sira-colors-warn-300-contrast: 255,255,255;
+  --sira-colors-warn-400: 79,35,5;
+  --sira-colors-warn-400-contrast: 255,255,255;
+  --sira-colors-warn-500: 95,42,6;
+  --sira-colors-warn-500-contrast: 255,255,255;
+  --sira-colors-warn-600: 118,50,5;
+  --sira-colors-warn-600-contrast: 255,255,255;
+  --sira-colors-warn-700: 148,62,0;
+  --sira-colors-warn-700-contrast: 255,255,255;
+  --sira-colors-warn-800: 247,104,8;
+  --sira-colors-warn-800-contrast: 0,0,0;
+  --sira-colors-warn-900: 255,128,43;
+  --sira-colors-warn-900-contrast: 0,0,0;
+  --sira-colors-warn-1000: 255,139,62;
+  --sira-colors-warn-1000-contrast: 0,0,0;
+  --sira-colors-warn-1100: 254,234,221;
+  --sira-colors-warn-1100-contrast: 0,0,0;
+  --sira-colors-danger-50: 31,19,21;
+  --sira-colors-danger-50-contrast: 255,255,255;
+  --sira-colors-danger-100: 41,20,21;
+  --sira-colors-danger-100-contrast: 255,255,255;
+  --sira-colors-danger-200: 60,24,26;
+  --sira-colors-danger-200-contrast: 255,255,255;
+  --sira-colors-danger-300: 72,26,29;
+  --sira-colors-danger-300-contrast: 255,255,255;
+  --sira-colors-danger-400: 84,27,31;
+  --sira-colors-danger-400-contrast: 255,255,255;
+  --sira-colors-danger-500: 103,30,34;
+  --sira-colors-danger-500-contrast: 255,255,255;
+  --sira-colors-danger-600: 130,32,37;
+  --sira-colors-danger-600-contrast: 255,255,255;
+  --sira-colors-danger-700: 170,36,41;
+  --sira-colors-danger-700-contrast: 255,255,255;
+  --sira-colors-danger-800: 229,72,77;
+  --sira-colors-danger-800-contrast: 255,255,255;
+  --sira-colors-danger-900: 242,85,90;
+  --sira-colors-danger-900-contrast: 0,0,0;
+  --sira-colors-danger-1000: 255,99,105;
+  --sira-colors-danger-1000-contrast: 0,0,0;
+  --sira-colors-danger-1100: 254,236,238;
+  --sira-colors-danger-1100-contrast: 0,0,0;
+  --sira-colors-info-50: 15,23,32;
+  --sira-colors-info-50-contrast: 255,255,255;
+  --sira-colors-info-100: 15,27,45;
+  --sira-colors-info-100-contrast: 255,255,255;
+  --sira-colors-info-200: 16,36,62;
+  --sira-colors-info-200-contrast: 255,255,255;
+  --sira-colors-info-300: 16,42,76;
+  --sira-colors-info-300-contrast: 255,255,255;
+  --sira-colors-info-400: 15,48,88;
+  --sira-colors-info-400-contrast: 255,255,255;
+  --sira-colors-info-500: 13,56,104;
+  --sira-colors-info-500-contrast: 255,255,255;
+  --sira-colors-info-600: 10,68,129;
+  --sira-colors-info-600-contrast: 255,255,255;
+  --sira-colors-info-700: 9,84,165;
+  --sira-colors-info-700-contrast: 255,255,255;
+  --sira-colors-info-800: 0,145,255;
+  --sira-colors-info-800-contrast: 255,255,255;
+  --sira-colors-info-900: 54,158,255;
+  --sira-colors-info-900-contrast: 0,0,0;
+  --sira-colors-info-1000: 82,169,255;
+  --sira-colors-info-1000-contrast: 0,0,0;
+  --sira-colors-info-1100: 234,246,255;
+  --sira-colors-info-1100-contrast: 0,0,0;
+  --sira-colors-primary-50: 22,10,26;
+  --sira-colors-primary-50-contrast: 255,255,255;
+  --sira-colors-primary-100: 34,15,41;
+  --sira-colors-primary-100-contrast: 255,255,255;
+  --sira-colors-primary-200: 42,19,50;
+  --sira-colors-primary-200-contrast: 255,255,255;
+  --sira-colors-primary-300: 49,22,58;
+  --sira-colors-primary-300-contrast: 255,255,255;
+  --sira-colors-primary-400: 56,25,66;
+  --sira-colors-primary-400-contrast: 255,255,255;
+  --sira-colors-primary-500: 64,29,76;
+  --sira-colors-primary-500-contrast: 255,255,255;
+  --sira-colors-primary-600: 76,34,90;
+  --sira-colors-primary-600-contrast: 255,255,255;
+  --sira-colors-primary-700: 98,44,116;
+  --sira-colors-primary-700-contrast: 255,255,255;
+  --sira-colors-primary-800: 137,61,162;
+  --sira-colors-primary-800-contrast: 255,255,255;
+  --sira-colors-primary-900: 160,77,188;
+  --sira-colors-primary-900-contrast: 255,255,255;
+  --sira-colors-primary-1000: 178,111,200;
+  --sira-colors-primary-1000-contrast: 0,0,0;
+  --sira-colors-primary-1100: 241,229,245;
+  --sira-colors-primary-1100-contrast: 0,0,0;
+}
+
+@media (prefers-color-scheme:dark) {
+  :root {
+    color-scheme: dark;
+    --sira-colors-bw-50: 0,0,0;
+    --sira-colors-bw-50-contrast: 255,255,255;
+    --sira-colors-bw-100: 9,9,9;
+    --sira-colors-bw-100-contrast: 255,255,255;
+    --sira-colors-bw-200: 19,19,19;
+    --sira-colors-bw-200-contrast: 255,255,255;
+    --sira-colors-bw-300: 26,26,26;
+    --sira-colors-bw-300-contrast: 255,255,255;
+    --sira-colors-bw-400: 31,31,31;
+    --sira-colors-bw-400-contrast: 255,255,255;
+    --sira-colors-bw-500: 40,40,40;
+    --sira-colors-bw-500-contrast: 255,255,255;
+    --sira-colors-bw-600: 48,48,48;
+    --sira-colors-bw-600-contrast: 255,255,255;
+    --sira-colors-bw-700: 57,57,57;
+    --sira-colors-bw-700-contrast: 255,255,255;
+    --sira-colors-bw-800: 232,232,232;
+    --sira-colors-bw-800-contrast: 0,0,0;
+    --sira-colors-bw-900: 240,240,240;
+    --sira-colors-bw-900-contrast: 0,0,0;
+    --sira-colors-bw-1000: 249,249,249;
+    --sira-colors-bw-1000-contrast: 0,0,0;
+    --sira-colors-bw-1100: 255,255,255;
+    --sira-colors-bw-1100-contrast: 0,0,0;
+    --sira-colors-success-50: 13,25,18;
+    --sira-colors-success-50-contrast: 255,255,255;
+    --sira-colors-success-100: 12,31,23;
+    --sira-colors-success-100-contrast: 255,255,255;
+    --sira-colors-success-200: 15,41,30;
+    --sira-colors-success-200-contrast: 255,255,255;
+    --sira-colors-success-300: 17,49,35;
+    --sira-colors-success-300-contrast: 255,255,255;
+    --sira-colors-success-400: 19,57,41;
+    --sira-colors-success-400-contrast: 255,255,255;
+    --sira-colors-success-500: 22,68,48;
+    --sira-colors-success-500-contrast: 255,255,255;
+    --sira-colors-success-600: 27,84,58;
+    --sira-colors-success-600-contrast: 255,255,255;
+    --sira-colors-success-700: 35,110,74;
+    --sira-colors-success-700-contrast: 255,255,255;
+    --sira-colors-success-800: 48,164,108;
+    --sira-colors-success-800-contrast: 255,255,255;
+    --sira-colors-success-900: 60,177,121;
+    --sira-colors-success-900-contrast: 0,0,0;
+    --sira-colors-success-1000: 76,195,138;
+    --sira-colors-success-1000-contrast: 0,0,0;
+    --sira-colors-success-1100: 229,251,235;
+    --sira-colors-success-1100-contrast: 0,0,0;
+    --sira-colors-warn-50: 31,18,6;
+    --sira-colors-warn-50-contrast: 255,255,255;
+    --sira-colors-warn-100: 43,20,0;
+    --sira-colors-warn-100-contrast: 255,255,255;
+    --sira-colors-warn-200: 57,26,3;
+    --sira-colors-warn-200-contrast: 255,255,255;
+    --sira-colors-warn-300: 68,31,4;
+    --sira-colors-warn-300-contrast: 255,255,255;
+    --sira-colors-warn-400: 79,35,5;
+    --sira-colors-warn-400-contrast: 255,255,255;
+    --sira-colors-warn-500: 95,42,6;
+    --sira-colors-warn-500-contrast: 255,255,255;
+    --sira-colors-warn-600: 118,50,5;
+    --sira-colors-warn-600-contrast: 255,255,255;
+    --sira-colors-warn-700: 148,62,0;
+    --sira-colors-warn-700-contrast: 255,255,255;
+    --sira-colors-warn-800: 247,104,8;
+    --sira-colors-warn-800-contrast: 0,0,0;
+    --sira-colors-warn-900: 255,128,43;
+    --sira-colors-warn-900-contrast: 0,0,0;
+    --sira-colors-warn-1000: 255,139,62;
+    --sira-colors-warn-1000-contrast: 0,0,0;
+    --sira-colors-warn-1100: 254,234,221;
+    --sira-colors-warn-1100-contrast: 0,0,0;
+    --sira-colors-danger-50: 31,19,21;
+    --sira-colors-danger-50-contrast: 255,255,255;
+    --sira-colors-danger-100: 41,20,21;
+    --sira-colors-danger-100-contrast: 255,255,255;
+    --sira-colors-danger-200: 60,24,26;
+    --sira-colors-danger-200-contrast: 255,255,255;
+    --sira-colors-danger-300: 72,26,29;
+    --sira-colors-danger-300-contrast: 255,255,255;
+    --sira-colors-danger-400: 84,27,31;
+    --sira-colors-danger-400-contrast: 255,255,255;
+    --sira-colors-danger-500: 103,30,34;
+    --sira-colors-danger-500-contrast: 255,255,255;
+    --sira-colors-danger-600: 130,32,37;
+    --sira-colors-danger-600-contrast: 255,255,255;
+    --sira-colors-danger-700: 170,36,41;
+    --sira-colors-danger-700-contrast: 255,255,255;
+    --sira-colors-danger-800: 229,72,77;
+    --sira-colors-danger-800-contrast: 255,255,255;
+    --sira-colors-danger-900: 242,85,90;
+    --sira-colors-danger-900-contrast: 0,0,0;
+    --sira-colors-danger-1000: 255,99,105;
+    --sira-colors-danger-1000-contrast: 0,0,0;
+    --sira-colors-danger-1100: 254,236,238;
+    --sira-colors-danger-1100-contrast: 0,0,0;
+    --sira-colors-info-50: 15,23,32;
+    --sira-colors-info-50-contrast: 255,255,255;
+    --sira-colors-info-100: 15,27,45;
+    --sira-colors-info-100-contrast: 255,255,255;
+    --sira-colors-info-200: 16,36,62;
+    --sira-colors-info-200-contrast: 255,255,255;
+    --sira-colors-info-300: 16,42,76;
+    --sira-colors-info-300-contrast: 255,255,255;
+    --sira-colors-info-400: 15,48,88;
+    --sira-colors-info-400-contrast: 255,255,255;
+    --sira-colors-info-500: 13,56,104;
+    --sira-colors-info-500-contrast: 255,255,255;
+    --sira-colors-info-600: 10,68,129;
+    --sira-colors-info-600-contrast: 255,255,255;
+    --sira-colors-info-700: 9,84,165;
+    --sira-colors-info-700-contrast: 255,255,255;
+    --sira-colors-info-800: 0,145,255;
+    --sira-colors-info-800-contrast: 255,255,255;
+    --sira-colors-info-900: 54,158,255;
+    --sira-colors-info-900-contrast: 0,0,0;
+    --sira-colors-info-1000: 82,169,255;
+    --sira-colors-info-1000-contrast: 0,0,0;
+    --sira-colors-info-1100: 234,246,255;
+    --sira-colors-info-1100-contrast: 0,0,0;
+    --sira-colors-primary-50: 22,10,26;
+    --sira-colors-primary-50-contrast: 255,255,255;
+    --sira-colors-primary-100: 34,15,41;
+    --sira-colors-primary-100-contrast: 255,255,255;
+    --sira-colors-primary-200: 42,19,50;
+    --sira-colors-primary-200-contrast: 255,255,255;
+    --sira-colors-primary-300: 49,22,58;
+    --sira-colors-primary-300-contrast: 255,255,255;
+    --sira-colors-primary-400: 56,25,66;
+    --sira-colors-primary-400-contrast: 255,255,255;
+    --sira-colors-primary-500: 64,29,76;
+    --sira-colors-primary-500-contrast: 255,255,255;
+    --sira-colors-primary-600: 76,34,90;
+    --sira-colors-primary-600-contrast: 255,255,255;
+    --sira-colors-primary-700: 98,44,116;
+    --sira-colors-primary-700-contrast: 255,255,255;
+    --sira-colors-primary-800: 137,61,162;
+    --sira-colors-primary-800-contrast: 255,255,255;
+    --sira-colors-primary-900: 160,77,188;
+    --sira-colors-primary-900-contrast: 255,255,255;
+    --sira-colors-primary-1000: 178,111,200;
+    --sira-colors-primary-1000-contrast: 0,0,0;
+    --sira-colors-primary-1100: 241,229,245;
+    --sira-colors-primary-1100-contrast: 0,0,0;
+  }
+
+  [data-theme=dark] {
+    color-scheme: dark;
+    --sira-colors-bw-50: 0,0,0;
+    --sira-colors-bw-50-contrast: 255,255,255;
+    --sira-colors-bw-100: 9,9,9;
+    --sira-colors-bw-100-contrast: 255,255,255;
+    --sira-colors-bw-200: 19,19,19;
+    --sira-colors-bw-200-contrast: 255,255,255;
+    --sira-colors-bw-300: 26,26,26;
+    --sira-colors-bw-300-contrast: 255,255,255;
+    --sira-colors-bw-400: 31,31,31;
+    --sira-colors-bw-400-contrast: 255,255,255;
+    --sira-colors-bw-500: 40,40,40;
+    --sira-colors-bw-500-contrast: 255,255,255;
+    --sira-colors-bw-600: 48,48,48;
+    --sira-colors-bw-600-contrast: 255,255,255;
+    --sira-colors-bw-700: 57,57,57;
+    --sira-colors-bw-700-contrast: 255,255,255;
+    --sira-colors-bw-800: 232,232,232;
+    --sira-colors-bw-800-contrast: 0,0,0;
+    --sira-colors-bw-900: 240,240,240;
+    --sira-colors-bw-900-contrast: 0,0,0;
+    --sira-colors-bw-1000: 249,249,249;
+    --sira-colors-bw-1000-contrast: 0,0,0;
+    --sira-colors-bw-1100: 255,255,255;
+    --sira-colors-bw-1100-contrast: 0,0,0;
+    --sira-colors-success-50: 13,25,18;
+    --sira-colors-success-50-contrast: 255,255,255;
+    --sira-colors-success-100: 12,31,23;
+    --sira-colors-success-100-contrast: 255,255,255;
+    --sira-colors-success-200: 15,41,30;
+    --sira-colors-success-200-contrast: 255,255,255;
+    --sira-colors-success-300: 17,49,35;
+    --sira-colors-success-300-contrast: 255,255,255;
+    --sira-colors-success-400: 19,57,41;
+    --sira-colors-success-400-contrast: 255,255,255;
+    --sira-colors-success-500: 22,68,48;
+    --sira-colors-success-500-contrast: 255,255,255;
+    --sira-colors-success-600: 27,84,58;
+    --sira-colors-success-600-contrast: 255,255,255;
+    --sira-colors-success-700: 35,110,74;
+    --sira-colors-success-700-contrast: 255,255,255;
+    --sira-colors-success-800: 48,164,108;
+    --sira-colors-success-800-contrast: 255,255,255;
+    --sira-colors-success-900: 60,177,121;
+    --sira-colors-success-900-contrast: 0,0,0;
+    --sira-colors-success-1000: 76,195,138;
+    --sira-colors-success-1000-contrast: 0,0,0;
+    --sira-colors-success-1100: 229,251,235;
+    --sira-colors-success-1100-contrast: 0,0,0;
+    --sira-colors-warn-50: 31,18,6;
+    --sira-colors-warn-50-contrast: 255,255,255;
+    --sira-colors-warn-100: 43,20,0;
+    --sira-colors-warn-100-contrast: 255,255,255;
+    --sira-colors-warn-200: 57,26,3;
+    --sira-colors-warn-200-contrast: 255,255,255;
+    --sira-colors-warn-300: 68,31,4;
+    --sira-colors-warn-300-contrast: 255,255,255;
+    --sira-colors-warn-400: 79,35,5;
+    --sira-colors-warn-400-contrast: 255,255,255;
+    --sira-colors-warn-500: 95,42,6;
+    --sira-colors-warn-500-contrast: 255,255,255;
+    --sira-colors-warn-600: 118,50,5;
+    --sira-colors-warn-600-contrast: 255,255,255;
+    --sira-colors-warn-700: 148,62,0;
+    --sira-colors-warn-700-contrast: 255,255,255;
+    --sira-colors-warn-800: 247,104,8;
+    --sira-colors-warn-800-contrast: 0,0,0;
+    --sira-colors-warn-900: 255,128,43;
+    --sira-colors-warn-900-contrast: 0,0,0;
+    --sira-colors-warn-1000: 255,139,62;
+    --sira-colors-warn-1000-contrast: 0,0,0;
+    --sira-colors-warn-1100: 254,234,221;
+    --sira-colors-warn-1100-contrast: 0,0,0;
+    --sira-colors-danger-50: 31,19,21;
+    --sira-colors-danger-50-contrast: 255,255,255;
+    --sira-colors-danger-100: 41,20,21;
+    --sira-colors-danger-100-contrast: 255,255,255;
+    --sira-colors-danger-200: 60,24,26;
+    --sira-colors-danger-200-contrast: 255,255,255;
+    --sira-colors-danger-300: 72,26,29;
+    --sira-colors-danger-300-contrast: 255,255,255;
+    --sira-colors-danger-400: 84,27,31;
+    --sira-colors-danger-400-contrast: 255,255,255;
+    --sira-colors-danger-500: 103,30,34;
+    --sira-colors-danger-500-contrast: 255,255,255;
+    --sira-colors-danger-600: 130,32,37;
+    --sira-colors-danger-600-contrast: 255,255,255;
+    --sira-colors-danger-700: 170,36,41;
+    --sira-colors-danger-700-contrast: 255,255,255;
+    --sira-colors-danger-800: 229,72,77;
+    --sira-colors-danger-800-contrast: 255,255,255;
+    --sira-colors-danger-900: 242,85,90;
+    --sira-colors-danger-900-contrast: 0,0,0;
+    --sira-colors-danger-1000: 255,99,105;
+    --sira-colors-danger-1000-contrast: 0,0,0;
+    --sira-colors-danger-1100: 254,236,238;
+    --sira-colors-danger-1100-contrast: 0,0,0;
+    --sira-colors-info-50: 15,23,32;
+    --sira-colors-info-50-contrast: 255,255,255;
+    --sira-colors-info-100: 15,27,45;
+    --sira-colors-info-100-contrast: 255,255,255;
+    --sira-colors-info-200: 16,36,62;
+    --sira-colors-info-200-contrast: 255,255,255;
+    --sira-colors-info-300: 16,42,76;
+    --sira-colors-info-300-contrast: 255,255,255;
+    --sira-colors-info-400: 15,48,88;
+    --sira-colors-info-400-contrast: 255,255,255;
+    --sira-colors-info-500: 13,56,104;
+    --sira-colors-info-500-contrast: 255,255,255;
+    --sira-colors-info-600: 10,68,129;
+    --sira-colors-info-600-contrast: 255,255,255;
+    --sira-colors-info-700: 9,84,165;
+    --sira-colors-info-700-contrast: 255,255,255;
+    --sira-colors-info-800: 0,145,255;
+    --sira-colors-info-800-contrast: 255,255,255;
+    --sira-colors-info-900: 54,158,255;
+    --sira-colors-info-900-contrast: 0,0,0;
+    --sira-colors-info-1000: 82,169,255;
+    --sira-colors-info-1000-contrast: 0,0,0;
+    --sira-colors-info-1100: 234,246,255;
+    --sira-colors-info-1100-contrast: 0,0,0;
+    --sira-colors-primary-50: 22,10,26;
+    --sira-colors-primary-50-contrast: 255,255,255;
+    --sira-colors-primary-100: 34,15,41;
+    --sira-colors-primary-100-contrast: 255,255,255;
+    --sira-colors-primary-200: 42,19,50;
+    --sira-colors-primary-200-contrast: 255,255,255;
+    --sira-colors-primary-300: 49,22,58;
+    --sira-colors-primary-300-contrast: 255,255,255;
+    --sira-colors-primary-400: 56,25,66;
+    --sira-colors-primary-400-contrast: 255,255,255;
+    --sira-colors-primary-500: 64,29,76;
+    --sira-colors-primary-500-contrast: 255,255,255;
+    --sira-colors-primary-600: 76,34,90;
+    --sira-colors-primary-600-contrast: 255,255,255;
+    --sira-colors-primary-700: 98,44,116;
+    --sira-colors-primary-700-contrast: 255,255,255;
+    --sira-colors-primary-800: 137,61,162;
+    --sira-colors-primary-800-contrast: 255,255,255;
+    --sira-colors-primary-900: 160,77,188;
+    --sira-colors-primary-900-contrast: 255,255,255;
+    --sira-colors-primary-1000: 178,111,200;
+    --sira-colors-primary-1000-contrast: 0,0,0;
+    --sira-colors-primary-1100: 241,229,245;
+    --sira-colors-primary-1100-contrast: 0,0,0;
+  }
+
+  .bw {
+    --sira-color-50: 0,0,0;
+    --sira-color-50-contrast: 255,255,255;
+    --sira-color-100: 9,9,9;
+    --sira-color-100-contrast: 255,255,255;
+    --sira-color-200: 19,19,19;
+    --sira-color-200-contrast: 255,255,255;
+    --sira-color-300: 26,26,26;
+    --sira-color-300-contrast: 255,255,255;
+    --sira-color-400: 31,31,31;
+    --sira-color-400-contrast: 255,255,255;
+    --sira-color-500: 40,40,40;
+    --sira-color-500-contrast: 255,255,255;
+    --sira-color-600: 48,48,48;
+    --sira-color-600-contrast: 255,255,255;
+    --sira-color-700: 57,57,57;
+    --sira-color-700-contrast: 255,255,255;
+    --sira-color-800: 232,232,232;
+    --sira-color-800-contrast: 0,0,0;
+    --sira-color-900: 240,240,240;
+    --sira-color-900-contrast: 0,0,0;
+    --sira-color-1000: 249,249,249;
+    --sira-color-1000-contrast: 0,0,0;
+    --sira-color-1100: 255,255,255;
+    --sira-color-1100-contrast: 0,0,0;
+  }
+
+  .success {
+    --sira-color-50: 13,25,18;
+    --sira-color-50-contrast: 255,255,255;
+    --sira-color-100: 12,31,23;
+    --sira-color-100-contrast: 255,255,255;
+    --sira-color-200: 15,41,30;
+    --sira-color-200-contrast: 255,255,255;
+    --sira-color-300: 17,49,35;
+    --sira-color-300-contrast: 255,255,255;
+    --sira-color-400: 19,57,41;
+    --sira-color-400-contrast: 255,255,255;
+    --sira-color-500: 22,68,48;
+    --sira-color-500-contrast: 255,255,255;
+    --sira-color-600: 27,84,58;
+    --sira-color-600-contrast: 255,255,255;
+    --sira-color-700: 35,110,74;
+    --sira-color-700-contrast: 255,255,255;
+    --sira-color-800: 48,164,108;
+    --sira-color-800-contrast: 255,255,255;
+    --sira-color-900: 60,177,121;
+    --sira-color-900-contrast: 0,0,0;
+    --sira-color-1000: 76,195,138;
+    --sira-color-1000-contrast: 0,0,0;
+    --sira-color-1100: 229,251,235;
+    --sira-color-1100-contrast: 0,0,0;
+  }
+
+  .warn {
+    --sira-color-50: 31,18,6;
+    --sira-color-50-contrast: 255,255,255;
+    --sira-color-100: 43,20,0;
+    --sira-color-100-contrast: 255,255,255;
+    --sira-color-200: 57,26,3;
+    --sira-color-200-contrast: 255,255,255;
+    --sira-color-300: 68,31,4;
+    --sira-color-300-contrast: 255,255,255;
+    --sira-color-400: 79,35,5;
+    --sira-color-400-contrast: 255,255,255;
+    --sira-color-500: 95,42,6;
+    --sira-color-500-contrast: 255,255,255;
+    --sira-color-600: 118,50,5;
+    --sira-color-600-contrast: 255,255,255;
+    --sira-color-700: 148,62,0;
+    --sira-color-700-contrast: 255,255,255;
+    --sira-color-800: 247,104,8;
+    --sira-color-800-contrast: 0,0,0;
+    --sira-color-900: 255,128,43;
+    --sira-color-900-contrast: 0,0,0;
+    --sira-color-1000: 255,139,62;
+    --sira-color-1000-contrast: 0,0,0;
+    --sira-color-1100: 254,234,221;
+    --sira-color-1100-contrast: 0,0,0;
+  }
+
+  .danger {
+    --sira-color-50: 31,19,21;
+    --sira-color-50-contrast: 255,255,255;
+    --sira-color-100: 41,20,21;
+    --sira-color-100-contrast: 255,255,255;
+    --sira-color-200: 60,24,26;
+    --sira-color-200-contrast: 255,255,255;
+    --sira-color-300: 72,26,29;
+    --sira-color-300-contrast: 255,255,255;
+    --sira-color-400: 84,27,31;
+    --sira-color-400-contrast: 255,255,255;
+    --sira-color-500: 103,30,34;
+    --sira-color-500-contrast: 255,255,255;
+    --sira-color-600: 130,32,37;
+    --sira-color-600-contrast: 255,255,255;
+    --sira-color-700: 170,36,41;
+    --sira-color-700-contrast: 255,255,255;
+    --sira-color-800: 229,72,77;
+    --sira-color-800-contrast: 255,255,255;
+    --sira-color-900: 242,85,90;
+    --sira-color-900-contrast: 0,0,0;
+    --sira-color-1000: 255,99,105;
+    --sira-color-1000-contrast: 0,0,0;
+    --sira-color-1100: 254,236,238;
+    --sira-color-1100-contrast: 0,0,0;
+  }
+
+  .info {
+    --sira-color-50: 15,23,32;
+    --sira-color-50-contrast: 255,255,255;
+    --sira-color-100: 15,27,45;
+    --sira-color-100-contrast: 255,255,255;
+    --sira-color-200: 16,36,62;
+    --sira-color-200-contrast: 255,255,255;
+    --sira-color-300: 16,42,76;
+    --sira-color-300-contrast: 255,255,255;
+    --sira-color-400: 15,48,88;
+    --sira-color-400-contrast: 255,255,255;
+    --sira-color-500: 13,56,104;
+    --sira-color-500-contrast: 255,255,255;
+    --sira-color-600: 10,68,129;
+    --sira-color-600-contrast: 255,255,255;
+    --sira-color-700: 9,84,165;
+    --sira-color-700-contrast: 255,255,255;
+    --sira-color-800: 0,145,255;
+    --sira-color-800-contrast: 255,255,255;
+    --sira-color-900: 54,158,255;
+    --sira-color-900-contrast: 0,0,0;
+    --sira-color-1000: 82,169,255;
+    --sira-color-1000-contrast: 0,0,0;
+    --sira-color-1100: 234,246,255;
+    --sira-color-1100-contrast: 0,0,0;
+  }
+
+  .primary {
+    --sira-color-50: 22,10,26;
+    --sira-color-50-contrast: 255,255,255;
+    --sira-color-100: 34,15,41;
+    --sira-color-100-contrast: 255,255,255;
+    --sira-color-200: 42,19,50;
+    --sira-color-200-contrast: 255,255,255;
+    --sira-color-300: 49,22,58;
+    --sira-color-300-contrast: 255,255,255;
+    --sira-color-400: 56,25,66;
+    --sira-color-400-contrast: 255,255,255;
+    --sira-color-500: 64,29,76;
+    --sira-color-500-contrast: 255,255,255;
+    --sira-color-600: 76,34,90;
+    --sira-color-600-contrast: 255,255,255;
+    --sira-color-700: 98,44,116;
+    --sira-color-700-contrast: 255,255,255;
+    --sira-color-800: 137,61,162;
+    --sira-color-800-contrast: 255,255,255;
+    --sira-color-900: 160,77,188;
+    --sira-color-900-contrast: 255,255,255;
+    --sira-color-1000: 178,111,200;
+    --sira-color-1000-contrast: 0,0,0;
+    --sira-color-1100: 241,229,245;
+    --sira-color-1100-contrast: 0,0,0;
+  }
+
+  :root {
+    color-scheme: dark;
+    --sira-colors-bw-50: 0,0,0;
+    --sira-colors-bw-50-contrast: 255,255,255;
+    --sira-colors-bw-100: 9,9,9;
+    --sira-colors-bw-100-contrast: 255,255,255;
+    --sira-colors-bw-200: 19,19,19;
+    --sira-colors-bw-200-contrast: 255,255,255;
+    --sira-colors-bw-300: 26,26,26;
+    --sira-colors-bw-300-contrast: 255,255,255;
+    --sira-colors-bw-400: 31,31,31;
+    --sira-colors-bw-400-contrast: 255,255,255;
+    --sira-colors-bw-500: 40,40,40;
+    --sira-colors-bw-500-contrast: 255,255,255;
+    --sira-colors-bw-600: 48,48,48;
+    --sira-colors-bw-600-contrast: 255,255,255;
+    --sira-colors-bw-700: 57,57,57;
+    --sira-colors-bw-700-contrast: 255,255,255;
+    --sira-colors-bw-800: 232,232,232;
+    --sira-colors-bw-800-contrast: 0,0,0;
+    --sira-colors-bw-900: 240,240,240;
+    --sira-colors-bw-900-contrast: 0,0,0;
+    --sira-colors-bw-1000: 249,249,249;
+    --sira-colors-bw-1000-contrast: 0,0,0;
+    --sira-colors-bw-1100: 255,255,255;
+    --sira-colors-bw-1100-contrast: 0,0,0;
+    --sira-colors-success-50: 13,25,18;
+    --sira-colors-success-50-contrast: 255,255,255;
+    --sira-colors-success-100: 12,31,23;
+    --sira-colors-success-100-contrast: 255,255,255;
+    --sira-colors-success-200: 15,41,30;
+    --sira-colors-success-200-contrast: 255,255,255;
+    --sira-colors-success-300: 17,49,35;
+    --sira-colors-success-300-contrast: 255,255,255;
+    --sira-colors-success-400: 19,57,41;
+    --sira-colors-success-400-contrast: 255,255,255;
+    --sira-colors-success-500: 22,68,48;
+    --sira-colors-success-500-contrast: 255,255,255;
+    --sira-colors-success-600: 27,84,58;
+    --sira-colors-success-600-contrast: 255,255,255;
+    --sira-colors-success-700: 35,110,74;
+    --sira-colors-success-700-contrast: 255,255,255;
+    --sira-colors-success-800: 48,164,108;
+    --sira-colors-success-800-contrast: 255,255,255;
+    --sira-colors-success-900: 60,177,121;
+    --sira-colors-success-900-contrast: 0,0,0;
+    --sira-colors-success-1000: 76,195,138;
+    --sira-colors-success-1000-contrast: 0,0,0;
+    --sira-colors-success-1100: 229,251,235;
+    --sira-colors-success-1100-contrast: 0,0,0;
+    --sira-colors-warn-50: 31,18,6;
+    --sira-colors-warn-50-contrast: 255,255,255;
+    --sira-colors-warn-100: 43,20,0;
+    --sira-colors-warn-100-contrast: 255,255,255;
+    --sira-colors-warn-200: 57,26,3;
+    --sira-colors-warn-200-contrast: 255,255,255;
+    --sira-colors-warn-300: 68,31,4;
+    --sira-colors-warn-300-contrast: 255,255,255;
+    --sira-colors-warn-400: 79,35,5;
+    --sira-colors-warn-400-contrast: 255,255,255;
+    --sira-colors-warn-500: 95,42,6;
+    --sira-colors-warn-500-contrast: 255,255,255;
+    --sira-colors-warn-600: 118,50,5;
+    --sira-colors-warn-600-contrast: 255,255,255;
+    --sira-colors-warn-700: 148,62,0;
+    --sira-colors-warn-700-contrast: 255,255,255;
+    --sira-colors-warn-800: 247,104,8;
+    --sira-colors-warn-800-contrast: 0,0,0;
+    --sira-colors-warn-900: 255,128,43;
+    --sira-colors-warn-900-contrast: 0,0,0;
+    --sira-colors-warn-1000: 255,139,62;
+    --sira-colors-warn-1000-contrast: 0,0,0;
+    --sira-colors-warn-1100: 254,234,221;
+    --sira-colors-warn-1100-contrast: 0,0,0;
+    --sira-colors-danger-50: 31,19,21;
+    --sira-colors-danger-50-contrast: 255,255,255;
+    --sira-colors-danger-100: 41,20,21;
+    --sira-colors-danger-100-contrast: 255,255,255;
+    --sira-colors-danger-200: 60,24,26;
+    --sira-colors-danger-200-contrast: 255,255,255;
+    --sira-colors-danger-300: 72,26,29;
+    --sira-colors-danger-300-contrast: 255,255,255;
+    --sira-colors-danger-400: 84,27,31;
+    --sira-colors-danger-400-contrast: 255,255,255;
+    --sira-colors-danger-500: 103,30,34;
+    --sira-colors-danger-500-contrast: 255,255,255;
+    --sira-colors-danger-600: 130,32,37;
+    --sira-colors-danger-600-contrast: 255,255,255;
+    --sira-colors-danger-700: 170,36,41;
+    --sira-colors-danger-700-contrast: 255,255,255;
+    --sira-colors-danger-800: 229,72,77;
+    --sira-colors-danger-800-contrast: 255,255,255;
+    --sira-colors-danger-900: 242,85,90;
+    --sira-colors-danger-900-contrast: 0,0,0;
+    --sira-colors-danger-1000: 255,99,105;
+    --sira-colors-danger-1000-contrast: 0,0,0;
+    --sira-colors-danger-1100: 254,236,238;
+    --sira-colors-danger-1100-contrast: 0,0,0;
+    --sira-colors-info-50: 15,23,32;
+    --sira-colors-info-50-contrast: 255,255,255;
+    --sira-colors-info-100: 15,27,45;
+    --sira-colors-info-100-contrast: 255,255,255;
+    --sira-colors-info-200: 16,36,62;
+    --sira-colors-info-200-contrast: 255,255,255;
+    --sira-colors-info-300: 16,42,76;
+    --sira-colors-info-300-contrast: 255,255,255;
+    --sira-colors-info-400: 15,48,88;
+    --sira-colors-info-400-contrast: 255,255,255;
+    --sira-colors-info-500: 13,56,104;
+    --sira-colors-info-500-contrast: 255,255,255;
+    --sira-colors-info-600: 10,68,129;
+    --sira-colors-info-600-contrast: 255,255,255;
+    --sira-colors-info-700: 9,84,165;
+    --sira-colors-info-700-contrast: 255,255,255;
+    --sira-colors-info-800: 0,145,255;
+    --sira-colors-info-800-contrast: 255,255,255;
+    --sira-colors-info-900: 54,158,255;
+    --sira-colors-info-900-contrast: 0,0,0;
+    --sira-colors-info-1000: 82,169,255;
+    --sira-colors-info-1000-contrast: 0,0,0;
+    --sira-colors-info-1100: 234,246,255;
+    --sira-colors-info-1100-contrast: 0,0,0;
+    --sira-colors-primary-50: 22,10,26;
+    --sira-colors-primary-50-contrast: 255,255,255;
+    --sira-colors-primary-100: 34,15,41;
+    --sira-colors-primary-100-contrast: 255,255,255;
+    --sira-colors-primary-200: 42,19,50;
+    --sira-colors-primary-200-contrast: 255,255,255;
+    --sira-colors-primary-300: 49,22,58;
+    --sira-colors-primary-300-contrast: 255,255,255;
+    --sira-colors-primary-400: 56,25,66;
+    --sira-colors-primary-400-contrast: 255,255,255;
+    --sira-colors-primary-500: 64,29,76;
+    --sira-colors-primary-500-contrast: 255,255,255;
+    --sira-colors-primary-600: 76,34,90;
+    --sira-colors-primary-600-contrast: 255,255,255;
+    --sira-colors-primary-700: 98,44,116;
+    --sira-colors-primary-700-contrast: 255,255,255;
+    --sira-colors-primary-800: 137,61,162;
+    --sira-colors-primary-800-contrast: 255,255,255;
+    --sira-colors-primary-900: 160,77,188;
+    --sira-colors-primary-900-contrast: 255,255,255;
+    --sira-colors-primary-1000: 178,111,200;
+    --sira-colors-primary-1000-contrast: 0,0,0;
+    --sira-colors-primary-1100: 241,229,245;
+    --sira-colors-primary-1100-contrast: 0,0,0;
+  }
+}
+
+[data-theme=dark] .info {
+  --sira-color-50: 15,23,32;
+  --sira-color-50-contrast: 255,255,255;
+  --sira-color-100: 15,27,45;
+  --sira-color-100-contrast: 255,255,255;
+  --sira-color-200: 16,36,62;
+  --sira-color-200-contrast: 255,255,255;
+  --sira-color-300: 16,42,76;
+  --sira-color-300-contrast: 255,255,255;
+  --sira-color-400: 15,48,88;
+  --sira-color-400-contrast: 255,255,255;
+  --sira-color-500: 13,56,104;
+  --sira-color-500-contrast: 255,255,255;
+  --sira-color-600: 10,68,129;
+  --sira-color-600-contrast: 255,255,255;
+  --sira-color-700: 9,84,165;
+  --sira-color-700-contrast: 255,255,255;
+  --sira-color-800: 0,145,255;
+  --sira-color-800-contrast: 255,255,255;
+  --sira-color-900: 54,158,255;
+  --sira-color-900-contrast: 0,0,0;
+  --sira-color-1000: 82,169,255;
+  --sira-color-1000-contrast: 0,0,0;
+  --sira-color-1100: 234,246,255;
+  --sira-color-1100-contrast: 0,0,0;
+}
+
+[data-theme=dark] .primary {
+  --sira-color-50: 22,10,26;
+  --sira-color-50-contrast: 255,255,255;
+  --sira-color-100: 34,15,41;
+  --sira-color-100-contrast: 255,255,255;
+  --sira-color-200: 42,19,50;
+  --sira-color-200-contrast: 255,255,255;
+  --sira-color-300: 49,22,58;
+  --sira-color-300-contrast: 255,255,255;
+  --sira-color-400: 56,25,66;
+  --sira-color-400-contrast: 255,255,255;
+  --sira-color-500: 64,29,76;
+  --sira-color-500-contrast: 255,255,255;
+  --sira-color-600: 76,34,90;
+  --sira-color-600-contrast: 255,255,255;
+  --sira-color-700: 98,44,116;
+  --sira-color-700-contrast: 255,255,255;
+  --sira-color-800: 137,61,162;
+  --sira-color-800-contrast: 255,255,255;
+  --sira-color-900: 160,77,188;
+  --sira-color-900-contrast: 255,255,255;
+  --sira-color-1000: 178,111,200;
+  --sira-color-1000-contrast: 0,0,0;
+  --sira-color-1100: 241,229,245;
+  --sira-color-1100-contrast: 0,0,0;
+}
+
+*,:after,:before {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59,130,246,.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59,130,246,.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body,html {
+  --sira-color-100: var(--sira-colors-bw-100);
+  --sira-color-200: var(--sira-colors-bw-200);
+  --sira-color-300: var(--sira-colors-bw-300);
+  --sira-color-400: var(--sira-colors-bw-400);
+  --sira-color-500: var(--sira-colors-bw-500);
+  --sira-color-600: var(--sira-colors-bw-600);
+  --sira-color-700: var(--sira-colors-bw-700);
+  --sira-color-800: var(--sira-colors-bw-800);
+  --sira-color-900: var(--sira-colors-bw-900);
+  --sira-color-1000: var(--sira-colors-bw-1000);
+  --sira-color-1100: var(--sira-colors-bw-1100);
+  --sira-color-100-contrast: var(--sira-colors-bw-100-contrast);
+  --sira-color-200-contrast: var(--sira-colors-bw-200-contrast);
+  --sira-color-300-contrast: var(--sira-colors-bw-300-contrast);
+  --sira-color-400-contrast: var(--sira-colors-bw-400-contrast);
+  --sira-color-500-contrast: var(--sira-colors-bw-500-contrast);
+  --sira-color-600-contrast: var(--sira-colors-bw-600-contrast);
+  --sira-color-700-contrast: var(--sira-colors-bw-700-contrast);
+  --sira-color-800-contrast: var(--sira-colors-bw-800-contrast);
+  --sira-color-900-contrast: var(--sira-colors-bw-900-contrast);
+  --sira-color-1000-contrast: var(--sira-colors-bw-1000-contrast);
+  --sira-color-1100-contrast: var(--sira-colors-bw-1100-contrast);
+  background-color: rgb(var(--sira-colors-bw-50));
+  color: rgb(var(--sira-colors-bw-1000));
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+}
+
+:hover {
+  scrollbar-color: rgb(var(--sira-colors-bw-600)) transparent;
+}
+
+::-webkit-scrollbar {
+  background: transparent;
+  height: .4rem;
+  width: .4rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb:hover,:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--sira-colors-bw-600));
+  border: .1rem solid transparent;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  -moz-border-radius: 1.4rem;
+  -ms-border-radius: 1.4rem;
+  -o-border-radius: 1.4rem;
+}
+
+::-webkit-scrollbar-corner,::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+kbd {
+  --tw-shadow: 0px 1.5px 0px rgba(0,0,0,.1);
+  --tw-shadow-colored: 0px 1.5px 0px var(--tw-shadow-color);
+  --tw-border-opacity: 1;
+  --tw-bg-opacity: 1;
+  align-items: center;
+  background-color: rgba(var(--sira-colors-bw-300),var(--tw-bg-opacity));
+  border-color: rgba(var(--sira-colors-bw-600),var(--tw-border-opacity));
+  border-radius: .375rem;
+  border-width: 1px;
+  box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+  display: inline-flex;
+  font-size: .75rem;
+  font-weight: 600;
+  height: -moz-fit-content;
+  height: fit-content;
+  justify-content: center;
+  line-height: 1rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  white-space: nowrap;
+}
+
+img {
+  border-radius: .5rem;
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -534,8 +1937,1300 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.btn {
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  --tw-ring-opacity: 0;
+  --tw-ring-offset-color: transparent;
+  --tw-ring-color: rgba(var(--sira-color-600),var(--tw-ring-opacity));
+  align-items: center;
+  display: inline-flex;
+  gap: .5rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  justify-content: center;
+  text-align: center;
+  transition-duration: .3s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  width: -moz-fit-content;
+  width: fit-content;
+  transition-property: all;
+}
+
+.btn:active {
+  --tw-scale-x: 0.97;
+  --tw-scale-y: 0.97;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.btn:focus,.btn:hover {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000);
+}
+
+.btn:where(:hover,:focus) {
+  --tw-ring-opacity: 0.5;
+}
+
+.btn.solid {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-800),var(--tw-bg-opacity));
+  border-style: none;
+  color: rgba(var(--sira-color-800-contrast),var(--tw-text-opacity));
+}
+
+.btn.outline,.btn.solid {
+  --tw-text-opacity: 1;
+}
+
+.btn.outline {
+  background-color: transparent;
+  border-color: rgb(var(--sira-color-800));
+  border-width: 2px;
+  color: rgba(var(--sira-color-800),var(--tw-text-opacity));
+}
+
+.btn.outline:hover {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  background-color: rgba(var(--sira-color-800),var(--tw-bg-opacity));
+  color: rgba(var(--sira-color-800-contrast),var(--tw-text-opacity));
+}
+
+.btn.ghost {
+  --tw-text-opacity: 1;
+  background-color: transparent;
+  border-style: none;
+  color: rgba(var(--sira-color-1000),var(--tw-text-opacity));
+}
+
+.btn.ghost:hover {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  background-color: rgba(var(--sira-color-800),var(--tw-bg-opacity));
+  color: rgba(var(--sira-color-800-contrast),var(--tw-text-opacity));
+}
+
+.btn.light {
+  --tw-ring-color: rgba(var(--sira-color-200),var(--tw-ring-opacity));
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  background-color: rgba(var(--sira-color-200),var(--tw-bg-opacity));
+  border-style: none;
+  color: rgba(var(--sira-color-900),var(--tw-text-opacity));
+}
+
+.btn.light:hover {
+  background-color: rgba(var(--sira-color-300),var(--tw-bg-opacity));
+  color: rgba(var(--sira-color-1000),var(--tw-text-opacity));
+}
+
+.btn.xs {
+  border-radius: .45rem;
+  font-size: .5rem;
+  font-weight: 400;
+  line-height: .5rem;
+  padding: .5rem;
+}
+
+.btn.sm {
+  border-radius: .5rem;
+  font-size: .75rem;
+  font-weight: 500;
+  line-height: 1rem;
+  padding: .52rem .75rem;
+}
+
+.btn,.btn.md {
+  font-size: .875rem;
+  line-height: 1.25rem;
+  padding: .65rem 1rem;
+}
+
+.btn,.btn.lg,.btn.md {
+  border-radius: .75rem;
+  font-weight: 600;
+}
+
+.btn.lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  padding: .75rem 1.3rem;
+}
+
+.btn.xl {
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  padding: .9rem 1.5rem;
+}
+
+.btn.outline.xs {
+  padding: calc(.5rem - 2px);
+}
+
+.btn.outline.sm {
+  padding: calc(.52rem - 2px) calc(.75rem - 2px);
+}
+
+.btn.outline,.btn.outline.md {
+  padding: calc(.65rem - 2px) calc(1rem - 2px);
+}
+
+.btn.outline.lg {
+  padding: calc(.75rem - 2px) calc(1.3rem - 2px);
+}
+
+.btn.outline.xl {
+  padding: calc(.9rem - 2px) calc(1.5rem - 2px);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn.pill {
+  border-radius: 1.5rem;
+}
+
+.btn.is-loading:before {
+  border-color: currentColor currentColor transparent transparent;
+  content: var(--tw-content);
+  box-sizing: border-box;
+  margin-right: .5rem;
+  animation: spin 1s linear infinite;
+  border-radius: 50%;
+  border-width: 3px;
+}
+
+.btn.is-loading {
+  cursor: wait;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+to {
+  content: var(--tw-content);
+  transform: rotate(1turn);
+}
+
+.btn.is-loading.xs:before {
+  border-width: 2px;
+  content: var(--tw-content);
+  height: .6rem;
+  width: .6rem;
+}
+
+.btn.is-loading.sm:before {
+  border-width: 2px;
+  content: var(--tw-content);
+  height: .75rem;
+  width: .75rem;
+}
+
+.btn.is-loading.md:before,.btn.is-loading:before {
+  content: var(--tw-content);
+  height: 1rem;
+  width: 1rem;
+}
+
+.btn.is-loading.lg:before {
+  content: var(--tw-content);
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.btn.is-loading.xl:before {
+  border-width: 4px;
+  content: var(--tw-content);
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.btn.compact.xs {
+  padding: .4rem;
+}
+
+.btn.compact.sm {
+  padding: .5rem;
+}
+
+.btn.compact,.btn.compact.md {
+  padding: .75rem;
+}
+
+.btn.compact.lg {
+  padding: 1rem;
+}
+
+.btn.compact.xl {
+  padding: 1.25rem;
+}
+
+.btn-group:not(.vertical)>.btn {
+  height: 100%;
+}
+
+.btn-group>.btn:where(:hover,:focus) {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000);
+}
+
+.btn-group>.btn:not(.active):active,.btn-group>.btn:not(.active):hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-900),var(--tw-bg-opacity));
+}
+
+.btn-group.vertical>.btn {
+  width: 100%;
+}
+
+.btn-group>.active,.btn-group>input[type=radio]:checked.btn {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-900),var(--tw-bg-opacity));
+}
+
+.avatar.sm {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.badge.solid {
+  background-color: rgb(var(--sira-color-800));
+  border-color: rgb(var(--sira-color-800));
+  color: rgb(var(--sira-color-800-contrast));
+}
+
+.badge.sm {
+  font-size: .66rem;
+  line-height: .75rem;
+  padding: .2rem .4rem;
+}
+
+.badge.cornered,.badge.cornered.md,.badge.cornered.sm {
+  border-radius: .375rem;
+}
+
+.badge.square.sm {
+  border-radius: .25rem;
+}
+
+.input {
+  --tw-ring-opacity: 0;
+  --tw-ring-offset-color: transparent;
+  --tw-ring-color: rgba(var(--sira-color-500),var(--tw-ring-opacity));
+  --tw-text-opacity: 0.95;
+  --tw-border-opacity: 1;
+  border-color: rgba(var(--sira-colors-bw-600),var(--tw-border-opacity));
+  border-radius: .75rem;
+  border-width: 1px;
+  color: rgba(var(--sira-color-1100),var(--tw-text-opacity));
+  height: -moz-fit-content;
+  height: fit-content;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  gap: .5rem;
+  transition-duration: .15s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+
+.input:focus,.input:hover {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000);
+}
+
+.input,.input>input {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: transparent;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.input>input {
+  border-style: none;
+  flex: 1 1 0%;
+  margin: 0;
+  padding: 0;
+}
+
+.input>:not(input) {
+  color: rgba(var(--sira-color-800),var(--tw-text-opacity));
+}
+
+.input>.is-divider {
+  --tw-bg-opacity: 1;
+  align-self: stretch;
+  background-color: rgba(var(--sira-color-500),var(--tw-bg-opacity));
+  width: 1px;
+}
+
+.input ::-moz-selection, .input::-moz-selection {
+  --tw-bg-opacity: 0.8;
+  background-color: rgba(var(--sira-color-300),var(--tw-bg-opacity));
+}
+
+.input ::selection,.input::selection {
+  --tw-bg-opacity: 0.8;
+  background-color: rgba(var(--sira-color-300),var(--tw-bg-opacity));
+}
+
+.input:where(:hover,:focus) {
+  --tw-ring-opacity: 0.4;
+  border-color: rgba(var(--sira-color-600),var(--tw-border-opacity));
+}
+
+.input.outline {
+  border-color: rgba(var(--sira-color-700),var(--tw-border-opacity));
+}
+
+.input.solid {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-100),var(--tw-bg-opacity));
+  border-color: rgba(var(--sira-color-600),var(--tw-border-opacity));
+}
+
+.input.solid ::-moz-selection, .input.solid::-moz-selection {
+  --tw-bg-opacity: 0.9;
+  background-color: rgba(var(--sira-color-600),var(--tw-bg-opacity));
+}
+
+.input.solid ::selection,.input.solid::selection {
+  --tw-bg-opacity: 0.9;
+  background-color: rgba(var(--sira-color-600),var(--tw-bg-opacity));
+}
+
+.input.solid:not(:hover,:focus) {
+  --tw-border-opacity: 0.3;
+}
+
+.input.xs {
+  font-size: .75rem;
+  line-height: 1rem;
+  padding-bottom: .125rem;
+  padding-top: .125rem;
+}
+
+.input.sm {
+  font-size: .875rem;
+  line-height: 1.25rem;
+  padding-bottom: .25rem;
+  padding-top: .25rem;
+}
+
+.input,.input.md {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding-bottom: .375rem;
+  padding-top: .375rem;
+}
+
+.input.lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  padding-bottom: .5rem;
+  padding-top: .5rem;
+}
+
+.input.xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  padding-bottom: .625rem;
+  padding-top: .625rem;
+}
+
+.input ::-moz-placeholder, .input::-moz-placeholder {
+  --tw-text-opacity: 0.6;
+  color: rgba(var(--sira-color-700),var(--tw-text-opacity));
+  font-weight: 400;
+}
+
+.input ::placeholder,.input::placeholder {
+  --tw-text-opacity: 0.6;
+  color: rgba(var(--sira-color-700),var(--tw-text-opacity));
+  font-weight: 400;
+}
+
+.input.pill {
+  border-radius: 9999px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.input :disabled,.input:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.loader.sm:has(.dot-flash) {
+  height: 1rem;
+  width: 2.9rem;
+}
+
+.loader.sm>.flow-cross {
+  font-size: 1.2rem;
+}
+
+.loader.sm:has(.bar-shake-x) {
+  height: 1.84rem;
+  width: 2.5rem;
+}
+
+.loader.sm>.bar-shake-x {
+  font-size: .3rem;
+}
+
+.loader.sm:has(.bar-shake-y) {
+  height: 2.5rem;
+  width: 1.84rem;
+}
+
+.loader.sm>.bar-shake-y {
+  font-size: .3rem;
+}
+
+.loader.sm:has(.bar-bounce) {
+  height: 2.5rem;
+  width: 1.6rem;
+}
+
+.loader.sm>.bar-bounce {
+  font-size: .3rem;
+}
+
+.loader.sm>.spin {
+  border-width: 4px;
+}
+
+.loader.sm {
+  flex-basis: 1.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.loader.sm * {
+  font-size: .3rem;
+}
+
+.switch.sm {
+  --sira-switch-padding: 0.12rem;
+  height: 1.3rem;
+  width: 2.2rem;
+}
+
+.tabs>.tab.active,.tabs>.tab:hover {
+  color: rgba(var(--sira-color-1000),var(--tw-text-opacity));
+}
+
+.tabs>.tab.active {
+  border-color: rgb(var(--sira-color-900));
+}
+
+.tabs.pill>.tab.active,.tabs>.tab.pill.active {
+  --tw-text-opacity: 1;
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-800),var(--tw-bg-opacity));
+  border-color: rgb(var(--sira-color-900));
+  color: rgba(var(--sira-color-50),var(--tw-text-opacity));
+}
+
+.tabs.ghost>.tab.active,.tabs>.tab.ghost.active {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-100),var(--tw-bg-opacity));
+}
+
+.accordion-group>.accordion>.title {
+  background-color: rgb(var(--sira-color-200));
+  border-bottom-width: 1px;
+  border-color: rgb(var(--sira-color-600));
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  padding-bottom: 1.25rem;
+  padding-top: 1.25rem;
+  position: relative;
+  text-align: left;
+  transition-duration: .15s;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  width: 100%;
+}
+
+.accordion-group>.accordion>.title:hover {
+  background-color: rgb(var(--sira-color-300));
+}
+
+.accordion-group.bordered>.accordion:last-child:not(.open)>.toggle:not(:checked)~.title,.accordion-group.bordered>.accordion:last-child>.toggle:checked~.content {
+  border-style: none;
+}
+
+.accordion-group.bordered>.accordion:last-child:not(:focus):not(:has(.toggle))>.title,.accordion-group.bordered>.accordion:last-child:not(:has(.toggle))>.content {
+  border-style: none;
+}
+
+.accordion-group>.accordion>.content {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: padding .2s,grid-template-rows .2s;
+}
+
+.accordion-group.bordered>.accordion:last-child.open>.content {
+  border-style: none;
+  grid-template-rows: 1fr;
+  padding-bottom: 1.25rem;
+  padding-top: 1.25rem;
+}
+
+.accordion-group>.accordion.open>.content,.accordion-group>.accordion:focus>.content,.accordion-group>.accordion>.toggle:checked~.content {
+  border-bottom-width: 1px;
+  border-color: rgb(var(--sira-color-600));
+  grid-template-rows: 1fr;
+  padding-bottom: 1.25rem;
+  padding-top: 1.25rem;
+}
+
+.accordion-group>.accordion>:where(.title,.content) {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.accordion-group>.accordion.open>.title,.accordion-group>.accordion>.toggle:checked~.title,.accordion:focus>.title {
+  background-color: rgb(var(--sira-color-400));
+}
+
+.prompt:has(.icon):has(.title):has(.content) {
+  grid-template-areas: "icon title" "icon content";
+  grid-template-columns: auto 1fr;
+}
+
+.prompt:has(.icon):has(.title):not(:has(.content)) {
+  grid-template-areas: "icon title";
+  grid-template-columns: auto 1fr;
+}
+
+.prompt:has(.icon):not(:has(.title)):has(.content) {
+  grid-template-areas: "icon content";
+  grid-template-columns: auto 1fr;
+}
+
+.prompt:not(:has(.icon)):has(.title):has(.content) {
+  grid-template-areas: "title" "content";
+}
+
+.prompt:not(:has(.icon)):not(:has(.title)):has(.content) {
+  grid-template-areas: "content";
+}
+
+.prompt>.icon {
+  --tw-text-opacity: 1;
+  fill: rgb(var(--sira-color-700));
+  color: rgba(var(--sira-color-700),var(--tw-text-opacity));
+  grid-area: icon;
+  order: 1;
+}
+
+.prompt>.title {
+  font-weight: 700;
+  grid-area: title;
+  order: 2;
+}
+
+.prompt>.content {
+  font-weight: 500;
+  grid-area: content;
+  order: 3;
+}
+
+.prompt.sm,.prompt.xs>.title {
+  font-size: .875rem;
+  line-height: 1.25rem;
+}
+
+.prompt.sm {
+  border-radius: .5rem;
+  padding: .5rem;
+}
+
+.prompt,.prompt.md,.prompt.sm>.title {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.prompt.lg,.prompt.md>.title,.prompt>.title {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.prompt.lg>.title,.prompt.xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.prompt.xl>.title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.breadcrumbs>ul>li.active,.breadcrumbs>ul>li:last-child {
+  --tw-text-opacity: 0.65;
+  color: rgba(var(--sira-color-800),var(--tw-text-opacity));
+}
+
+.checkbox.sm {
+  border-radius: .25rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+.checkbox.sm:after {
+  height: .53rem;
+  width: .33rem;
+}
+
+.drawer>.content {
+  padding: 1rem;
+}
+
+.dropdown>.menu>.item:where(.active,:hover) {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-300),var(--tw-bg-opacity));
+}
+
+.modal,.modal-overlay {
+  transition-duration: 75ms;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+
+.modal {
+  --tw-bg-opacity: 1;
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgba(0,0,0,.07)) drop-shadow(0 2px 2px rgba(0,0,0,.06));
+  --tw-scale-x: .9;
+  --tw-scale-y: .9;
+  background-color: rgba(var(--sira-colors-bw-50),var(--tw-bg-opacity));
+  border-radius: .75rem;
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  height: -moz-max-content;
+  height: max-content;
+  inset: 0;
+  margin: auto;
+  max-height: 90%;
+  max-width: 90%;
+  overflow: auto;
+  padding: 1.5rem;
+  position: fixed;
+  text-align: left;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  width: 25%;
+  z-index: 60;
+}
+
+.modal.bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.modal.bottom-right {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.modal.top-left {
+  left: 1rem;
+  top: 1rem;
+}
+
+.modal.top-right {
+  right: 1rem;
+  top: 1rem;
+}
+
+.modal.show {
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  overscroll-behavior: contain;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.modal:not(.show),:not(.modal.show)>.modal-overlay {
+  opacity: 0;
+  visibility: hidden;
+}
+
+:has(.modal)>.modal-overlay {
+  height: 100vh;
+  inset: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 59;
+}
+
+:has(.modal.show)>.modal-overlay {
+  background-color: rgba(0,0,0,.6);
+  opacity: 1;
+  visibility: visible;
+}
+
+html:has(.modal.pause-scroll.show) {
+  overflow: hidden;
+}
+
+.radio.sm {
+  height: 1rem;
+  width: 1rem;
+}
+
+.select.solid {
+  --tw-border-opacity: 1;
+  --tw-bg-opacity: 1;
+  border-color: rgba(var(--sira-color-600),var(--tw-border-opacity));
+}
+
+.select.sm {
+  font-size: .75rem;
+  line-height: 1rem;
+  padding-bottom: .25rem;
+  padding-top: .25rem;
+}
+
+.table {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-50),var(--tw-bg-opacity));
+  border-collapse: initial;
+  border-radius: .75rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.table.bordered {
+  --tw-border-spacing-x: 0px;
+  --tw-border-spacing-y: 0px;
+  border-color: rgb(var(--sira-color-600));
+  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+  border-width: 2px;
+}
+
+.table>thead {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-200),var(--tw-bg-opacity));
+}
+
+.table>thead>tr>th {
+  --tw-text-opacity: 1;
+  color: rgba(var(--sira-color-1100),var(--tw-text-opacity));
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: 1rem .625rem;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.table>tbody>tr:hover {
+  background-color: rgba(var(--sira-color-200),.5);
+}
+
+.table>tbody>tr:not(:last-child)>:where(td,th) {
+  border-bottom-width: 1px;
+  border-color: rgba(var(--sira-color-600),.6);
+}
+
+.table>tbody>tr>:where(td,th) {
+  --tw-text-opacity: 1;
+  color: rgba(var(--sira-color-1000),var(--tw-text-opacity));
+  font-size: .875rem;
+  line-height: 1.25rem;
+  padding: 1rem .625rem;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.table.compact>tbody>tr>td,.table.compact>tbody>tr>th {
+  padding: .625rem .5rem;
+}
+
+.table.compact>thead>tr>th {
+  padding-bottom: .625rem;
+  padding-top: .625rem;
+}
+
+.table.zebra>tbody>tr:nth-child(2n):not(:hover) {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-100),var(--tw-bg-opacity));
+}
+
+.link {
+  --sira-color-400: var(--sira-colors-bw-400);
+  cursor: pointer;
+  text-underline-offset: 2px;
+  transition-duration: .3s;
+  transition-property: opacity,background-color,underline,text-decoration-line;
+}
+
+.link:hover {
+  opacity: 0.7;
+  text-decoration-line: underline;
+}
+
+.link:not(:hover) {
+  --tw-text-opacity: 1;
+  text-decoration-line: none;
+}
+
+.link.ghost {
+  border-radius: .125rem;
+  padding: .05rem .125rem;
+}
+
+.link.ghost:hover {
+  --tw-bg-opacity: 0.75;
+  background-color: rgba(var(--sira-color-400),var(--tw-bg-opacity));
+}
+
+.steps .step+.step.active:before,.steps .step.active-point:after,.steps .step.active:after {
+  background-color: rgb(var(--sira-color-800));
+  color: rgb(var(--sira-color-800-contrast));
+}
+
+.popover>.content {
+  --tw-translate-y: -0.5rem;
+  --tw-translate-x: -50%;
+  --tw-scale-x: .95;
+  --tw-scale-y: .95;
+  --tw-shadow: 0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color);
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  background-color: rgba(var(--sira-color-100),var(--tw-bg-opacity));
+  border-color: transparent;
+  border-radius: .75rem;
+  border-width: 1px;
+  box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+  color: rgba(var(--sira-color-1000),var(--tw-text-opacity));
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: .5rem;
+  position: absolute;
+  transition-duration: .15s;
+  transition-property: transform,opacity,visibility;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  width: 14rem;
+  will-change: transform;
+  z-index: 49;
+}
+
+.popover>.content,.popover>.content.bottom-center {
+  left: 50%;
+  right: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: top;
+  visibility: hidden;
+}
+
+.popover>.content.bottom-center {
+  --tw-translate-y: -0.5rem;
+  --tw-translate-x: -50%;
+  top: 100%;
+}
+
+.popover>.content.bottom-right {
+  --tw-translate-y: -0.5rem;
+  --tw-translate-x: 0px;
+  left: 0;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: top left;
+  visibility: hidden;
+}
+
+.popover>.content.bottom-left {
+  --tw-translate-y: -0.5rem;
+  --tw-translate-x: 0px;
+  left: auto;
+  right: 0;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: top right;
+  visibility: hidden;
+}
+
+.popover>.content.top-center {
+  --tw-translate-y: 0.5rem;
+  --tw-translate-x: -50%;
+  bottom: 100%;
+  left: 50%;
+  right: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: bottom;
+  visibility: hidden;
+}
+
+.popover>.content.top-right {
+  margin-left: -50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: bottom left;
+}
+
+.popover>.content.top-left,.popover>.content.top-right {
+  --tw-translate-y: 0.5rem;
+  --tw-translate-x: 0px;
+  bottom: 100%;
+  left: 50%;
+  visibility: hidden;
+}
+
+.popover>.content.top-left {
+  margin-left: auto;
+  right: 0;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: bottom right;
+}
+
+.popover>.content.left-center {
+  --tw-translate-y: -50%;
+  --tw-translate-x: 0.5rem;
+  bottom: auto;
+  left: auto;
+  right: 100%;
+  top: 50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: right;
+  visibility: hidden;
+}
+
+.popover>.content.right-center {
+  --tw-translate-y: -50%;
+  --tw-translate-x: -0.5rem;
+  bottom: auto;
+  left: 100%;
+  top: 50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: left;
+  visibility: hidden;
+}
+
+.popover>.content.left-bottom {
+  --tw-translate-y: -2.5rem;
+  --tw-translate-x: 0.5rem;
+  left: auto;
+  margin-top: 0;
+  right: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: top right;
+  visibility: hidden;
+}
+
+.popover>.content.right-bottom {
+  --tw-translate-y: -2.5rem;
+  --tw-translate-x: -0.5rem;
+  left: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: top left;
+  visibility: hidden;
+}
+
+.popover>.content.left-top {
+  --tw-translate-y: 1.25rem;
+  --tw-translate-x: 0.5rem;
+  bottom: 0;
+  left: auto;
+  right: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: bottom right;
+  visibility: hidden;
+}
+
+.popover>.content.right-top {
+  --tw-translate-y: 1.25rem;
+  --tw-translate-x: -0.5rem;
+  bottom: 0;
+  left: 100%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform-origin: bottom left;
+  visibility: hidden;
+}
+
+.popover.hover-show:hover>.trigger~.content,.popover.hover-show:hover>.trigger~.content.bottom-center,.popover.open>.content,.popover.open>.content.bottom-center,.popover:not(.popover.hover-show)>.content.bottom-center:where(:focus,:focus-within,:focus-visible),.popover:not(.popover.hover-show)>.content:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content,.popover>.trigger:focus~.content.bottom-center {
+  --tw-translate-x: -50%;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.top-center,.popover.open>.content.top-center,.popover:not(.popover.hover-show)>.content.top-center:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.top-center {
+  --tw-translate-x: -50%;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.bottom-right,.popover.open>.content.bottom-right,.popover:not(.popover.hover-show)>.content.bottom-right:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.bottom-right {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.bottom-left,.popover.open>.content.bottom-left,.popover:not(.popover.hover-show)>.content.bottom-left:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.bottom-left {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.left-center,.popover.open>.content.left-center,.popover:not(.popover.hover-show)>.content.left-center :where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.left-center {
+  --tw-translate-x: 0px;
+  --tw-translate-y: -50%;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  bottom: auto;
+  left: auto;
+  opacity: 1;
+  top: 50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.right-center,.popover.open>.content.right-center,.popover:not(.popover.hover-show)>.content.right-center :where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.right-center {
+  --tw-translate-x: 0px;
+  --tw-translate-y: -50%;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  bottom: auto;
+  opacity: 1;
+  right: auto;
+  top: 50%;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.left-bottom,.popover.hover-show:hover>.trigger~.content.right-bottom,.popover.open>.content.left-bottom,.popover.open>.content.right-bottom,.popover:not(.popover.hover-show)>.content.left-bottom:where(:focus,:focus-within,:focus-visible),.popover:not(.popover.hover-show)>.content.right-bottom:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.left-bottom,.popover>.trigger:focus~.content.right-bottom {
+  --tw-translate-x: 0px;
+  --tw-translate-y: -2.5rem;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.left-top,.popover.hover-show:hover>.trigger~.content.right-top,.popover.open>.content.left-top,.popover.open>.content.right-top,.popover:not(.popover.hover-show)>.content.left-top:where(:focus,:focus-within,:focus-visible),.popover:not(.popover.hover-show)>.content.right-top:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.left-top,.popover>.trigger:focus~.content.right-top {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 1.25rem;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover.hover-show:hover>.trigger~.content.top-left,.popover.hover-show:hover>.trigger~.content.top-right,.popover.open>.content.top-left,.popover.open>.content.top-right,.popover:not(.popover.hover-show)>.content.top-left:where(:focus,:focus-within,:focus-visible),.popover:not(.popover.hover-show)>.content.top-right:where(:focus,:focus-within,:focus-visible),.popover>.trigger:focus~.content.top-left,.popover>.trigger:focus~.content.top-right {
+  --tw-translate-x: 0px;
+  --tw-translate-y: 0px;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  opacity: 1;
+  transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  visibility: visible;
+}
+
+.popover>.content>.arrow {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--sira-color-100),var(--tw-bg-opacity));
+  border-color: transparent;
+  height: .7rem;
+  position: absolute;
+  width: .7rem;
+}
+
+.popover>.content,.popover>.content>.arrow {
+  --sira-color-500: var(--sira-colors-bw-500);
+  --tw-border-opacity: 1;
+  border-color: rgba(var(--sira-color-500),var(--tw-border-opacity));
+}
+
+.popover>.content.bottom-center>.arrow,.popover>.content:not(.bottom-center,.top-center,.bottom-right,.bottom-left,.left-center,.right-center,.left-bottom,.right-bottom,.left-top,.right-top,.top-right,.top-left)>.arrow {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover>.content.top-center>.arrow {
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  bottom: -.75rem;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover>.content.bottom-right>.arrow {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  left: 1rem;
+  top: 0;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover>.content.bottom-left>.arrow {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  right: 1rem;
+  top: 0;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover>.content.left-center>.arrow {
+  border-right-width: 1px;
+  border-top-width: 1px;
+  right: 0;
+  top: 50%;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover>.content.right-center>.arrow {
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover>.content.left-bottom>.arrow {
+  border-right-width: 1px;
+  border-top-width: 1px;
+  right: 0;
+  top: 1rem;
+  transform: translate(50%,50%) rotate(45deg);
+}
+
+.popover>.content.right-bottom>.arrow {
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  left: 0;
+  top: 1rem;
+  transform: translate(-50%,50%) rotate(45deg);
+}
+
+.popover>.content.left-top>.arrow {
+  border-right-width: 1px;
+  border-top-width: 1px;
+  bottom: 1rem;
+  right: 0;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover>.content.right-top>.arrow {
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  bottom: 1rem;
+  left: 0;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.popover>.content.top-right>.arrow {
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  bottom: -.75rem;
+  left: 1rem;
+  transform: translate(50%,-50%) rotate(45deg);
+}
+
+.popover>.content.top-left>.arrow {
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  bottom: -.75rem;
+  right: 1rem;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.progress.sm {
+  height: .5rem;
+}
+
+.skeleton.static,.skeleton.wave {
+  background-image: linear-gradient(270deg,rgb(var(--sira-color-100)),rgb(var(--sira-color-500)),rgb(var(--sira-color-100)),rgb(var(--sira-color-500)));
+  background-size: 500% 100%;
+}
+
+.skeleton.static {
+  animation: none;
+}
+
+.visible {
+  visibility: visible;
+}
+
 .static {
   position: static;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
+.left-0 {
+  left: 0px;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
+
+.m-auto {
+  margin: auto;
 }
 
 .mr-1 {
@@ -550,8 +3245,21 @@ video {
   display: table;
 }
 
+.grid {
+  display: grid;
+}
+
 .h-screen {
   height: 100vh;
+}
+
+.h-max {
+  height: -moz-max-content;
+  height: max-content;
+}
+
+.h-96 {
+  height: 24rem;
 }
 
 .w-1\/12 {
@@ -570,13 +3278,25 @@ video {
   width: 10rem;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
 .w-full {
   width: 100%;
+}
+
+.w-screen {
+  width: 100vw;
 }
 
 .min-w-max {
   min-width: -moz-max-content;
   min-width: max-content;
+}
+
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -595,8 +3315,16 @@ video {
   justify-content: space-between;
 }
 
+.gap-y-5 {
+  row-gap: 1.25rem;
+}
+
 .rounded-md {
   border-radius: 0.375rem;
+}
+
+.rounded-none {
+  border-radius: 0px;
 }
 
 .border-b {
@@ -608,12 +3336,26 @@ video {
   background-color: rgb(250 250 250 / var(--tw-bg-opacity));
 }
 
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
+
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
+}
+
 .p-2 {
   padding: 0.5rem;
 }
 
 .p-2\.5 {
   padding: 0.625rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 .px-2 {
@@ -654,6 +3396,158 @@ video {
   color: rgb(10 10 10 / var(--tw-text-opacity));
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes sira-loader-ping-wave {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes sira-loader-dot-flash {
+  0%,80%,to {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+@keyframes sira-loader-flow-cross-spin {
+  0%,to {
+    box-shadow: .2em 0 0 0 currentcolor;
+  }
+
+  12% {
+    box-shadow: .2em .2em 0 0 currentcolor;
+  }
+
+  25% {
+    box-shadow: 0 .2em 0 0 currentcolor;
+  }
+
+  37% {
+    box-shadow: -.2em .2em 0 0 currentcolor;
+  }
+
+  50% {
+    box-shadow: -.2em 0 0 0 currentcolor;
+  }
+
+  62% {
+    box-shadow: -.2em -.2em 0 0 currentcolor;
+  }
+
+  75% {
+    box-shadow: 0 -.2em 0 0 currentcolor;
+  }
+
+  87% {
+    box-shadow: .2em -.2em 0 0 currentcolor;
+  }
+}
+
+@keyframes sira-loader-bar-shake-x {
+  0% {
+    box-shadow: -1.2em 2.4em,1.2em 4.8em,0 7.2em;
+  }
+
+  25% {
+    box-shadow: 0 2.4em,0 4.8em,1.2em 7.2em;
+  }
+
+  50% {
+    box-shadow: 1.2em 2.4em,-1.2em 4.8em,0 7.2em;
+  }
+
+  75% {
+    box-shadow: 0 2.4em,0 4.8em,-1.2em 7.2em;
+  }
+
+  to {
+    box-shadow: -1.2em 2.4em,1.2em 4.8em,0 7.2em;
+  }
+}
+
+@keyframes sira-loader-bar-shake-y {
+  0% {
+    box-shadow: 2.4em -1.2em,4.8em 1.2em,7.2em 0;
+  }
+
+  25% {
+    box-shadow: 2.4em 0,4.8em 0,7.2em 1.2em;
+  }
+
+  50% {
+    box-shadow: 2.4em 1.2em,4.8em -1.2em,7.2em 0;
+  }
+
+  75% {
+    box-shadow: 2.4em 0,4.8em 0,7.2em -1.2em;
+  }
+
+  to {
+    box-shadow: 2.4em -1.2em,4.8em 1.2em,7.2em 0;
+  }
+}
+
+@keyframes sira-loader-bar-bounce {
+  0%,80%,to {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+
+@keyframes sira-progress-bar-indeterminate {
+  0% {
+    left: -50%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes sira-skeleton-wave {
+  0% {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes sira-skeleton-pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .hover\:bg-gray-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
@@ -673,5 +3567,19 @@ video {
   .dark\:text-neutral-50 {
     --tw-text-opacity: 1;
     color: rgb(250 250 250 / var(--tw-text-opacity));
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .md\:col-span-9 {
+    grid-column: span 9 / span 9;
+  }
+
+  .md\:w-3\/5 {
+    width: 60%;
   }
 }
