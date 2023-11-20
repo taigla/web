@@ -42,6 +42,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>) -> Element {
 
 pub fn Indexers(cx: Scope) -> Element {
     let indexers = use_swr::<Vec<Indexer>>(&cx, "/api/v1/indexers");
+    let modal_visible = use_state(cx, || false);
 
     render! {
         div {
@@ -55,7 +56,11 @@ pub fn Indexers(cx: Scope) -> Element {
                 State::Ok(indexers) => rsx! { IndexerList { indexers: indexers } },
                 _ => rsx! { "Loading" }
             }
-            Indexer { id: "12".to_string() }
+            Indexer {
+                id: "12".to_string(),
+                visible: modal_visible.get(),
+                close: move |_| {}
+            }
         }
     }
 }

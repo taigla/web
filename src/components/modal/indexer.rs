@@ -14,7 +14,7 @@ fn Input<'a>(cx: Scope, lbl: Option<&'a str>) -> Element {
     }
 }
 
-pub fn Form(cx: Scope) -> Element {
+pub fn Form<'a>(cx: Scope, close: EventHandler<'a, ()>) -> Element<'a> {
     render! {
         form {
             class: "grid grid-cols-12 gap-y-5",
@@ -22,19 +22,34 @@ pub fn Form(cx: Scope) -> Element {
             Input { lbl: "Url:" }
             Input { lbl: "Api key:" }
             Input { lbl: "Priority:" }
+            div {
+                class: "flex flex-row justify-end col-span-12 gap-2",
+                p {
+                    class: "btn solid md",
+                    onclick: move |_| {log::info!("press")},
+                    "Close"
+                }
+                input {
+                    class: "btn solid primary md",
+                    r#type: "submit",
+                    value: "Save"
+                }
+            }
         }
     }
 }
 
 #[inline_props]
-pub fn Indexer(cx: Scope, id: String) -> Element {
+pub fn Indexer<'a>(cx: Scope, id: String, visible: &'a bool, close: EventHandler<'a, ()>) -> Element<'a> {
     render! {
         Modal {
-            visible: true,
+            visible: **visible,
             div {
                 class: "flex flex-col p-6",
                 p { class: "text-2xl", "Indexer" }
-                Form {}
+                // Form {
+                //     close: 
+                // }
             }
         }
     }

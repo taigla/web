@@ -12,7 +12,7 @@ fn main() {
 fn App(cx: Scope) -> Element {
     cx.render(rsx! {
         div {
-            class: "h-screen bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50",
+            class: "h-screen bg-bw-50 text-neutral-950 dark:text-neutral-50",
             Router::<Routes> {}
         }
     })
