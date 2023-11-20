@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 
 pub mod indexer;
+pub mod invite;
 
 #[allow(non_snake_case)]
 #[inline_props]

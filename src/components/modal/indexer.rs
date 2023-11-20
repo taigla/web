@@ -5,9 +5,8 @@ use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query, QueryState};
-use crate::states::ApiError;
 use crate::services::settings::SettingCommand;
-use crate::api::IndexerRow;
+use crate::api::{IndexerRow, ApiError};
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
@@ -108,20 +107,16 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     let edit = move |v| {
         to_owned![api, id, set_state, setting_handle];
         cx.spawn(async move {
-            let indexer = api.read().patch(&format!("/api/v1/indexers/{id}"))
-                .json(&v)
-                .send()
-                .await
-                .unwrap()
-                .json::<Indexer>()
-                .await
-                .unwrap();
-            set_state(IndexerModalState::Close);
-            setting_handle.send(SettingCommand::UpdateIndexer(IndexerRow {
-                id: indexer.id,
-                name: indexer.name,
-                priority: indexer.priority
-            }));
+            let indexer = api.read().patch_indexer(id, v)
+                .await;
+            if let Ok(indexer) = indexer {
+                set_state(IndexerModalState::Close);
+                setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
+                    id: indexer.id,
+                    name: indexer.name,
+                    priority: indexer.priority
+                }));
+            }
         });
     };
 
@@ -146,20 +141,16 @@ fn ModalNewIndexer(cx: Scope) -> Element {
     let create = move |v| {
         to_owned![api, set_state, setting_handle];
         cx.spawn(async move {
-            let indexer = api.read().post("/api/v1/indexers")
-                .json(&v)
-                .send()
-                .await
-                .unwrap()
-                .json::<Indexer>()
-                .await
-                .unwrap();
-            set_state(IndexerModalState::Close);
-            setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
-                id: indexer.id,
-                name: indexer.name,
-                priority: indexer.priority
-            }));
+            let indexer = api.read().post_indexer(v)
+                .await;
+            if let Ok(indexer) = indexer {
+                set_state(IndexerModalState::Close);
+                setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
+                    id: indexer.id,
+                    name: indexer.name,
+                    priority: indexer.priority
+                }));
+            }
         });
     };
 

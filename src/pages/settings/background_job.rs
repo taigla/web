@@ -50,7 +50,7 @@ fn Workers(cx: Scope) -> Element {
     let workers = use_read(cx, &WORKER_LIST_STORE);
 
     use_memo(cx, (), |_| {
-        setting_handle.map(|h| h.send(SettingCommand::FetchWorkers));
+        setting_handle.map(|h| h.send(SettingCommand::FetchWorkersList));
     });
 
     render! {
@@ -98,7 +98,7 @@ fn Cronjobs(cx: Scope) -> Element {
     let cronjobs = use_read(cx, &CRONJOB_LIST_STORE);
 
     use_memo(cx, (), |_| {
-        setting_handle.map(|h| h.send(SettingCommand::FetchCronjobs));
+        setting_handle.map(|h| h.send(SettingCommand::FetchCronjobsList));
     });
 
     render! {

@@ -4,7 +4,7 @@ use dioxus_router::prelude::*;
 use serde::{Serialize, Deserialize};
 use web_sys::window;
 use crate::routes::Routes;
-use crate::states::Token;
+use crate::api::Token;
 
 #[derive(Serialize)]
 struct BodyLogin<'a> {
