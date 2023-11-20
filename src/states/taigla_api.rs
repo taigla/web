@@ -41,8 +41,10 @@ impl Fetcher for TaiglaApi {
     fn get(&self, url: &str) -> Pin<Box<dyn Future<Output = serde_json::Value>>> {
         let client = self.client.clone();
         let url = self.address.join(url).expect("Invalid url");
+        let token = self.token.clone();
         Box::pin(async move {
             client.get(url)
+                .header("Authorization", token)
                 .send()
                 .await
                 .unwrap()
