@@ -12,13 +12,18 @@ pub(super) enum QueryValue {
     Loading,
     Ok(Value),
     Validating(Value),
+    NotFetch,
     Error,
 }
 
 #[derive(Clone, Debug)]
 pub(super) struct Entry {
-    listeners: Vec<ScopeId>,
+    pub listeners: Vec<ScopeId>,
     pub value: QueryValue,
+    // To avoid deserializing value at each rerender we store the "hash" of the latest deserialize value
+    // along with the deserialized value.
+    // At each render we compare the hash with the one store in the registry, if they are different we update
+    // the deserialized value
     pub hash: ValueHash
 }
 
@@ -43,10 +48,16 @@ impl UseQueryProvider {
             .entry(url.to_string())
             .or_insert(Arc::new(RwLock::new(Entry {
                 listeners: vec![scope],
-                value: QueryValue::Loading,
+                value: QueryValue::NotFetch,
                 hash: 0
             })))
             .clone()
+    }
+
+    pub(super) fn remove_listener(&self, entry: &RegistryEntry, scope: ScopeId) {
+        let mut writable_entry = entry.write().unwrap();
+
+        writable_entry.listeners.retain(|e| e != &scope);
     }
 
     pub async fn update(&self, url: &str) {
@@ -54,15 +65,22 @@ impl UseQueryProvider {
         let entry = registry.get(url).unwrap();
 
         let response = self.fetcher.get(url).await;
-        let mut writable_entry = entry.write().unwrap();
-        writable_entry.value = QueryValue::Ok(response);
-        writable_entry.hash += 1;
-        drop(writable_entry);
+        self.mutate(entry, response);
+    }
+
+    pub(super) fn mutate(&self, entry: &RegistryEntry, new_value: Value) {
+        self.mutate_silent(entry, new_value);
 
         for listener in entry.read().unwrap().listeners.iter() {
             (self.scheduler)(listener.clone());
-            log::info!("Send event");
         }
+    }
+
+    pub(super) fn mutate_silent(&self, entry: &RegistryEntry, new_value: Value) {
+        let mut writable_entry = entry.write().unwrap();
+        writable_entry.value = QueryValue::Ok(new_value);
+        writable_entry.hash += 1;
+        drop(writable_entry);
     }
 }
 

@@ -2,8 +2,8 @@
 use dioxus::prelude::*;
 use serde::Deserialize;
 use fermi::use_set;
-use crate::hooks::use_query;
-use crate::hooks::use_swr::{use_swr, State};
+use crate::hooks::{use_query, QueryState};
+use crate::hooks::use_swr::{use_swr};
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
 
 #[derive(Deserialize, Debug)]
@@ -50,12 +50,11 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<Indexer>, on_indexer_select:
 }
 
 pub fn Indexers(cx: Scope) -> Element {
-    let indexers = use_swr::<Vec<Indexer>>(&cx, "/api/v1/indexers");
     let set_modal_status = use_set(cx, &STATE);
 
     let query = use_query::<Vec<Indexer>>(cx, "/api/v1/indexers");
     // let write
-    log::info!("{:?}", query);
+    log::info!("{:?}", query.value);
     let omg = use_state(cx, || false);
     log::info!("render");
 
@@ -78,8 +77,8 @@ pub fn Indexers(cx: Scope) -> Element {
                 value: "Hello",
                 name: "Hello"
             }
-            match indexers {
-                State::Ok(indexers) => rsx! {
+            match &query.value {
+                QueryState::Ok(indexers) => rsx! {
                     IndexerList {
                         indexers: indexers,
                         on_indexer_select: move |id| set_modal_status(IndexerModalState::Id(id))
