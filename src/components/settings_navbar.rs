@@ -17,7 +17,7 @@ pub fn SettingsNavbar(cx: Scope) -> Element {
             class: "flex flex-row",
             LinkList {}
             div {
-                class: "w-full overflow-y-scroll h-screen pt-16 pb-2",
+                class: "w-full overflow-y-scroll h-screen pt-16 pb-2 px-24",
                 Outlet::<Routes> {}
             }
         }
