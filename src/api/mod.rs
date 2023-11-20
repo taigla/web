@@ -7,6 +7,7 @@ pub use user::*;
 pub use job::*;
 pub use invite::*;
 pub use request_profile::*;
+pub use auth::*;
 
 mod token;
 mod indexer;
@@ -14,6 +15,7 @@ mod user;
 mod job;
 mod invite;
 mod request_profile;
+mod auth;
 
 #[derive(Clone)]
 pub enum QueryState<T> {
