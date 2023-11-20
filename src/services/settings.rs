@@ -2,7 +2,7 @@ use dioxus::prelude::*;
 use std::rc::Rc;
 use fermi::prelude::*;
 use futures_util::stream::StreamExt;
-use crate::api::{TaiglaApi, IndexerRow, UserRow, ApiError};
+use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, ApiError};
 
 #[derive(Clone)]
 pub enum QueryState<T> {
@@ -16,7 +16,9 @@ pub enum SettingCommand {
     FetchIndexerList,
     UpdateIndexer(IndexerRow),
     AddIndexer(IndexerRow),
-    FetchUserList
+    FetchUserList,
+    FetchWorkers,
+    FetchCronjobs
 }
 
 pub type IndexerStore = QueryState<Vec<IndexerRow>>;
@@ -24,6 +26,12 @@ pub static INDEXER_LIST_STORE: Atom<IndexerStore> = Atom(|_| QueryState::NotFetc
 
 pub type UserStore = QueryState<Vec<UserRow>>;
 pub static USER_LIST_STORE: Atom<UserStore> = Atom(|_| QueryState::NotFetch);
+
+pub type WorkerStore = QueryState<Vec<WorkerState>>;
+pub static WORKER_LIST_STORE: Atom<WorkerStore> = Atom(|_| QueryState::NotFetch);
+
+pub type CronjobStore = QueryState<Vec<Job>>;
+pub static CRONJOB_LIST_STORE: Atom<CronjobStore> = Atom(|_| QueryState::NotFetch);
 
 pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: TaiglaApi, atoms: Rc<AtomRoot>) {
     while let Some(msg) = rx.next().await {
@@ -72,6 +80,28 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                     Err(e) => QueryState::Err(e)
                 };
                 atoms.set((&USER_LIST_STORE).unique_id(), new_value);
+            },
+            SettingCommand::FetchWorkers => {
+                if !matches!(*atoms.read(&WORKER_LIST_STORE), QueryState::NotFetch) {
+                    return;
+                }
+                let workers = api.get_workers().await;
+                let new_value = match workers {
+                    Ok(k) => QueryState::Ok(k),
+                    Err(e) => QueryState::Err(e)
+                };
+                atoms.set((&WORKER_LIST_STORE).unique_id(), new_value);
+            },
+            SettingCommand::FetchCronjobs => {
+                if !matches!(*atoms.read(&CRONJOB_LIST_STORE), QueryState::NotFetch) {
+                    return;
+                }
+                let cronjobs = api.get_cronjobs().await;
+                let new_value = match cronjobs {
+                    Ok(k) => QueryState::Ok(k),
+                    Err(e) => QueryState::Err(e)
+                };
+                atoms.set((&CRONJOB_LIST_STORE).unique_id(), new_value);
             }
         }
     }

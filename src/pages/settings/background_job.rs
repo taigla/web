@@ -1,24 +1,8 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use serde::Deserialize;
-use crate::hooks::{use_query, QueryState};
-use crate::states::ApiError;
-
-#[derive(Deserialize)]
-pub enum WorkerState {
-    Idle,
-    #[serde(untagged)]
-    Running {
-        job: String
-    }
-}
-
-#[derive(Deserialize)]
-struct Job {
-    uuid: String,
-    interval: u32,
-    name: String
-}
+use fermi::prelude::use_read;
+use crate::services::settings::{WORKER_LIST_STORE, QueryState, SettingCommand, CRONJOB_LIST_STORE};
+use crate::api::{WorkerState, Job};
 
 #[inline_props]
 fn WorkerList<'a>(cx: Scope, workers: &'a Vec<WorkerState>) -> Element {
@@ -62,12 +46,17 @@ fn WorkerList<'a>(cx: Scope, workers: &'a Vec<WorkerState>) -> Element {
 }
 
 fn Workers(cx: Scope) -> Element {
-    let workers = use_query::<Vec<WorkerState>, ApiError>(cx, "/api/v1/job/workers");
+    let setting_handle = use_coroutine_handle::<SettingCommand>(cx);
+    let workers = use_read(cx, &WORKER_LIST_STORE);
+
+    use_memo(cx, (), |_| {
+        setting_handle.map(|h| h.send(SettingCommand::FetchWorkers));
+    });
 
     render! {
         div {
             p { class: "text-xl", "Worker" }
-            match &workers.value {
+            match &workers {
                 QueryState::Ok(w) => rsx! { WorkerList { workers: &w } },
                 QueryState::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }
@@ -105,12 +94,17 @@ fn CronjobList<'a>(cx: Scope, jobs: &'a Vec<Job>) -> Element {
 }
 
 fn Cronjobs(cx: Scope) -> Element {
-    let cronjobs = use_query::<Vec<Job>, ApiError>(cx, "/api/v1/job/cronjobs");
+    let setting_handle = use_coroutine_handle::<SettingCommand>(cx);
+    let cronjobs = use_read(cx, &CRONJOB_LIST_STORE);
+
+    use_memo(cx, (), |_| {
+        setting_handle.map(|h| h.send(SettingCommand::FetchCronjobs));
+    });
 
     render! {
         div {
             p { class: "text-xl", "Cronjob" }
-            match &cronjobs.value {
+            match &cronjobs {
                 QueryState::Ok(j) => rsx! { CronjobList { jobs: &j } },
                 QueryState::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }

@@ -49,7 +49,6 @@ pub fn Indexers(cx: Scope) -> Element {
 
     use_memo(cx, (), |_| {
         setting_handle.map(|h| h.send(SettingCommand::FetchIndexerList));
-        log::info!("Hello")
     });
 
     render! {
