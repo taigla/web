@@ -14,10 +14,12 @@ fn Input<'a>(cx: Scope, lbl: Option<&'a str>) -> Element {
     }
 }
 
-pub fn Form<'a>(cx: Scope, close: EventHandler<'a, ()>) -> Element<'a> {
+#[inline_props]
+pub fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>) -> Element<'a> {
     render! {
         form {
             class: "grid grid-cols-12 gap-y-5",
+            onsubmit: move |_| {},
             Input { lbl: "Name:" }
             Input { lbl: "Url:" }
             Input { lbl: "Api key:" }
@@ -26,7 +28,7 @@ pub fn Form<'a>(cx: Scope, close: EventHandler<'a, ()>) -> Element<'a> {
                 class: "flex flex-row justify-end col-span-12 gap-2",
                 p {
                     class: "btn solid md",
-                    onclick: move |_| {log::info!("press")},
+                    onclick: move |_| on_close.call(()),
                     "Close"
                 }
                 input {
@@ -40,16 +42,16 @@ pub fn Form<'a>(cx: Scope, close: EventHandler<'a, ()>) -> Element<'a> {
 }
 
 #[inline_props]
-pub fn Indexer<'a>(cx: Scope, id: String, visible: &'a bool, close: EventHandler<'a, ()>) -> Element<'a> {
+pub fn Indexer<'a>(cx: Scope, id: String, visible: &'a bool, on_close: EventHandler<'a, ()>) -> Element<'a> {
     render! {
         Modal {
             visible: **visible,
             div {
                 class: "flex flex-col p-6",
                 p { class: "text-2xl", "Indexer" }
-                // Form {
-                //     close: 
-                // }
+                Form {
+                    on_close: move |_| on_close.call(())
+                }
             }
         }
     }
