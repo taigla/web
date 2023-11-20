@@ -17,34 +17,30 @@ struct Indexer {
     id: u64,
     name: String,
     url: String,
-    api_key: String,
+    api_key: Option<String>,
     priority: u8
 }
 
 #[inline_props]
-fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>) -> Element {
+fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>) -> Element<'a> {
     render! {
         Fragment {
-            if let Some(lbl) = lbl {
-                rsx! { label { class: "col-span-12 md:col-span-3", "{lbl}" } }
+            if let Some(lbl) = *lbl {
+                rsx! { label { class: "col-span-12 md:col-span-3", lbl } }
             }
             rsx! { input { class: "input col-span-12 md:col-span-9", initial_value: *default_value, name: *name } }
         }
     }
 }
 
-#[derive(Props)]
-struct FormProps<'a> {
-    on_close: EventHandler<'a, ()>,
-    #[props(!optional)]
-    indexer: Option<&'a Indexer>
-}
-
-fn Form<'a>(cx: Scope<'a, FormProps>) -> Element<'a> {
+#[inline_props]
+fn Form<'a>(cx: Scope, on_close: EventHandler<'a, ()>, indexer: Option<&'a Indexer>) -> Element<'a> {
     let api = use_taigla_api(&cx);
+    let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
+    let id = if let Some(indexer) = indexer { indexer.id }  else { 0 };
 
     let submit = move |evt: Event<FormData>| {
-        to_owned![api];
+        to_owned![api, id];
         cx.spawn(async move {
             log::info!("{:?}", evt);
             let body = json!({
@@ -53,14 +49,25 @@ fn Form<'a>(cx: Scope<'a, FormProps>) -> Element<'a> {
                 "api_key": evt.data.values.get("api_key").unwrap().get(0).unwrap(),
                 "priority": evt.data.values.get("priority").unwrap().get(0).unwrap().parse::<u8>().unwrap()
             });
-            let response = api.read().post("/api/v1/indexers")
-                .json(&body)
-                .send()
-                .await
-                .unwrap()
-                .json::<Indexer>()
-                .await
-                .unwrap();
+            if id == 0 {
+                let _ = api.read().post("/api/v1/indexers")
+                    .json(&body)
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<Indexer>()
+                    .await
+                    .unwrap();
+            } else {
+                let _ = api.read().patch(&format!("/api/v1/indexers/{id}"))
+                    .json(&body)
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<Indexer>()
+                    .await
+                    .unwrap();
+            }
         })
     };
 
@@ -71,16 +78,28 @@ fn Form<'a>(cx: Scope<'a, FormProps>) -> Element<'a> {
             Input {
                 lbl: "Name:",
                 name: "name",
-                default_value: if let indexer = Some(cx.props.indexer) { Some(indexer.) } else { None }
+                default_value: if let Some(indexer) = indexer { &indexer.name } else { "" }
             }
-            Input { lbl: "Url:", name: "url" }
-            Input { lbl: "Api key:", name: "api_key" }
-            Input { lbl: "Priority:", name: "priority" }
+            Input {
+                lbl: "Url:",
+                name: "url",
+                default_value: if let Some(indexer) = indexer { &indexer.url } else { "" }
+            }
+            Input {
+                lbl: "Api key:",
+                name: "api_key",
+                default_value: if let Some(indexer) = indexer { indexer.api_key.as_ref().map(|v| v.as_str()).unwrap_or("") } else { "" }
+            }
+            Input {
+                lbl: "Priority:",
+                name: "priority",
+                default_value: "{priority}"
+            }
             div {
                 class: "flex flex-row justify-end col-span-12 gap-2",
                 p {
                     class: "btn solid md",
-                    onclick: move |_| cx.props.on_close.call(()),
+                    onclick: move |_| on_close.call(()),
                     "Close"
                 }
                 input {
@@ -103,8 +122,8 @@ fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHand
             class: "flex flex-col p-6",
             p { class: "text-2xl", "Indexer" }
             match indexer {
-                State::Ok(i) => rsx! { Form { on_close: move |_| on_close.call(()) } },
-                State::Loading => rsx! { "Loading" },
+                State::Ok(i) => rsx! { Form { on_close: move |_| on_close.call(()), indexer: i } },
+                State::Loading => rsx! { div { class: "loader bw sm", div { class: "spin" } } },
                 State::Error(SwrError::EmptyUrl) => rsx! { Form { on_close: move |_| on_close.call(()) } },
                 State::Error(_) => rsx! { "Error while fetching indexer" }
             }
