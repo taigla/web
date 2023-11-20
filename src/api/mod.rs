@@ -1,9 +1,12 @@
 use reqwest::Url;
 use serde::{Deserialize, de::DeserializeOwned};
 use crate::states::Token;
+
 pub use indexer::*;
+pub use user::*;
 
 mod indexer;
+mod user;
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct ApiError {

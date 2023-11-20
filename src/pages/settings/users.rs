@@ -1,18 +1,11 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use serde::Deserialize;
-use crate::hooks::{use_query, QueryState};
-use crate::states::ApiError;
-
-#[derive(Deserialize, PartialEq)]
-struct User {
-    name: String,
-    id: u64,
-    disable: bool
-}
+use fermi::prelude::*;
+use crate::api::UserRow;
+use crate::services::settings::{SettingCommand, USER_LIST_STORE, QueryState};
 
 #[inline_props]
-fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
+fn UserList<'a>(cx: Scope, users: &'a Vec<UserRow>) -> Element {
     let rows = users.iter().map(|user| {
         rsx! {
             tr {
@@ -42,13 +35,18 @@ fn UserList<'a>(cx: Scope, users: &'a Vec<User>) -> Element {
 }
 
 pub fn Users(cx: Scope) -> Element {
-    let users = use_query::<Vec<User>, ApiError>(&cx, "/api/v1/users");
+    let setting_handle = use_coroutine_handle::<SettingCommand>(cx);
+    let users = use_read(cx, &USER_LIST_STORE);
+
+    use_memo(cx, (), |_| {
+        setting_handle.map(|h| h.send(SettingCommand::FetchUserList));
+    });
 
     render! {
         div {
             class: "flex flex-col w-full",
             p { class: "text-2xl", "Users" }
-            match &users.value {
+            match &users {
                 QueryState::Ok(users) => rsx! { UserList { users: users } },
                 QueryState::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }
