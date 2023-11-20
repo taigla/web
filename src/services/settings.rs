@@ -2,7 +2,7 @@ use dioxus::prelude::*;
 use std::rc::Rc;
 use fermi::prelude::*;
 use futures_util::stream::StreamExt;
-use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, QueryState, Invite};
+use crate::api::{TaiglaApi, IndexerRow, UserRow, Job, WorkerState, QueryState, Invite, RequestProfileRow};
 
 pub enum SettingCommand {
     FetchIndexerList,
@@ -11,7 +11,10 @@ pub enum SettingCommand {
     FetchUserList,
     FetchWorkersList,
     FetchCronjobsList,
-    FetchInvitesList
+    FetchInvitesList,
+    FetchRequestProfilesList,
+    UpdateRequestProfile(RequestProfileRow),
+    AddRequestProfile(RequestProfileRow)
 }
 
 pub type IndexerStore = QueryState<Vec<IndexerRow>>;
@@ -28,6 +31,9 @@ pub static CRONJOB_LIST_STORE: Atom<CronjobStore> = Atom(|_| QueryState::NotFetc
 
 pub type InviteStore = QueryState<Vec<Invite>>;
 pub static INVITE_LIST_STORE: Atom<InviteStore> = Atom(|_| QueryState::NotFetch);
+
+pub type RequestProfileStore = QueryState<Vec<RequestProfileRow>>;
+pub static REQUEST_PROFILE_LIST_STORE: Atom<RequestProfileStore> = Atom(|_| QueryState::NotFetch);
 
 pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: TaiglaApi, atoms: Rc<AtomRoot>) {
     while let Some(msg) = rx.next().await {
@@ -94,6 +100,37 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                     Err(e) => QueryState::Err(e)
                 };
                 atoms.set((&INVITE_LIST_STORE).unique_id(), new_value);
+            },
+            SettingCommand::FetchRequestProfilesList => {
+                let request_profiles = api.get_request_profiles().await;
+                let new_value = match request_profiles {
+                    Ok(k) => QueryState::Ok(k),
+                    Err(e) => QueryState::Err(e)
+                };
+                atoms.set((&REQUEST_PROFILE_LIST_STORE).unique_id(), new_value);
+            },
+            SettingCommand::UpdateRequestProfile(request_profile) => {
+                let current = (*atoms.read(&REQUEST_PROFILE_LIST_STORE)).clone();
+                match current {
+                    QueryState::Ok(mut c) => {
+                        let i = c.iter_mut().find(|e| e.id == request_profile.id);
+                        if let Some(index) = i {
+                            *index = request_profile;
+                            atoms.set((&REQUEST_PROFILE_LIST_STORE).unique_id(), QueryState::Ok(c));
+                        }
+                    },
+                    _ => ()
+                };
+            },
+            SettingCommand::AddRequestProfile(request_profile) => {
+                let current = (*atoms.read(&REQUEST_PROFILE_LIST_STORE)).clone();
+                match current {
+                    QueryState::Ok(mut c) => {
+                        c.push(request_profile);
+                        atoms.set((&REQUEST_PROFILE_LIST_STORE).unique_id(), QueryState::Ok(c));
+                    },
+                    _ => ()
+                };
             }
         }
     }
