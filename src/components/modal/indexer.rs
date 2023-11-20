@@ -3,8 +3,9 @@ use dioxus::prelude::*;
 use fermi::{use_read, use_set, Atom};
 use serde_json::json;
 use serde::Deserialize;
-use super::Modal;
-use crate::hooks::{use_taigla_api, use_swr::{use_swr, State, Error as SwrError}, use_query};
+use super::ModalWithTitle;
+use crate::hooks::{use_taigla_api, use_query, QueryState};
+use crate::states::ApiError;
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
 
@@ -118,21 +119,24 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>) -> Element<'a> {
 }
 
 #[inline_props]
-fn ModalContent<'a>(cx: Scope, state: &'a IndexerModalState) -> Element<'a> {
-    let url = if let IndexerModalState::Id(id) = *state { format!("/api/v1/indexers/{}", id) } else { "".to_string() };
-    let indexer = use_swr::<Indexer>(cx, &url);
+fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
+    let url = format!("/api/v1/indexers/{}", id);
+    let indexer = use_query::<Indexer, ApiError>(cx, &url);
 
     render! {
-        div {
-            class: "flex flex-col p-6",
-            p { class: "text-2xl", "Indexer" }
-            match indexer {
-                State::Ok(i) => rsx! { Form { indexer: i } },
-                State::Loading => rsx! { div { class: "loader bw sm", div { class: "spin" } } },
-                State::Error(SwrError::EmptyUrl) => rsx! { Form { } },
-                State::Error(_) => rsx! { "Error while fetching indexer" }
-            }
+        match &indexer.value {
+            QueryState::Ok(i) => rsx! { Form { indexer: i } },
+            QueryState::Loading => rsx! { "Loading" },
+            _ => rsx! { "Error" }
         }
+    }
+}
+
+#[inline_props]
+fn ModalNewIndexer(cx: Scope) -> Element {
+
+    render! {
+        Form {}
     }
 }
 
@@ -141,10 +145,13 @@ pub fn Indexer(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
 
     render! {
-        Modal {
+        ModalWithTitle {
             visible: *state != IndexerModalState::Close,
-            ModalContent {
-                state: state
+            title: "Indexer",
+            match state {
+                IndexerModalState::Id(id) => rsx! { ModalEditIndexer { id: id } },
+                IndexerModalState::New => rsx! { ModalNewIndexer {} },
+                _ => rsx! { "" }
             }
         }
     }

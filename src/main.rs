@@ -17,7 +17,8 @@ fn App(cx: Scope) -> Element {
     use_shared_state_provider(cx, || Token::default());
     let token = use_shared_state::<Token>(cx).unwrap();
     let api = TaiglaApi::new("http://localhost:8000", token.read().clone());
-    use_init_query_provider(cx, api);
+    use_init_query_provider(cx, api.clone());
+    use_shared_state_provider(cx, || api.clone());
 
     cx.render(rsx! {
         div {

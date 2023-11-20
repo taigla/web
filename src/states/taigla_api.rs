@@ -11,6 +11,7 @@ pub struct ApiError {
     pub code: u16
 }
 
+#[derive(Clone)]
 pub struct TaiglaApi {
     client: reqwest::Client,
     address: Url,

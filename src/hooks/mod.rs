@@ -6,6 +6,5 @@ pub use use_query_provider::{
     use_init_query_provider, use_query_provider, QueryError};
 
 mod use_taigla_api;
-pub mod use_swr;
 mod use_query;
 mod use_query_provider;
