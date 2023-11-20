@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use fermi::{use_read, use_set, Atom};
-use serde_json::json;
+use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query, QueryState};
@@ -18,7 +18,6 @@ pub enum IndexerModalState {
 
 #[derive(Deserialize)]
 struct Indexer {
-    id: u64,
     name: String,
     url: String,
     api_key: Option<String>,
@@ -38,43 +37,19 @@ fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Opti
 }
 
 #[inline_props]
-fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>) -> Element<'a> {
-    let api = use_taigla_api(&cx);
+fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, Value>) -> Element<'a> {
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
-    let id = if let Some(indexer) = indexer { indexer.id }  else { 0 };
     let set_state = use_set(cx, &STATE);
 
     let submit = move |evt: Event<FormData>| {
-        to_owned![api, id, set_state];
-        cx.spawn(async move {
-            log::info!("{:?}", evt);
-            let body = json!({
-                "name": evt.data.values.get("name").unwrap().get(0).unwrap(),
-                "url": evt.data.values.get("url").unwrap().get(0).unwrap(),
-                "api_key": evt.data.values.get("api_key").unwrap().get(0).unwrap(),
-                "priority": evt.data.values.get("priority").unwrap().get(0).unwrap().parse::<u8>().unwrap()
-            });
-            if id == 0 {
-                let _ = api.read().post("/api/v1/indexers")
-                    .json(&body)
-                    .send()
-                    .await
-                    .unwrap()
-                    .json::<Indexer>()
-                    .await
-                    .unwrap();
-            } else {
-                let _ = api.read().patch(&format!("/api/v1/indexers/{id}"))
-                    .json(&body)
-                    .send()
-                    .await
-                    .unwrap()
-                    .json::<Indexer>()
-                    .await
-                    .unwrap();
-            }
-            set_state(IndexerModalState::Close);
-        })
+        log::info!("{:?}", evt);
+        let body = json!({
+            "name": evt.data.values.get("name").unwrap().get(0).unwrap(),
+            "url": evt.data.values.get("url").unwrap().get(0).unwrap(),
+            "api_key": evt.data.values.get("api_key").unwrap().get(0).unwrap(),
+            "priority": evt.data.values.get("priority").unwrap().get(0).unwrap().parse::<u8>().unwrap()
+        });
+        on_update.call(body);
     };
 
     render! {
@@ -120,12 +95,33 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>) -> Element<'a> {
 
 #[inline_props]
 fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
+    let api = use_taigla_api(&cx);
     let url = format!("/api/v1/indexers/{}", id);
     let indexer = use_query::<Indexer, ApiError>(cx, &url);
+    let set_state = use_set(cx, &STATE);
+    let id = **id;
+
+    let edit = move |v| {
+        to_owned![api, id, set_state];
+        cx.spawn(async move {
+            let _ = api.read().patch(&format!("/api/v1/indexers/{id}"))
+                .json(&v)
+                .send()
+                .await
+                .unwrap()
+                .json::<Indexer>()
+                .await
+                .unwrap();
+            set_state(IndexerModalState::Close);
+        });
+    };
 
     render! {
         match &indexer.value {
-            QueryState::Ok(i) => rsx! { Form { indexer: i } },
+            QueryState::Ok(i) => rsx! { Form {
+                indexer: i,
+                on_update: edit
+            } },
             QueryState::Loading => rsx! { "Loading" },
             _ => rsx! { "Error" }
         }
@@ -134,9 +130,28 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
 
 #[inline_props]
 fn ModalNewIndexer(cx: Scope) -> Element {
+    let set_state = use_set(cx, &STATE);
+    let api = use_taigla_api(&cx);
+
+    let create = move |v| {
+        to_owned![api, set_state];
+        cx.spawn(async move {
+            let _ = api.read().post("/api/v1/indexers")
+                .json(&v)
+                .send()
+                .await
+                .unwrap()
+                .json::<Indexer>()
+                .await
+                .unwrap();
+            set_state(IndexerModalState::Close);
+        });
+    };
 
     render! {
-        Form {}
+        Form {
+            on_update: create
+        }
     }
 }
 
