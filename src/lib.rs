@@ -5,3 +5,4 @@ pub mod services;
 pub mod api;
 
 pub mod routes;
+pub mod icons;
