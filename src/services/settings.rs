@@ -8,6 +8,7 @@ pub enum SettingCommand {
     FetchIndexerList,
     UpdateIndexer(IndexerRow),
     AddIndexer(IndexerRow),
+    DeleteIndexer(u64),
     FetchUserList,
     FetchWorkersList,
     FetchCronjobsList,
@@ -64,6 +65,16 @@ pub async fn settings_service(mut rx: UnboundedReceiver<SettingCommand>, api: Ta
                 match current {
                     QueryState::Ok(mut c) => {
                         c.push(indexer);
+                        atoms.set((&INDEXER_LIST_STORE).unique_id(), QueryState::Ok(c));
+                    },
+                    _ => ()
+                };
+            },
+            SettingCommand::DeleteIndexer(id) => {
+                let current = (*atoms.read(&INDEXER_LIST_STORE)).clone();
+                match current {
+                    QueryState::Ok(mut c) => {
+                        c.retain(|e| e.id != id);
                         atoms.set((&INDEXER_LIST_STORE).unique_id(), QueryState::Ok(c));
                     },
                     _ => ()

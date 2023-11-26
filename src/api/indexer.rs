@@ -45,4 +45,9 @@ impl TaiglaApi {
         self.post("/api/v1/indexers", &indexer)
             .await
     }
+
+    pub async fn delete_indexer(&self, id: u64) -> Result<(), ApiError> {
+        self.delete_no_response(&format!("/api/v1/indexers/{id}"))
+            .await
+    }
 }

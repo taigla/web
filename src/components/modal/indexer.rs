@@ -27,7 +27,7 @@ struct Indexer {
 }
 
 #[inline_props]
-fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, Value>) -> Element<'a> {
+fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, Value>, on_delete: EventHandler<'a, ()>) -> Element<'a> {
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
     let set_state = use_set(cx, &STATE);
 
@@ -68,6 +68,15 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
             }
             div {
                 class: "flex flex-row justify-end col-span-12 gap-2",
+                if indexer.is_some() {
+                    rsx! {
+                        p {
+                            class: "btn btn-error",
+                            onclick: move |_| on_delete.call(()),
+                            "Delete"
+                        }
+                    }
+                }
                 p {
                     class: "btn",
                     onclick: move |_| set_state(IndexerModalState::Close),
@@ -107,11 +116,24 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
         });
     };
 
+    let delete = move |_| {
+        to_owned![api, id, set_state, setting_handle];
+        cx.spawn(async move {
+            let result = api.read().delete_indexer(id)
+                .await;
+            if let Ok(_) = result {
+                set_state(IndexerModalState::Close);
+                setting_handle.send(SettingCommand::DeleteIndexer(id));
+            }
+        });
+    };
+
     render! {
         match &indexer {
             QueryState::Ok(i) => rsx! { Form {
                 indexer: i,
-                on_update: edit
+                on_update: edit,
+                on_delete: delete
             } },
             QueryState::Loading => rsx! { "Loading" },
             _ => rsx! { "Error" }
@@ -143,7 +165,8 @@ fn ModalNewIndexer(cx: Scope) -> Element {
 
     render! {
         Form {
-            on_update: create
+            on_update: create,
+            on_delete: move |_| {}
         }
     }
 }

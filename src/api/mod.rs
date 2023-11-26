@@ -140,4 +140,27 @@ impl TaiglaApi {
             Err(err)
         }
     }
+
+    pub async fn delete_no_response(&self, url: &str) -> Result<(), ApiError> {
+        let response = self.client
+            .delete(self.address.join(url).expect("Invalid url"))
+            .header("Authorization", self.token.get())
+            .send()
+            .await
+            .map_err(|e| {
+                ApiError::new("ReqwestError", &format!("{:?}", e))
+            })?;
+        let status = response.status();
+        if status.is_success() {
+            Ok(())
+        } else {
+            let err = response
+                .json::<ApiError>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })?;
+            Err(err)
+        }
+    }
 }
