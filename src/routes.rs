@@ -4,9 +4,10 @@ use crate::pages::{
     Home,
     Settings,
     settings::{Indexers, Invites, RequestProfiles, Users, BackgroundJobs},
+    users::UserPreferences,
     auth::Login
 };
-use crate::components::{Header, SettingsNavbar, LoginRequired};
+use crate::components::{Header, SettingsNavbar, UserPreferencesNavbar, LoginRequired};
 
 #[derive(Clone, Routable)]
 pub enum Routes {
@@ -29,6 +30,12 @@ pub enum Routes {
                     Users {},
                     #[route("/background-jobs")]
                     BackgroundJobs {},
+                #[end_nest]
+            #[end_layout]
+            #[layout(UserPreferencesNavbar)]
+                #[nest("/users/me")]
+                    #[route("/preferences")]
+                    UserPreferences {},
                 #[end_nest]
             #[end_layout]
         #[end_layout]

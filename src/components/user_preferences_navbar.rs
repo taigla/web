@@ -4,14 +4,10 @@ use dioxus_router::prelude::*;
 use crate::routes::Routes;
 
 static LINKS: &'static [(&str, Routes)] = &[
-    ("User", Routes::Users {}),
-    ("Invite", Routes::Invites {}),
-    ("Indexer", Routes::Indexers {}),
-    ("Request profile", Routes::RequestProfiles {}),
-    ("Background jobs", Routes::BackgroundJobs {})
+    ("User", Routes::UserPreferences {})
 ];
 
-pub fn SettingsNavbar(cx: Scope) -> Element {
+pub fn UserPreferencesNavbar(cx: Scope) -> Element {
     render! {
         div {
             class: "flex flex-row",

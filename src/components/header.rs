@@ -42,7 +42,7 @@ pub fn Header(cx: Scope) -> Element {
 
     let on_downdown_item_pressed = move |index| {
         match index {
-            0 => { navigator.push(Routes::Home {}); },
+            0 => { navigator.push(Routes::UserPreferences {}); },
             1 => { token.read().remove(); },
             _ => {}
         }
