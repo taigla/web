@@ -1583,6 +1583,7 @@ dependencies = [
 name = "taigla"
 version = "0.1.0"
 dependencies = [
+ "async-channel",
  "dioxus",
  "dioxus-logger",
  "dioxus-router",
