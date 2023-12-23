@@ -3,6 +3,7 @@ use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use crate::routes::Routes;
 use crate::api::Token;
+use crate::icons::TaiglaLogo;
 
 static LINKS: &'static [(&str, Routes)] = &[
     ("Home", Routes::Home {}),
@@ -55,7 +56,7 @@ pub fn Header(cx: Scope) -> Element {
                 div {
                     class: "navbar-start",
                     Link { to: Routes::Home {}, class: "flex flex-row items-center",
-                        img { class: "mr-1 rounded-none", src: "/favicon-32.png" }
+                        TaiglaLogo { class: "mr-1", width: 32, height: 32 }
                         p { class:"font-semibold", "Taigla" }
                     }
                 }
