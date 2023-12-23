@@ -3,7 +3,7 @@ use std::process::Command;
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-cahnged=icons/");
+    println!("cargo:rerun-if-changed=icons/");
     Command::new("python")
         .arg("svg_to_dioxus.py")
         .output()
