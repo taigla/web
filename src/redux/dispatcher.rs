@@ -1,10 +1,10 @@
-use dioxus::prelude::Scope;
+use dioxus::core::ScopeState;
 use super::store::{Store, ReduxStore};
 
 #[derive(Clone)]
 pub struct ReduxDispatcher<S: Store> {
     // Dispatch events
-    event_dispatcher: async_channel::Sender<S::Event>,
+    pub(super) event_dispatcher: async_channel::Sender<S::Event>,
 }
 
 impl<S: Store> ReduxDispatcher<S> {
@@ -14,7 +14,7 @@ impl<S: Store> ReduxDispatcher<S> {
     }
 }
 
-pub fn use_dispatcher<S: 'static + Store>(cx: Scope) -> ReduxDispatcher<S> {
+pub fn use_dispatcher<S: 'static + Store>(cx: &ScopeState) -> ReduxDispatcher<S> {
     let store = cx.consume_context::<ReduxStore<S>>().unwrap();
     ReduxDispatcher {
         event_dispatcher: store.event_dispatcher,

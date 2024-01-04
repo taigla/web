@@ -1,5 +1,4 @@
 use std::{
-    any::TypeId,
     collections::HashSet,
     rc::Rc,
     sync::Arc,
@@ -8,11 +7,14 @@ use dioxus::prelude::*;
 use super::subscription::Subscriptions;
 use super::value::{ValueComparer, ValueEntry};
 use super::subscription::Subscription;
+use super::simple_hash::SimpleHash;
+use super::effect::{Effect, InnerEffect};
+use super::dispatcher::ReduxDispatcher;
 
-pub trait Store {
+pub trait Store: Sized {
     type Event;
 
-    fn handle(&mut self, event: Self::Event);
+    fn handle(&mut self, event: Self::Event) -> Effect<Self>;
 }
 
 pub struct ReduxStore<S: Store> {
@@ -29,7 +31,19 @@ pub struct ReduxStore<S: Store> {
 impl<S: Store> ReduxStore<S> {
     fn handle(&self, event: S::Event) {
         // Notify the store of the new event
-        self.store.borrow_mut().handle(event);
+        let effect = self.store.borrow_mut().handle(event);
+
+        match effect.0 {
+            InnerEffect::None => (),
+            InnerEffect::Future(f) => {
+                let dispatcher = ReduxDispatcher { event_dispatcher: self.event_dispatcher.clone() };
+                let future = f(dispatcher);
+                spawn(async move {
+                //     future.await;
+                });
+                return;
+            }
+        }
 
         for (_function, value_entry) in self.subscriptions.borrow().iter() {
             let cached_value = &value_entry.value;
@@ -46,7 +60,7 @@ impl<S: Store> ReduxStore<S> {
     pub(super) fn subscribe<V: 'static>(
         &self,
         scope_id: ScopeId,
-        function_id: TypeId,
+        function_id: SimpleHash,
         value: impl FnOnce() -> V,
         compare: impl FnOnce() -> ValueComparer,
     ) -> Subscription {

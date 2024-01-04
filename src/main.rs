@@ -7,6 +7,8 @@ use web_sys::window;
 use taigla::routes::Routes;
 use taigla::api::{TaiglaApi, Token};
 use taigla::services::use_init_service;
+use taigla::redux::use_init_store;
+use taigla::reducers::TaiglaStore;
 
 fn api_address() -> String {
     match env!("TAIGLA_BACKEND_URL") {
@@ -24,6 +26,7 @@ fn main() {
 }
 
 fn App(cx: Scope) -> Element {
+    use_init_store(cx, TaiglaStore::new);
     use_init_atom_root(cx);
     use_shared_state_provider(cx, || Token::default());
     let token = use_shared_state::<Token>(cx).unwrap();

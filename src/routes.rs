@@ -11,11 +11,11 @@ use crate::components::{Header, SettingsNavbar, UserPreferencesNavbar, LoginRequ
 
 #[derive(Clone, Routable)]
 pub enum Routes {
+    #[route("/")]
+    #[redirect("/:.._segments", |_segments: Vec<String>| Routes::Home {})]
+    Home {},
     #[layout(LoginRequired)]
         #[layout(Header)]
-            #[route("/")]
-            #[redirect("/:.._segments", |_segments: Vec<String>| Routes::Home {})]
-            Home {},
             #[layout(SettingsNavbar)]
                 #[nest("/settings")]
                     #[route("/")]

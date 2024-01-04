@@ -1,21 +1,23 @@
 use std::{
-    any::{Any, TypeId},
+    any::Any,
     marker::PhantomData,
     rc::Rc
 };
 use dioxus::prelude::*;
 use super::store::{ReduxStore, Store};
 use super::subscription::Subscription;
+use super::simple_hash::SimpleHashable;
 
 pub fn use_slice<
     'a,
-    F: Copy + 'static + Fn(&S) -> T,
+    F: Copy + 'static + Fn(&S) -> (U, T),
     S: 'static + 'a + Store,
-    T: 'static + Clone + PartialEq,
+    U: 'static + SimpleHashable,
+    T: 'static + Clone + PartialEq
 >(
-    cx: Scope,
+    cx: &'a ScopeState,
     slicer: F,
-) -> &ReduxSlice<T> {
+) -> &'a ReduxSlice<T> {
     let store = cx.consume_context::<ReduxStore<S>>().unwrap();
     let subscribe = cx.use_hook({
         to_owned![store];
@@ -25,11 +27,12 @@ pub fn use_slice<
                 to_owned![store];
                 move || {
                     let store = &store.store.borrow();
-                    slicer(store)
+                    slicer(store).1
                 }
             };
 
-            store.subscribe(cx.scope_id(), TypeId::of::<F>(), gen_value_getter, || {
+            let hash = slicer(&store.store.borrow()).0.simple_hash();
+            store.subscribe(cx.scope_id(), hash, gen_value_getter, || {
                 to_owned![store];
                 Rc::new(move |cached: &Rc<RefCell<Box<dyn Any>>>| {
                     let store = &store.store.borrow();
@@ -39,7 +42,7 @@ pub fn use_slice<
                     let is_equal = {
                         let cached = cached.borrow();
                         let cached = cached.downcast_ref::<T>().unwrap();
-                        cached == &current
+                        cached == &current.1
                     };
 
                     if !is_equal {
