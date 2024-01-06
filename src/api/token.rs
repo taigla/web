@@ -2,7 +2,7 @@ use std::{rc::Rc, fmt::Debug};
 use dioxus::prelude::*;
 use web_sys::window;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Token(pub Rc<RefCell<String>>);
 
 impl Token {

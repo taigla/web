@@ -5,7 +5,8 @@ use super::{TaiglaStore, TaiglaData};
 #[derive(Clone, PartialEq, Eq)]
 pub enum RequestState {
     NotFetch,
-    Loading
+    Loading,
+    Ok(serde_json::Value)
 }
 
 impl RequestState {
@@ -35,12 +36,10 @@ impl Into<super::TaiglaEvent> for ApiEvent {
 impl Reducer<TaiglaStore> for ApiEvent {
     fn reduce(self, store: &mut TaiglaStore) -> Effect<TaiglaStore> {
         let token = store.token.clone();
+        log::info!("{:?}", token);
         match self {
             ApiEvent::GetVersion => return Effect::future(|dispatcher: ReduxDispatcher<TaiglaStore>| {
                 Box::pin(async move {
-                   log::info!("{:?}", token);
-                    // let token = store.token.clone();
-                    // log::info!("{:?}", token);
                 })
             }),
             ApiEvent::CacheData(key, data) => (),

@@ -3,6 +3,8 @@ use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use web_sys::window;
 use crate::hooks::use_taigla_api;
+use crate::reducers::{TaiglaStore, TaiglaEvent};
+use crate::redux::use_dispatcher;
 use crate::routes::Routes;
 use crate::api::{Token, LoginParam};
 use crate::icons::TaiglaLogo;
@@ -13,10 +15,11 @@ pub fn Login(cx: Scope) -> Element {
     let api = use_taigla_api(cx);
     let error = use_state::<Option<String>>(cx, || None);
     let loading = use_state::<bool>(cx, || false);
+    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     let on_submit = move |event: Event<FormData>| {
         cx.spawn({
-            to_owned![navigator, token, api, error, loading];
+            to_owned![navigator, token, api, error, loading, dispatcher];
             async move {
                 log::info!("{:?}", event);
                 loading.set(true);
@@ -34,6 +37,7 @@ pub fn Login(cx: Scope) -> Element {
                         local_storage.set_item("token", &response.token).unwrap();
                         log::info!("{}", response.token);
                         token.write().set(&response.token);
+                        dispatcher.dispatch(TaiglaEvent::SetToken(response.token));
                         navigator.replace(Routes::Home {});
                     },
                     Err(e) => { error.set(Some(e.err_code)) }

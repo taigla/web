@@ -8,6 +8,7 @@ pub use job::*;
 pub use invite::*;
 pub use request_profile::*;
 pub use auth::*;
+pub use version::*;
 
 mod token;
 mod indexer;
@@ -16,6 +17,7 @@ mod job;
 mod invite;
 mod request_profile;
 mod auth;
+mod version;
 
 #[derive(Clone)]
 pub enum QueryState<T> {
@@ -68,6 +70,34 @@ impl TaiglaApi {
         if status.is_success() {
             response
                 .json::<T>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })
+        } else {
+            let err = response
+                .json::<ApiError>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })?;
+            Err(err)
+        }
+    }
+
+    pub async fn get_json(&self, url: &str) -> Result<serde_json::Value, ApiError> {
+        let response = self.client
+            .get(self.address.join(url).expect("Invalid url"))
+            .header("Authorization", self.token.get())
+            .send()
+            .await
+            .map_err(|e| {
+                ApiError::new("ReqwestError", &format!("{:?}", e))
+            })?;
+        let status = response.status();
+        if status.is_success() {
+            response
+                .json::<serde_json::Value>()
                 .await
                 .map_err(|e| {
                     ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
