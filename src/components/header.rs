@@ -10,7 +10,7 @@ static LINKS: &'static [(&str, Routes)] = &[
     ("Settings", Routes::Settings {})
 ];
 
-#[inline_props]
+#[component]
 pub fn Dropdown<'a>(
     cx: Scope,
     options: Vec<&'static str>,

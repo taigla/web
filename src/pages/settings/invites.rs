@@ -5,7 +5,7 @@ use crate::services::settings::{INVITE_LIST_STORE, SettingCommand};
 use crate::api::{QueryState, Invite};
 use crate::components::modal::invite::{InviteModalState, STATE, Invite};
 
-#[inline_props]
+#[component]
 pub fn InviteList<'a>(cx: Scope, invites: &'a Vec<Invite>) -> Element {
     let rows = invites.iter().map(|invite| {
         rsx! {

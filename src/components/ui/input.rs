@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-#[inline_props]
+#[component]
 #[allow(non_snake_case)]
 pub fn Input<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>, r#type: Option<&'a str>) -> Element<'a> {
     render! {

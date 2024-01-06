@@ -6,7 +6,7 @@ use crate::components::modal::request_profile::{RequestProfile, RequestProfileMo
 use crate::services::settings::{REQUEST_PROFILE_LIST_STORE, SettingCommand};
 use crate::api::{QueryState, RequestProfileRow};
 
-#[inline_props]
+#[component]
 pub fn RequestProfileList<'a>(cx: Scope, request_profiles: &'a Vec<RequestProfileRow>, on_request_profile_select: EventHandler<'a, u64>) -> Element {
     let rows = request_profiles.iter().map(|request_profile| {
         rsx! {

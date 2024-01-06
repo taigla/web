@@ -4,7 +4,7 @@ use fermi::prelude::use_read;
 use crate::services::settings::{WORKER_LIST_STORE, SettingCommand, CRONJOB_LIST_STORE};
 use crate::api::{QueryState, WorkerState, Job};
 
-#[inline_props]
+#[component]
 fn WorkerList<'a>(cx: Scope, workers: &'a Vec<WorkerState>) -> Element {
     let rows = workers.iter().map(|worker| {
         match worker {
@@ -65,7 +65,7 @@ fn Workers(cx: Scope) -> Element {
     }
 }
 
-#[inline_props]
+#[component]
 fn CronjobList<'a>(cx: Scope, jobs: &'a Vec<Job>) -> Element {
     let rows = jobs.iter().map(|job| {
         rsx! {

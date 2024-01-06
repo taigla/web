@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-#[inline_props]
+#[component]
 #[allow(non_snake_case)]
 pub fn Select<'a>(cx: Scope, name: &'a str, lbl: Option<&'a str>, default_value: Option<&'a str>, options: Vec<&'a str>) -> Element<'a> {
     let selected = default_value.unwrap_or("");

@@ -17,7 +17,7 @@ pub enum RequestProfileModalState {
     Close
 }
 
-#[inline_props]
+#[component]
 fn Form<'a>(cx: Scope, request_profile: Option<&'a RequestProfile>, on_update: EventHandler<'a, Value>) -> Element<'a> {
     let min_file_size = if let Some(request_profile) = cx.props.request_profile { request_profile.min_file_size.to_string() } else { "".to_string() };
     let max_file_size = if let Some(request_profile) = cx.props.request_profile { request_profile.max_file_size.to_string() } else { "".to_string() };
@@ -83,7 +83,7 @@ fn Form<'a>(cx: Scope, request_profile: Option<&'a RequestProfile>, on_update: E
     }
 }
 
-#[inline_props]
+#[component]
 fn ModalEditRequestProfile<'a>(cx: Scope, id: &'a u64) -> Element {
     let api = use_taigla_api(&cx);
     let request_profile = use_query::<RequestProfile>(cx, &format!("/api/v1/request-profiles/{}", id));
@@ -118,7 +118,7 @@ fn ModalEditRequestProfile<'a>(cx: Scope, id: &'a u64) -> Element {
     }
 }
 
-#[inline_props]
+#[component]
 fn ModalNewRequestProfile(cx: Scope) -> Element {
     let set_state = use_set(cx, &STATE);
     let api = use_taigla_api(&cx);
@@ -146,7 +146,7 @@ fn ModalNewRequestProfile(cx: Scope) -> Element {
     }
 }
 
-#[inline_props]
+#[component]
 pub fn RequestProfile(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
     let set_state = use_set(cx, &STATE);

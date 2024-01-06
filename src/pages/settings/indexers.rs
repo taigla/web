@@ -6,7 +6,7 @@ use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
 use crate::services::settings::{INDEXER_LIST_STORE, SettingCommand};
 use crate::api::{QueryState, IndexerRow};
 
-#[inline_props]
+#[component]
 pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_select: EventHandler<'a, u64>) -> Element {
     let rows = indexers.iter().map(|indexer| {
         rsx! {

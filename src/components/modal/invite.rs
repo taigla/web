@@ -15,7 +15,7 @@ pub enum InviteModalState {
     Close
 }
 
-#[inline_props]
+#[component]
 fn Form<'a>(cx: Scope, on_update: EventHandler<'a, InviteCreate>) -> Element<'a> {
     let set_state = use_set(cx, &STATE);
 
@@ -57,7 +57,7 @@ fn Form<'a>(cx: Scope, on_update: EventHandler<'a, InviteCreate>) -> Element<'a>
     }
 }
 
-#[inline_props]
+#[component]
 pub fn Invite(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
     let set_state = use_set(cx, &STATE);

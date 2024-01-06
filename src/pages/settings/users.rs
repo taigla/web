@@ -4,7 +4,7 @@ use fermi::prelude::*;
 use crate::api::{QueryState, UserRow};
 use crate::services::settings::{SettingCommand, USER_LIST_STORE};
 
-#[inline_props]
+#[component]
 fn UserList<'a>(cx: Scope, users: &'a Vec<UserRow>) -> Element {
     let rows = users.iter().map(|user| {
         rsx! {

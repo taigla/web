@@ -26,7 +26,7 @@ struct Indexer {
     priority: u8
 }
 
-#[inline_props]
+#[component]
 fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, Value>, on_delete: EventHandler<'a, ()>) -> Element<'a> {
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
     let set_state = use_set(cx, &STATE);
@@ -92,7 +92,7 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
     }
 }
 
-#[inline_props]
+#[component]
 fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     let api = use_taigla_api(&cx);
     let indexer = use_query::<Indexer>(cx, &format!("/api/v1/indexers/{}", id));
@@ -141,7 +141,7 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     }
 }
 
-#[inline_props]
+#[component]
 fn ModalNewIndexer(cx: Scope) -> Element {
     let set_state = use_set(cx, &STATE);
     let api = use_taigla_api(&cx);
@@ -171,7 +171,7 @@ fn ModalNewIndexer(cx: Scope) -> Element {
     }
 }
 
-#[inline_props]
+#[component]
 pub fn Indexer(cx: Scope) -> Element {
     let state = use_read(cx, &STATE);
     let set_state = use_set(cx, &STATE);

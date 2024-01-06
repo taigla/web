@@ -5,7 +5,7 @@ pub mod invite;
 pub mod request_profile;
 
 #[allow(non_snake_case)]
-#[inline_props]
+#[component]
 pub fn Modal<'a>(cx: Scope, visible: bool, children: Element<'a>) -> Element {
     if *visible {
         render! {
@@ -26,7 +26,7 @@ pub fn Modal<'a>(cx: Scope, visible: bool, children: Element<'a>) -> Element {
 }
 
 #[allow(non_snake_case)]
-#[inline_props]
+#[component]
 pub fn ModalWithTitle<'a>(
     cx: Scope,
     visible: bool,
