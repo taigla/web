@@ -37,7 +37,6 @@ impl Reducer<TaiglaStore> for ApiEvent {
         let token = store.token.clone();
         match self {
             ApiEvent::GetVersion => return Effect::future(|dispatcher: ReduxDispatcher<TaiglaStore>| {
-                log::info!("ici");
                 Box::pin(async move {
                    log::info!("{:?}", token);
                     // let token = store.token.clone();

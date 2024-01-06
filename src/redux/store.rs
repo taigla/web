@@ -2,6 +2,8 @@ use std::{
     collections::HashSet,
     rc::Rc,
     sync::Arc,
+    pin::Pin,
+    future::Future
 };
 use dioxus::prelude::*;
 use super::subscription::Subscriptions;
@@ -10,6 +12,8 @@ use super::subscription::Subscription;
 use super::simple_hash::SimpleHash;
 use super::effect::{Effect, InnerEffect};
 use super::dispatcher::ReduxDispatcher;
+
+const REQUEST_WORKER_COUNT: u8 = 2;
 
 pub trait Store: Sized {
     type Event;
@@ -26,6 +30,7 @@ pub struct ReduxStore<S: Store> {
     subscriptions: Subscriptions,
 
     schedule_update_any: Arc<dyn Fn(ScopeId)>,
+    requests: async_channel::Sender<Pin<Box<dyn Future<Output = ()>>>>
 }
 
 impl<S: Store> ReduxStore<S> {
@@ -38,9 +43,7 @@ impl<S: Store> ReduxStore<S> {
             InnerEffect::Future(f) => {
                 let dispatcher = ReduxDispatcher { event_dispatcher: self.event_dispatcher.clone() };
                 let future = f(dispatcher);
-                spawn(async move {
-                //     future.await;
-                });
+                self.requests.send_blocking(future).unwrap();
                 return;
             }
         }
@@ -95,6 +98,7 @@ impl<S: Store> Clone for ReduxStore<S> {
             event_dispatcher: self.event_dispatcher.clone(),
             subscriptions: self.subscriptions.clone(),
             schedule_update_any: self.schedule_update_any.clone(),
+            requests: self.requests.clone()
         }
     }
 }
@@ -102,13 +106,24 @@ impl<S: Store> Clone for ReduxStore<S> {
 pub fn use_init_store<S: Store + 'static>(cx: Scope, create_store: impl FnOnce() -> S) {
     cx.use_hook(|| {
         let (event_tx, event_rx) = async_channel::unbounded::<S::Event>();
+        let (request_notif_tx, request_notif_rx) = async_channel::unbounded();
 
         let store = cx.provide_context(ReduxStore {
             store: Rc::new(RefCell::new(create_store())),
             event_dispatcher: event_tx,
             subscriptions: Rc::default(),
             schedule_update_any: cx.schedule_update_any(),
+            requests: request_notif_tx
         });
+
+        for _ in 0..REQUEST_WORKER_COUNT {
+            let request_notif_rx = request_notif_rx.clone();
+            cx.spawn(async move {
+                while let Ok(f) = request_notif_rx.recv().await {
+                    f.await;
+                }
+            });
+        }
 
         cx.spawn(async move {
             while let Ok(event) = event_rx.recv().await {
