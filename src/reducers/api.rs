@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 use serde::de::DeserializeOwned;
-use crate::{redux::{Reducer, use_slice, use_dispatcher, ReduxSlice, Effect, ReduxDispatcher}, reducers::TaiglaEvent};
+use crate::{redux::{Reducer, use_slice, use_dispatcher, Effect, ReduxDispatcher}, reducers::TaiglaEvent};
 use super::{TaiglaStore, TaiglaData};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -82,17 +82,18 @@ impl TaiglaStore {
     }
 }
 
-pub fn use_get_version(cx: &ScopeState) -> RequestState<crate::api::Version> {
-    let value = use_slice(cx, TaiglaStore::get_api_version);
+pub fn use_get_version(cx: &ScopeState) -> &RequestState<crate::api::Version> {
+    let slice = use_slice(cx, TaiglaStore::get_api_version);
+    let value = use_state(cx, || Into::<RequestState<crate::api::Version>>::into(*slice.read().borrow().clone()));
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
-    use_effect(cx, (value.read().borrow().as_ref(),), |(value,)| {
-        if value.should_refetch() {
+    use_effect(cx, (slice.read().borrow().as_ref(),), |(new_value,)| {
+        if new_value.should_refetch() {
             dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetVersion));
         }
+        value.set(new_value.into());
         async move {}
     });
 
-    let request_state = *value.read().borrow().clone();
-    request_state.into()
+    &value
 }
