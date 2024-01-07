@@ -1,7 +1,7 @@
 use std::hash::Hasher;
 use std::{collections::HashMap, hash::Hash};
 use std::collections::hash_map::DefaultHasher;
-use crate::redux::{Store, Reducer, SimpleHashable, Effect, ReduxDispatcher};
+use crate::redux::{Store, Reducer, SimpleHashable, Effect};
 use crate::api::{Token, TaiglaApi};
 pub use api::*;
 
@@ -27,7 +27,7 @@ pub enum TaiglaEvent {
 }
 
 pub struct TaiglaStore {
-    pub cache: HashMap<api::ApiData, api::RequestState>,
+    pub cache: HashMap<api::ApiData, api::InnerRequestState>,
     pub token: Token,
     pub api: TaiglaApi
 }

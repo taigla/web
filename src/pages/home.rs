@@ -8,6 +8,7 @@ pub fn Home(cx: Scope) -> Element {
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
     let version = use_get_version(cx);
 
+    log::info!("{:?}", version);
     let onclick = move |_| dispatcher.dispatch(ApiEvent::GetVersion.into());
     render! {
         "Home"

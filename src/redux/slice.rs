@@ -47,7 +47,7 @@ pub fn use_slice<
 
                     if !is_equal {
                         // Update the cached value with the new one
-                        *cached.borrow_mut() = Box::new(current);
+                        *cached.borrow_mut() = Box::new(current.1);
                     }
                     is_equal
                 })

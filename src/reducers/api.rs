@@ -1,17 +1,37 @@
 use dioxus::prelude::*;
+use serde::de::DeserializeOwned;
 use crate::{redux::{Reducer, use_slice, use_dispatcher, ReduxSlice, Effect, ReduxDispatcher}, reducers::TaiglaEvent};
 use super::{TaiglaStore, TaiglaData};
 
-#[derive(Clone, PartialEq, Eq)]
-pub enum RequestState {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum InnerRequestState {
     NotFetch,
     Loading,
     Ok(serde_json::Value)
 }
 
-impl RequestState {
+impl InnerRequestState {
     fn should_refetch(&self) -> bool {
-        matches!(self, RequestState::NotFetch)
+        matches!(self, InnerRequestState::NotFetch)
+    }
+}
+
+#[derive(Clone, Debug)]
+pub enum RequestState<T: DeserializeOwned> {
+    NotFetch,
+    Loading,
+    Ok(T)
+}
+
+impl<T: DeserializeOwned> Into<RequestState<T>> for InnerRequestState {
+    fn into(self) -> RequestState<T> {
+        match self {
+            InnerRequestState::NotFetch => RequestState::NotFetch,
+            InnerRequestState::Loading => RequestState::Loading,
+            InnerRequestState::Ok(v) => {
+                RequestState::Ok(serde_json::from_value::<T>(v).unwrap())
+            }
+        }
     }
 }
 
@@ -24,7 +44,7 @@ pub enum ApiData {
 
 pub enum ApiEvent {
     GetVersion,
-    CacheData(ApiData, RequestState)
+    CacheData(ApiData, InnerRequestState)
 }
 
 impl Into<super::TaiglaEvent> for ApiEvent {
@@ -35,28 +55,34 @@ impl Into<super::TaiglaEvent> for ApiEvent {
 
 impl Reducer<TaiglaStore> for ApiEvent {
     fn reduce(self, store: &mut TaiglaStore) -> Effect<TaiglaStore> {
-        let token = store.token.clone();
-        log::info!("{:?}", token);
+        let api = store.api.clone();
         match self {
             ApiEvent::GetVersion => return Effect::future(|dispatcher: ReduxDispatcher<TaiglaStore>| {
                 Box::pin(async move {
+                    let response = match api.get_json("/api/v1/version").await {
+                        Ok(v) => InnerRequestState::Ok(v),
+                        Err(_) => panic!("Failed to get request")
+                    };
+                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Version, response).into())
                 })
             }),
-            ApiEvent::CacheData(key, data) => (),
+            ApiEvent::CacheData(key, data) => {
+                store.cache.insert(key, data);
+            },
         }
         Effect::NONE
     }
 }
 
 impl TaiglaStore {
-    fn get_api_version(&self) -> (TaiglaData, RequestState) {
+    fn get_api_version(&self) -> (TaiglaData, InnerRequestState) {
         let value = self.cache.get(&ApiData::Version)
-            .unwrap_or(&RequestState::NotFetch);
+            .unwrap_or(&InnerRequestState::NotFetch);
         (TaiglaData::Api(ApiData::Version), value.clone())
     }
 }
 
-pub fn use_get_version(cx: &ScopeState) -> &ReduxSlice<RequestState> {
+pub fn use_get_version(cx: &ScopeState) -> RequestState<crate::api::Version> {
     let value = use_slice(cx, TaiglaStore::get_api_version);
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
@@ -67,5 +93,6 @@ pub fn use_get_version(cx: &ScopeState) -> &ReduxSlice<RequestState> {
         async move {}
     });
 
-    value
+    let request_state = *value.read().borrow().clone();
+    request_state.into()
 }
