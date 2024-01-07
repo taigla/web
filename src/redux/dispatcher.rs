@@ -7,9 +7,9 @@ pub struct ReduxDispatcher<S: Store> {
 }
 
 impl<S: Store> ReduxDispatcher<S> {
-    pub fn dispatch(&self, event: S::Event) {
+    pub fn dispatch<T: Into<S::Event>>(&self, event: T) {
         // TODO: Handle errors
-        self.event_dispatcher.try_send(event).unwrap();
+        self.event_dispatcher.try_send(event.into()).unwrap();
     }
 }
 

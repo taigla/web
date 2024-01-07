@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use crate::redux::{use_slice, use_dispatcher};
-use crate::reducers::{TaiglaStore, ApiEvent, use_get_version};
+use crate::redux::use_dispatcher;
+use crate::reducers::{TaiglaStore, use_get_version, ApiEvent};
 
 #[component]
 pub fn Home(cx: Scope) -> Element {
@@ -9,7 +9,7 @@ pub fn Home(cx: Scope) -> Element {
     let version = use_get_version(cx);
 
     log::info!("{:?}", version);
-    let onclick = move |_| dispatcher.dispatch(ApiEvent::GetVersion.into());
+    let onclick = move |_| dispatcher.dispatch(ApiEvent::GetVersion);
     render! {
         "Home"
         button {

@@ -63,7 +63,7 @@ impl Reducer<TaiglaStore> for ApiEvent {
                         Ok(v) => InnerRequestState::Ok(v),
                         Err(_) => panic!("Failed to get request")
                     };
-                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Version, response).into())
+                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Version, response))
                 })
             }),
             ApiEvent::CacheData(key, data) => {
