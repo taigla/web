@@ -3,6 +3,7 @@ use dioxus::prelude::*;
 use fermi::prelude::*;
 use fermi::use_set;
 use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
+use crate::reducers::{use_get_indexers, RequestState};
 use crate::services::settings::{INDEXER_LIST_STORE, SettingCommand};
 use crate::api::{QueryState, IndexerRow};
 
@@ -46,12 +47,8 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_sele
 
 pub fn Indexers(cx: Scope) -> Element {
     let set_modal_state = use_set(cx, &STATE);
-    let indexers = use_read(cx, &INDEXER_LIST_STORE);
-    let setting_handle = use_coroutine_handle::<SettingCommand>(cx);
-
-    use_memo(cx, (), |_| {
-        setting_handle.map(|h| h.send(SettingCommand::FetchIndexerList));
-    });
+    let indexers = use_get_indexers(cx);
+    let selected_indexer = use_state::<IndexerModalState>(cx, || IndexerModalState::Close);
 
     render! {
         div {
@@ -60,21 +57,23 @@ pub fn Indexers(cx: Scope) -> Element {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-3xl", "Indexers" }
                 p {
-                    onclick: move |_| set_modal_state(IndexerModalState::New),
+                    onclick: move |_| selected_indexer.set(IndexerModalState::New),
                     class: "btn btn-primary", "New"
                 }
             }
             match &indexers {
-                QueryState::Ok(indexers) => rsx! {
+                RequestState::Ok(indexers) => rsx! {
                     IndexerList {
-                        indexers: indexers,
-                        on_indexer_select: move |id| set_modal_state(IndexerModalState::Id(id))
+                        indexers: &indexers,
+                        on_indexer_select: move |id| selected_indexer.set(IndexerModalState::Id(id))
                     }
                 },
-                QueryState::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }
             }
-            Indexer {}
+            Indexer {
+                state: selected_indexer,
+                on_close: move |_| selected_indexer.set(IndexerModalState::Close)
+            }
         }
     }
 }

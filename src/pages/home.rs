@@ -7,11 +7,16 @@ use crate::reducers::{TaiglaStore, use_get_version, ApiEvent};
 pub fn Home(cx: Scope) -> Element {
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
     let version = use_get_version(cx);
+    let mut counter = use_state(cx, || 0);
 
     log::info!("{:?}", version);
-    let onclick = move |_| dispatcher.dispatch(ApiEvent::GetVersion);
+    let onclick = move |_| {
+        dispatcher.dispatch(ApiEvent::GetVersion);
+        counter += 1;
+    };
     render! {
         "Home"
+        "{counter}"
         button {
             onclick: onclick,
             "New Task"

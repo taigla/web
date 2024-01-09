@@ -5,8 +5,9 @@ use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query};
+use crate::reducers::{use_get_indexer, RequestState};
 use crate::services::settings::SettingCommand;
-use crate::api::{IndexerRow, QueryState};
+use crate::api::{IndexerRow, Indexer};
 use crate::components::ui::Input;
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
@@ -16,14 +17,6 @@ pub enum IndexerModalState {
     New,
     Id(u64),
     Close
-}
-
-#[derive(Deserialize)]
-struct Indexer {
-    name: String,
-    url: String,
-    api_key: Option<String>,
-    priority: u8
 }
 
 #[component]
@@ -95,7 +88,7 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
 #[component]
 fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     let api = use_taigla_api(&cx);
-    let indexer = use_query::<Indexer>(cx, &format!("/api/v1/indexers/{}", id));
+    let indexer = use_get_indexer(cx, **id as u32);
     let set_state = use_set(cx, &STATE);
     let id = **id;
     let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
@@ -130,12 +123,12 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
 
     render! {
         match &indexer {
-            QueryState::Ok(i) => rsx! { Form {
+            RequestState::Ok(i) => rsx! { Form {
                 indexer: i,
                 on_update: edit,
                 on_delete: delete
             } },
-            QueryState::Loading => rsx! { "Loading" },
+            // QueryState::Loading => rsx! { "Loading" },
             _ => rsx! { "Error" }
         }
     }
@@ -172,14 +165,11 @@ fn ModalNewIndexer(cx: Scope) -> Element {
 }
 
 #[component]
-pub fn Indexer(cx: Scope) -> Element {
-    let state = use_read(cx, &STATE);
-    let set_state = use_set(cx, &STATE);
-
+pub fn Indexer<'a>(cx: Scope, state: IndexerModalState, on_close: EventHandler<'a, ()>) -> Element {
     render! {
         ModalWithTitle {
             visible: *state != IndexerModalState::Close,
-            on_close: move |_| set_state(IndexerModalState::Close),
+            on_close: move |_| on_close.call(()),
             title: "Indexer",
             match state {
                 IndexerModalState::Id(id) => rsx! { ModalEditIndexer { id: id } },

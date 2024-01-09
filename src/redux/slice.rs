@@ -10,7 +10,7 @@ use super::simple_hash::SimpleHashable;
 
 pub fn use_slice<
     'a,
-    F: Copy + 'static + Fn(&S) -> (U, T),
+    F: 'static + Fn(&S) -> (U, T),
     S: 'static + 'a + Store,
     U: 'static + SimpleHashable,
     T: 'static + Clone + PartialEq
@@ -21,18 +21,10 @@ pub fn use_slice<
     let store = cx.consume_context::<ReduxStore<S>>().unwrap();
     let subscribe = cx.use_hook({
         to_owned![store];
-
         move || {
-            let gen_value_getter = {
-                to_owned![store];
-                move || {
-                    let store = &store.store.borrow();
-                    slicer(store).1
-                }
-            };
-
-            let hash = slicer(&store.store.borrow()).0.simple_hash();
-            store.subscribe(cx.scope_id(), hash, gen_value_getter, || {
+            let value = slicer(&store.store.borrow());
+            let hash = value.0.simple_hash();
+            store.subscribe(cx.scope_id(), hash, value.1, || {
                 to_owned![store];
                 Rc::new(move |cached: &Rc<RefCell<Box<dyn Any>>>| {
                     let store = &store.store.borrow();

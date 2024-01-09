@@ -60,11 +60,11 @@ impl<S: Store> ReduxStore<S> {
         }
     }
 
-    pub(super) fn subscribe<V: 'static>(
+    pub(super) fn subscribe<V: Clone + 'static>(
         &self,
         scope_id: ScopeId,
         function_id: SimpleHash,
-        value: impl FnOnce() -> V,
+        value: V,
         compare: impl FnOnce() -> ValueComparer,
     ) -> Subscription {
         let value_entry = {
@@ -76,7 +76,7 @@ impl<S: Store> ReduxStore<S> {
                 })
                 .or_insert_with(|| ValueEntry {
                     scopes: Rc::new(RefCell::new(HashSet::from([scope_id]))),
-                    value: Rc::new(RefCell::new(Box::new(value()))),
+                    value: Rc::new(RefCell::new(Box::new(value.clone()))),
                     compare: compare(),
                 })
                 .clone()
