@@ -1,13 +1,31 @@
 use dioxus::prelude::*;
 use serde::de::DeserializeOwned;
+use serde::Deserialize;
 use crate::{redux::{Reducer, use_slice, use_dispatcher, Effect, ReduxDispatcher}, reducers::TaiglaEvent};
 use super::{TaiglaStore, TaiglaData};
+
+#[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
+pub struct ApiError {
+    pub err_code: String,
+    pub description: String
+}
+
+impl ApiError {
+    pub fn new(err_code: &str, description: &str) -> Self {
+        Self {
+            err_code: err_code.to_string(),
+            description: description.to_string()
+        }
+    }
+}
+
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum InnerRequestState {
     NotFetch,
     Loading,
-    Ok(serde_json::Value)
+    Ok(serde_json::Value),
+    Err(ApiError)
 }
 
 impl InnerRequestState {
@@ -20,7 +38,8 @@ impl InnerRequestState {
 pub enum RequestState<T: DeserializeOwned> {
     NotFetch,
     Loading,
-    Ok(T)
+    Ok(T),
+    Err(ApiError)
 }
 
 impl<T: DeserializeOwned> Into<RequestState<T>> for InnerRequestState {
@@ -29,8 +48,13 @@ impl<T: DeserializeOwned> Into<RequestState<T>> for InnerRequestState {
             InnerRequestState::NotFetch => RequestState::NotFetch,
             InnerRequestState::Loading => RequestState::Loading,
             InnerRequestState::Ok(v) => {
-                RequestState::Ok(serde_json::from_value::<T>(v).unwrap())
-            }
+                if let Ok(v) = serde_json::from_value::<T>(v) {
+                    RequestState::Ok(v)
+                } else {
+                    RequestState::Err(ApiError::new("SerdeErr", "Failed to parse response"))
+                }
+            },
+            InnerRequestState::Err(e) => RequestState::Err(e)
         }
     }
 }
@@ -61,7 +85,7 @@ impl Reducer<TaiglaStore> for ApiEvent {
     fn reduce(self, store: &mut TaiglaStore) -> Effect<TaiglaStore> {
         let api = store.api.clone();
         match self {
-            ApiEvent::GetVersion => return Effect::future(|dispatcher: ReduxDispatcher<TaiglaStore>| {
+            ApiEvent::GetVersion => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
                 Box::pin(async move {
                     let response = match api.get_json("/api/v1/version").await {
                         Ok(v) => InnerRequestState::Ok(v),
@@ -70,16 +94,26 @@ impl Reducer<TaiglaStore> for ApiEvent {
                     dispatcher.dispatch(ApiEvent::CacheData(ApiData::Version, response))
                 })
             }),
-            ApiEvent::GetIndexers => return Effect::future(|dispatcher: ReduxDispatcher<TaiglaStore>| {
+            ApiEvent::GetIndexers => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
                 Box::pin(async move {
+                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexers, InnerRequestState::Loading));
                     let response = match api.get_json("/api/v1/indexers").await {
                         Ok(v) => InnerRequestState::Ok(v),
-                        Err(_) => panic!("Failed to get request")
+                        Err(_) => InnerRequestState::Err(ApiError::new("NetworkError", "Network error"))
                     };
                     dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexers, response))
                 })
             }),
-            ApiEvent::GetIndexer(id) => {},
+            ApiEvent::GetIndexer(id) => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
+                Box::pin(async move {
+                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexer(id), InnerRequestState::Loading));
+                    let response = match api.get_json(&format!("/api/v1/indexers/{id}")).await {
+                        Ok(v) => InnerRequestState::Ok(v),
+                        Err(_) => panic!("Failed to get request")
+                    };
+                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexer(id), response))
+                })
+            }),
             ApiEvent::CacheData(key, data) => {
                 store.cache.insert(key, data);
             },
@@ -149,7 +183,7 @@ pub fn use_get_indexer(cx: &ScopeState, id: u32) -> &RequestState<crate::api::In
 
     use_effect(cx, (slice.read().borrow().as_ref(),), |(new_value,)| {
         if new_value.should_refetch() {
-            dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetIndexers));
+            dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetIndexer(id)));
         }
         value.set(new_value.into());
         async move {}

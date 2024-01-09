@@ -70,11 +70,6 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
                         }
                     }
                 }
-                p {
-                    class: "btn",
-                    onclick: move |_| set_state(IndexerModalState::Close),
-                    "Close"
-                }
                 input {
                     class: "btn btn-primary",
                     r#type: "submit",
@@ -128,7 +123,7 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
                 on_update: edit,
                 on_delete: delete
             } },
-            // QueryState::Loading => rsx! { "Loading" },
+            RequestState::Loading => rsx! { "Loading" },
             _ => rsx! { "Error" }
         }
     }
@@ -165,10 +160,10 @@ fn ModalNewIndexer(cx: Scope) -> Element {
 }
 
 #[component]
-pub fn Indexer<'a>(cx: Scope, state: IndexerModalState, on_close: EventHandler<'a, ()>) -> Element {
+pub fn Indexer<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHandler<'a, ()>) -> Element {
     render! {
         ModalWithTitle {
-            visible: *state != IndexerModalState::Close,
+            visible: **state != IndexerModalState::Close,
             on_close: move |_| on_close.call(()),
             title: "Indexer",
             match state {
