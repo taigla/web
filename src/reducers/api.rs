@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use std::rc::Rc;
 use serde::de::DeserializeOwned;
 use serde::Deserialize;
 use crate::{redux::{Reducer, use_slice, use_dispatcher, Effect, ReduxDispatcher}, reducers::TaiglaEvent};
@@ -65,13 +66,15 @@ pub enum ApiData {
     TrendingMovie,
     Movie(u32),
     Indexers,
-    Indexer(u32)
+    Indexer(u64)
 }
 
 pub enum ApiEvent {
     GetVersion,
     GetIndexers,
-    GetIndexer(u32),
+    GetIndexer(u64),
+    UpdateIndexer(crate::api::Indexer),
+    AddIndexer(crate::api::IndexerCreate),
     CacheData(ApiData, InnerRequestState)
 }
 
@@ -114,6 +117,25 @@ impl Reducer<TaiglaStore> for ApiEvent {
                     dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexer(id), response))
                 })
             }),
+            ApiEvent::UpdateIndexer(indexer) => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
+                Box::pin(async move {
+                    let _ = match api.patch_json(&format!("/api/v1/indexers/{}", indexer.id), &indexer).await {
+                        Ok(v) => InnerRequestState::Ok(v),
+                        Err(_) => panic!("Failed to get request")
+                    };
+                    dispatcher.dispatch(ApiEvent::GetIndexer(indexer.id));
+                    dispatcher.dispatch(ApiEvent::GetIndexers)
+                })
+            }),
+            ApiEvent::AddIndexer(indexer) => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
+                Box::pin(async move {
+                    let _ = match api.post_json(&format!("/api/v1/indexers"), &indexer).await {
+                        Ok(v) => InnerRequestState::Ok(v),
+                        Err(_) => panic!("Failed to get request")
+                    };
+                    dispatcher.dispatch(ApiEvent::GetIndexers);
+                })
+            }),
             ApiEvent::CacheData(key, data) => {
                 store.cache.insert(key, data);
             },
@@ -135,7 +157,7 @@ impl TaiglaStore {
         (TaiglaData::Api(ApiData::Indexers), value.clone())
     }
 
-    fn indexer(id: u32) -> impl Fn(&Self) -> (TaiglaData, InnerRequestState) {
+    fn indexer(id: u64) -> impl Fn(&Self) -> (TaiglaData, InnerRequestState) {
         move |store| {
             let value = store.cache.get(&ApiData::Indexer(id))
                 .unwrap_or(&InnerRequestState::NotFetch);
@@ -176,7 +198,7 @@ pub fn use_get_indexers(cx: &ScopeState) -> &RequestState<Vec<crate::api::Indexe
     &value
 }
 
-pub fn use_get_indexer(cx: &ScopeState, id: u32) -> &RequestState<crate::api::Indexer> {
+pub fn use_get_indexer(cx: &ScopeState, id: u64) -> &RequestState<crate::api::Indexer> {
     let slice = use_slice(cx, TaiglaStore::indexer(id));
     let value = use_state(cx, || Into::<RequestState<crate::api::Indexer>>::into(*slice.read().borrow().clone()));
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
@@ -191,3 +213,24 @@ pub fn use_get_indexer(cx: &ScopeState, id: u32) -> &RequestState<crate::api::In
 
     &value
 }
+
+pub fn use_update_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::Indexer) -> ()> {
+    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+
+    cx.use_hook(|| {
+        Rc::new(move |indexer: crate::api::Indexer| {
+            dispatcher.dispatch(ApiEvent::UpdateIndexer(indexer))
+        })
+    })
+}
+
+pub fn use_add_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::IndexerCreate) -> ()> {
+    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+
+    cx.use_hook(|| {
+        Rc::new(move |indexer: crate::api::IndexerCreate| {
+            dispatcher.dispatch(ApiEvent::AddIndexer(indexer))
+        })
+    })
+}
+

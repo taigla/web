@@ -5,9 +5,9 @@ use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query};
-use crate::reducers::{use_get_indexer, RequestState};
+use crate::reducers::{use_get_indexer, RequestState, use_add_indexer_mutation, use_update_indexer_mutation};
 use crate::services::settings::SettingCommand;
-use crate::api::{IndexerRow, Indexer};
+use crate::api::{IndexerRow, Indexer, IndexerCreate};
 use crate::components::ui::Input;
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
@@ -19,19 +19,27 @@ pub enum IndexerModalState {
     Close
 }
 
+#[derive(Deserialize)]
+struct IndexerForm {
+    name: String,
+    url: String,
+    api_key: String,
+    priority: u8
+}
+
 #[component]
-fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, Value>, on_delete: EventHandler<'a, ()>) -> Element<'a> {
+fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, IndexerForm>, on_delete: EventHandler<'a, ()>) -> Element<'a> {
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
     let set_state = use_set(cx, &STATE);
 
     let submit = move |evt: Event<FormData>| {
         log::info!("{:?}", evt);
-        let body = json!({
-            "name": evt.data.values.get("name").unwrap().get(0).unwrap(),
-            "url": evt.data.values.get("url").unwrap().get(0).unwrap(),
-            "api_key": evt.data.values.get("api_key").unwrap().get(0).unwrap(),
-            "priority": evt.data.values.get("priority").unwrap().get(0).unwrap().parse::<u8>().unwrap()
-        });
+        let body = IndexerForm {
+            name: evt.data.values.get("name").unwrap().get(0).unwrap().to_string(),
+            url: evt.data.values.get("url").unwrap().get(0).unwrap().to_string(),
+            api_key: evt.data.values.get("api_key").unwrap().get(0).unwrap().to_string(),
+            priority: evt.data.values.get("priority").unwrap().get(0).unwrap().parse::<u8>().unwrap()
+        };
         on_update.call(body);
     };
 
@@ -83,24 +91,24 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
 #[component]
 fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
     let api = use_taigla_api(&cx);
-    let indexer = use_get_indexer(cx, **id as u32);
+    let indexer = use_get_indexer(cx, **id);
+    let update_indexer = use_update_indexer_mutation(cx);
     let set_state = use_set(cx, &STATE);
     let id = **id;
     let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
 
-    let edit = move |v| {
-        to_owned![api, id, set_state, setting_handle];
+    let edit = move |v: IndexerForm| {
+        to_owned![api, id, set_state, setting_handle, update_indexer];
         cx.spawn(async move {
-            let indexer = api.read().patch_indexer(id, v)
-                .await;
-            if let Ok(indexer) = indexer {
-                set_state(IndexerModalState::Close);
-                setting_handle.send(SettingCommand::UpdateIndexer(IndexerRow {
-                    id: indexer.id,
-                    name: indexer.name,
-                    priority: indexer.priority
-                }));
-            }
+            let indexer = Indexer {
+                name: v.name,
+                id: id,
+                url: v.url,
+                api_key: Some(v.api_key),
+                priority: v.priority
+            };
+            update_indexer(indexer);
+            set_state(IndexerModalState::Close);
         });
     };
 
@@ -132,22 +140,19 @@ fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
 #[component]
 fn ModalNewIndexer(cx: Scope) -> Element {
     let set_state = use_set(cx, &STATE);
-    let api = use_taigla_api(&cx);
-    let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
+    let add_indexer = use_add_indexer_mutation(cx);
 
-    let create = move |v| {
-        to_owned![api, set_state, setting_handle];
+    let create = move |v: IndexerForm| {
+        to_owned![set_state, add_indexer];
         cx.spawn(async move {
-            let indexer = api.read().post_indexer(v)
-                .await;
-            if let Ok(indexer) = indexer {
-                set_state(IndexerModalState::Close);
-                setting_handle.send(SettingCommand::AddIndexer(IndexerRow {
-                    id: indexer.id,
-                    name: indexer.name,
-                    priority: indexer.priority
-                }));
-            }
+            let indexer = IndexerCreate {
+                name: v.name,
+                url: v.url,
+                api_key: v.api_key,
+                priority: v.priority
+            };
+            add_indexer(indexer);
+            set_state(IndexerModalState::Close);
         });
     };
 

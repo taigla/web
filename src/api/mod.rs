@@ -142,6 +142,35 @@ impl TaiglaApi {
         }
     }
 
+    pub async fn post_json<U: Serialize>(&self, url: &str, body: &U) -> Result<serde_json::Value, ApiError> {
+        let response = self.client
+            .post(self.address.join(url).expect("Invalid url"))
+            .header("Authorization", self.token.get())
+            .json(body)
+            .send()
+            .await
+            .map_err(|e| {
+                ApiError::new("ReqwestError", &format!("{:?}", e))
+            })?;
+        let status = response.status();
+        if status.is_success() {
+            response
+                .json::<serde_json::Value>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })
+        } else {
+            let err = response
+                .json::<ApiError>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })?;
+            Err(err)
+        }
+    }
+
     pub async fn patch<T: DeserializeOwned, U: Serialize>(&self, url: &str, body: &U) -> Result<T, ApiError> {
         let response = self.client
             .patch(self.address.join(url).expect("Invalid url"))
@@ -156,6 +185,35 @@ impl TaiglaApi {
         if status.is_success() {
             response
                 .json::<T>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })
+        } else {
+            let err = response
+                .json::<ApiError>()
+                .await
+                .map_err(|e| {
+                    ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
+                })?;
+            Err(err)
+        }
+    }
+
+    pub async fn patch_json<U: Serialize>(&self, url: &str, body: &U) -> Result<serde_json::Value, ApiError> {
+        let response = self.client
+            .patch(self.address.join(url).expect("Invalid url"))
+            .header("Authorization", self.token.get())
+            .json(body)
+            .send()
+            .await
+            .map_err(|e| {
+                ApiError::new("ReqwestError", &format!("{:?}", e))
+            })?;
+        let status = response.status();
+        if status.is_success() {
+            response
+                .json::<serde_json::Value>()
                 .await
                 .map_err(|e| {
                     ApiError::new("SerdeJsonParseError", &format!("{:?}", e))
