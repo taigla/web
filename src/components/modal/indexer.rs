@@ -1,14 +1,13 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use fermi::{use_read, use_set, Atom};
-use serde_json::{json, Value};
+use fermi::{use_set, Atom};
 use serde::Deserialize;
 use super::ModalWithTitle;
-use crate::hooks::{use_taigla_api, use_query};
+use crate::hooks::use_taigla_api;
 use crate::reducers::{use_get_indexer, RequestState, use_add_indexer_mutation, use_update_indexer_mutation, IndexerModalState, TaiglaStore, TaiglaEvent};
 use crate::redux::{use_slice, use_dispatcher};
 use crate::services::settings::SettingCommand;
-use crate::api::{IndexerRow, Indexer, IndexerCreate};
+use crate::api::{Indexer, IndexerCreate};
 use crate::components::ui::Input;
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
@@ -24,7 +23,6 @@ struct IndexerForm {
 #[component]
 fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a, IndexerForm>, on_delete: EventHandler<'a, ()>) -> Element<'a> {
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
-    let set_state = use_set(cx, &STATE);
 
     let submit = move |evt: Event<FormData>| {
         log::info!("{:?}", evt);
@@ -92,7 +90,7 @@ fn ModalEditIndexer(cx: Scope, id: u64) -> Element {
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     let edit = move |v: IndexerForm| {
-        to_owned![api, id, set_state, setting_handle, update_indexer, dispatcher];
+        to_owned![id, update_indexer, dispatcher];
         cx.spawn(async move {
             let indexer = Indexer {
                 name: v.name,
@@ -133,12 +131,11 @@ fn ModalEditIndexer(cx: Scope, id: u64) -> Element {
 
 #[component]
 fn ModalNewIndexer(cx: Scope) -> Element {
-    let set_state = use_set(cx, &STATE);
     let add_indexer = use_add_indexer_mutation(cx);
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     let create = move |v: IndexerForm| {
-        to_owned![set_state, add_indexer, dispatcher];
+        to_owned![add_indexer, dispatcher];
         cx.spawn(async move {
             let indexer = IndexerCreate {
                 name: v.name,
