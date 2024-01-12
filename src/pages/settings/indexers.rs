@@ -2,8 +2,9 @@
 use dioxus::prelude::*;
 use fermi::prelude::*;
 use fermi::use_set;
-use crate::components::modal::indexer::{Indexer, IndexerModalState, STATE};
-use crate::reducers::{use_get_indexers, RequestState};
+use crate::components::modal::indexer::{Indexer, STATE};
+use crate::reducers::{use_get_indexers, RequestState, IndexerModalState, TaiglaEvent, TaiglaStore};
+use crate::redux::use_dispatcher;
 use crate::services::settings::{INDEXER_LIST_STORE, SettingCommand};
 use crate::api::{QueryState, IndexerRow};
 
@@ -49,6 +50,7 @@ pub fn Indexers(cx: Scope) -> Element {
     let set_modal_state = use_set(cx, &STATE);
     let indexers = use_get_indexers(cx);
     let selected_indexer = use_state::<IndexerModalState>(cx, || IndexerModalState::Close);
+    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     render! {
         div {
@@ -57,7 +59,7 @@ pub fn Indexers(cx: Scope) -> Element {
                 class: "flex flex-row justify-between pb-2",
                 p { class: "text-3xl", "Indexers" }
                 p {
-                    onclick: move |_| selected_indexer.set(IndexerModalState::New),
+                    onclick: move |_| dispatcher.dispatch(TaiglaEvent::SetIndexerModalState(IndexerModalState::New)),
                     class: "btn btn-primary", "New"
                 }
             }
@@ -65,14 +67,13 @@ pub fn Indexers(cx: Scope) -> Element {
                 RequestState::Ok(indexers) => rsx! {
                     IndexerList {
                         indexers: &indexers,
-                        on_indexer_select: move |id| selected_indexer.set(IndexerModalState::Id(id))
+                        on_indexer_select: move |id| dispatcher.dispatch(TaiglaEvent::SetIndexerModalState(IndexerModalState::Id(id)))
                     }
                 },
                 _ => rsx! { "Error" }
             }
             Indexer {
-                state: selected_indexer,
-                on_close: move |_| selected_indexer.set(IndexerModalState::Close)
+                on_close: move |_| dispatcher.dispatch(TaiglaEvent::SetIndexerModalState(IndexerModalState::Close))
             }
         }
     }

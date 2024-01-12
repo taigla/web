@@ -5,19 +5,13 @@ use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query};
-use crate::reducers::{use_get_indexer, RequestState, use_add_indexer_mutation, use_update_indexer_mutation};
+use crate::reducers::{use_get_indexer, RequestState, use_add_indexer_mutation, use_update_indexer_mutation, IndexerModalState, TaiglaStore};
+use crate::redux::use_slice;
 use crate::services::settings::SettingCommand;
 use crate::api::{IndexerRow, Indexer, IndexerCreate};
 use crate::components::ui::Input;
 
 pub static STATE: Atom<IndexerModalState> = Atom(|_| IndexerModalState::Close);
-
-#[derive(PartialEq)]
-pub enum IndexerModalState {
-    New,
-    Id(u64),
-    Close
-}
 
 #[derive(Deserialize)]
 struct IndexerForm {
@@ -89,12 +83,11 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
 }
 
 #[component]
-fn ModalEditIndexer<'a>(cx: Scope, id: &'a u64) -> Element {
+fn ModalEditIndexer(cx: Scope, id: u64) -> Element {
     let api = use_taigla_api(&cx);
-    let indexer = use_get_indexer(cx, **id);
+    let indexer = use_get_indexer(cx, *id);
     let update_indexer = use_update_indexer_mutation(cx);
     let set_state = use_set(cx, &STATE);
-    let id = **id;
     let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
 
     let edit = move |v: IndexerForm| {
@@ -165,13 +158,15 @@ fn ModalNewIndexer(cx: Scope) -> Element {
 }
 
 #[component]
-pub fn Indexer<'a>(cx: Scope, state: &'a IndexerModalState, on_close: EventHandler<'a, ()>) -> Element {
+pub fn Indexer<'a>(cx: Scope, on_close: EventHandler<'a, ()>) -> Element {
+    let state = use_slice(cx, TaiglaStore::indexer_modal_state);
+
     render! {
         ModalWithTitle {
-            visible: **state != IndexerModalState::Close,
+            visible: **state.read().borrow() != IndexerModalState::Close,
             on_close: move |_| on_close.call(()),
             title: "Indexer",
-            match state {
+            match **state.read().borrow() {
                 IndexerModalState::Id(id) => rsx! { ModalEditIndexer { id: id } },
                 IndexerModalState::New => rsx! { ModalNewIndexer {} },
                 _ => rsx! { "" }
