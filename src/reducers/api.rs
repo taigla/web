@@ -218,6 +218,7 @@ pub fn use_update_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::I
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     cx.use_hook(|| {
+        to_owned![dispatcher];
         Rc::new(move |indexer: crate::api::Indexer| {
             dispatcher.dispatch(ApiEvent::UpdateIndexer(indexer))
         })
@@ -228,6 +229,7 @@ pub fn use_add_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::Inde
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     cx.use_hook(|| {
+        to_owned![dispatcher];
         Rc::new(move |indexer: crate::api::IndexerCreate| {
             dispatcher.dispatch(ApiEvent::AddIndexer(indexer))
         })

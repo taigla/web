@@ -5,8 +5,8 @@ use serde_json::{json, Value};
 use serde::Deserialize;
 use super::ModalWithTitle;
 use crate::hooks::{use_taigla_api, use_query};
-use crate::reducers::{use_get_indexer, RequestState, use_add_indexer_mutation, use_update_indexer_mutation, IndexerModalState, TaiglaStore};
-use crate::redux::use_slice;
+use crate::reducers::{use_get_indexer, RequestState, use_add_indexer_mutation, use_update_indexer_mutation, IndexerModalState, TaiglaStore, TaiglaEvent};
+use crate::redux::{use_slice, use_dispatcher};
 use crate::services::settings::SettingCommand;
 use crate::api::{IndexerRow, Indexer, IndexerCreate};
 use crate::components::ui::Input;
@@ -89,9 +89,10 @@ fn ModalEditIndexer(cx: Scope, id: u64) -> Element {
     let update_indexer = use_update_indexer_mutation(cx);
     let set_state = use_set(cx, &STATE);
     let setting_handle = use_coroutine_handle::<SettingCommand>(cx).unwrap();
+    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     let edit = move |v: IndexerForm| {
-        to_owned![api, id, set_state, setting_handle, update_indexer];
+        to_owned![api, id, set_state, setting_handle, update_indexer, dispatcher];
         cx.spawn(async move {
             let indexer = Indexer {
                 name: v.name,
@@ -101,7 +102,7 @@ fn ModalEditIndexer(cx: Scope, id: u64) -> Element {
                 priority: v.priority
             };
             update_indexer(indexer);
-            set_state(IndexerModalState::Close);
+            dispatcher.dispatch(TaiglaEvent::SetIndexerModalState(IndexerModalState::Close));
         });
     };
 
@@ -134,9 +135,10 @@ fn ModalEditIndexer(cx: Scope, id: u64) -> Element {
 fn ModalNewIndexer(cx: Scope) -> Element {
     let set_state = use_set(cx, &STATE);
     let add_indexer = use_add_indexer_mutation(cx);
+    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     let create = move |v: IndexerForm| {
-        to_owned![set_state, add_indexer];
+        to_owned![set_state, add_indexer, dispatcher];
         cx.spawn(async move {
             let indexer = IndexerCreate {
                 name: v.name,
@@ -145,7 +147,7 @@ fn ModalNewIndexer(cx: Scope) -> Element {
                 priority: v.priority
             };
             add_indexer(indexer);
-            set_state(IndexerModalState::Close);
+            dispatcher.dispatch(TaiglaEvent::SetIndexerModalState(IndexerModalState::Close));
         });
     };
 

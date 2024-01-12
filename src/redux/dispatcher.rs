@@ -13,11 +13,14 @@ impl<S: Store> ReduxDispatcher<S> {
     }
 }
 
-pub fn use_dispatcher<S: 'static + Store>(cx: &ScopeState) -> ReduxDispatcher<S> {
+pub fn use_dispatcher<S: 'static + Store>(cx: &ScopeState) -> &ReduxDispatcher<S> {
     let store = cx.consume_context::<ReduxStore<S>>().unwrap();
-    ReduxDispatcher {
-        event_dispatcher: store.event_dispatcher,
-    }
+
+    cx.use_hook(|| {
+        ReduxDispatcher {
+            event_dispatcher: store.event_dispatcher,
+        }
+    })
 }
 
 impl<T: Store> Clone for ReduxDispatcher<T> {
