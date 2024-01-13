@@ -26,6 +26,7 @@ pub enum InnerRequestState {
     NotFetch,
     Loading,
     Ok(serde_json::Value),
+    Validating(serde_json::Value),
     Err(ApiError)
 }
 
@@ -40,6 +41,7 @@ pub enum RequestState<T: DeserializeOwned> {
     NotFetch,
     Loading,
     Ok(T),
+    Validating(T),
     Err(ApiError)
 }
 
@@ -51,6 +53,13 @@ impl<T: DeserializeOwned> Into<RequestState<T>> for InnerRequestState {
             InnerRequestState::Ok(v) => {
                 if let Ok(v) = serde_json::from_value::<T>(v) {
                     RequestState::Ok(v)
+                } else {
+                    RequestState::Err(ApiError::new("SerdeErr", "Failed to parse response"))
+                }
+            },
+            InnerRequestState::Validating(v) => {
+                if let Ok(v) = serde_json::from_value::<T>(v) {
+                    RequestState::Validating(v)
                 } else {
                     RequestState::Err(ApiError::new("SerdeErr", "Failed to parse response"))
                 }
@@ -97,16 +106,22 @@ impl Reducer<TaiglaStore> for ApiEvent {
                     dispatcher.dispatch(ApiEvent::CacheData(ApiData::Version, response))
                 })
             }),
-            ApiEvent::GetIndexers => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
-                Box::pin(async move {
-                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexers, InnerRequestState::Loading));
-                    let response = match api.get_json("/api/v1/indexers").await {
-                        Ok(v) => InnerRequestState::Ok(v),
-                        Err(_) => InnerRequestState::Err(ApiError::new("NetworkError", "Network error"))
-                    };
-                    dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexers, response))
+            ApiEvent::GetIndexers => {
+                let value = match store.cache.get(&ApiData::Indexers) {
+                    Some(InnerRequestState::Ok(v)) => InnerRequestState::Validating(v.clone()),
+                    _ => InnerRequestState::Loading
+                };
+                return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
+                    Box::pin(async move {
+                        dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexers, value));
+                        let response = match api.get_json("/api/v1/indexers").await {
+                            Ok(v) => InnerRequestState::Ok(v),
+                            Err(_) => InnerRequestState::Err(ApiError::new("NetworkError", "Network error"))
+                        };
+                        dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexers, response))
+                    })
                 })
-            }),
+            },
             ApiEvent::GetIndexer(id) => return Effect::future(move |dispatcher: ReduxDispatcher<TaiglaStore>| {
                 Box::pin(async move {
                     dispatcher.dispatch(ApiEvent::CacheData(ApiData::Indexer(id), InnerRequestState::Loading));

@@ -1,12 +1,9 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use fermi::prelude::*;
-use fermi::use_set;
-use crate::components::modal::indexer::{Indexer, STATE};
+use crate::components::modal::indexer::Indexer;
 use crate::reducers::{use_get_indexers, RequestState, IndexerModalState, TaiglaEvent, TaiglaStore};
 use crate::redux::use_dispatcher;
-use crate::services::settings::{INDEXER_LIST_STORE, SettingCommand};
-use crate::api::{QueryState, IndexerRow};
+use crate::api::IndexerRow;
 
 #[component]
 pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_select: EventHandler<'a, u64>) -> Element {
@@ -47,9 +44,7 @@ pub fn IndexerList<'a>(cx: Scope, indexers: &'a Vec<IndexerRow>, on_indexer_sele
 }
 
 pub fn Indexers(cx: Scope) -> Element {
-    let set_modal_state = use_set(cx, &STATE);
     let indexers = use_get_indexers(cx);
-    let selected_indexer = use_state::<IndexerModalState>(cx, || IndexerModalState::Close);
     let dispatcher = use_dispatcher::<TaiglaStore>(cx);
 
     render! {
@@ -64,12 +59,13 @@ pub fn Indexers(cx: Scope) -> Element {
                 }
             }
             match &indexers {
-                RequestState::Ok(indexers) => rsx! {
+                RequestState::Ok(indexers) | RequestState::Validating(indexers) => rsx! {
                     IndexerList {
                         indexers: &indexers,
                         on_indexer_select: move |id| dispatcher.dispatch(TaiglaEvent::SetIndexerModalState(IndexerModalState::Id(id)))
                     }
                 },
+                RequestState::Loading => rsx! { "Loading" },
                 _ => rsx! { "Error" }
             }
             Indexer {
