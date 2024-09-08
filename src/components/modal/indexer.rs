@@ -25,7 +25,7 @@ fn Form<'a>(cx: Scope, indexer: Option<&'a Indexer>, on_update: EventHandler<'a,
     let priority = if let Some(indexer) = cx.props.indexer { indexer.priority.to_string() } else { "".to_string() };
 
     let submit = move |evt: Event<FormData>| {
-        log::info!("{:?}", evt);
+        tracing::info!("{:?}", evt);
         let body = IndexerForm {
             name: evt.data.values.get("name").unwrap().get(0).unwrap().to_string(),
             url: evt.data.values.get("url").unwrap().get(0).unwrap().to_string(),

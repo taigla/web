@@ -24,7 +24,7 @@ fn Form<'a>(cx: Scope, request_profile: Option<&'a RequestProfile>, on_update: E
     let set_state = use_set(cx, &STATE);
 
     let submit = move |evt: Event<FormData>| {
-        log::info!("{:?}", evt);
+        tracing::info!("{:?}", evt);
         let body = json!({
             "name": evt.data.values.get("name").unwrap().get(0).unwrap(),
             "language": evt.data.values.get("language").unwrap().get(0).unwrap(),

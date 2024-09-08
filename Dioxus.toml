@@ -9,7 +9,6 @@ asset_dir = "public"
 
 [web.app]
 title = "Taigla"
-base_path = "."
 
 [web.watcher]
 reload_html = true

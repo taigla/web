@@ -1,14 +1,13 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
-use fermi::use_init_atom_root;
-use log::LevelFilter;
+use dioxus_logger::tracing::Level;
 use web_sys::window;
 use taigla::routes::Routes;
 use taigla::api::{TaiglaApi, Token};
-use taigla::services::use_init_service;
+// use taigla::services::use_init_service;
 use taigla::redux::use_init_store;
-use taigla::reducers::TaiglaStore;
+use taigla::store::TaiglaStore;
 
 fn api_address() -> String {
     match env!("TAIGLA_BACKEND_URL") {
@@ -21,25 +20,24 @@ fn api_address() -> String {
 }
 
 fn main() {
-    dioxus_logger::init(LevelFilter::Info).expect("Failed to init logger");
-    dioxus_web::launch(App);
+    dioxus_logger::init(Level::DEBUG).expect("Failed to init logger");
+    launch(App);
 }
 
-fn App(cx: Scope) -> Element {
-    use_init_store(cx, TaiglaStore::new);
-    use_init_atom_root(cx);
-    use_shared_state_provider(cx, || Token::default());
-    let token = use_shared_state::<Token>(cx).unwrap();
+fn App() -> Element {
+    use_init_store(TaiglaStore::new);
+    // use_init_atom_root(cx);
+    // use_shared_state_provider(|| Token::default());
+    // let token = use_shared_state::<Token>().unwrap();
     let api_address = api_address();
-    log::info!("Using api: {}", api_address);
-    let api = TaiglaApi::new(&api_address, token.read().clone());
-    use_shared_state_provider(cx, || api.clone());
-    use_init_service(cx, api.clone());
+    // let api = TaiglaApi::new(&api_address, token.read().clone());
+    // use_shared_state_provider(cx, || api.clone());
+    // use_init_service(cx, api.clone());
 
-    cx.render(rsx! {
+    rsx! {
         div {
             class: "h-screen",
             Router::<Routes> {}
         }
-    })
+    }
 }

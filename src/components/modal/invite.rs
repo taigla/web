@@ -69,7 +69,7 @@ pub fn Invite(cx: Scope) -> Element {
         cx.spawn(async move {
             let invite = api.read().post_invite(invite)
                 .await;
-            log::info!("{:?}", invite);
+            tracing::info!("{:?}", invite);
             if let Ok(_) = invite {
                 set_state(InviteModalState::Close);
                 setting_handle.send(SettingCommand::FetchInvitesList);

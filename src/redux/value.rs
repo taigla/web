@@ -1,9 +1,10 @@
 use std::{
     any::Any,
     collections::HashSet,
-    rc::Rc
+    rc::Rc,
+    cell::RefCell
 };
-use dioxus::prelude::{ScopeId, RefCell};
+use dioxus::prelude::ScopeId;
 
 pub(super) type ValueComparer = Rc<dyn Fn(&Rc<RefCell<Box<dyn Any>>>) -> bool>;
 

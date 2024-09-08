@@ -166,58 +166,57 @@ impl TaiglaStore {
     }
 }
 
-pub fn use_get_version(cx: &ScopeState) -> &RequestState<crate::api::Version> {
-    let slice = use_slice(cx, TaiglaStore::get_api_version);
-    let value = use_state(cx, || Into::<RequestState<crate::api::Version>>::into(*slice.read().borrow().clone()));
-    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+pub fn use_get_version() -> Signal<RequestState<crate::api::Version>> {
+    let slice = use_slice(TaiglaStore::get_api_version);
+    let value = use_signal(|| Into::<RequestState<crate::api::Version>>::into(*slice.read().borrow().clone()));
+    // let dispatcher = use_dispatcher::<TaiglaStore>();
 
-    use_effect(cx, (slice.read().borrow().as_ref(),), |(new_value,)| {
-        if new_value.should_refetch() {
-            dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetVersion));
-        }
-        value.set(new_value.into());
-        async move {}
-    });
+    // use_effect(|| {
+    //     let new_value = slice.read().borrow().as_ref();
+    //     if new_value.should_refetch() {
+    //         dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetVersion));
+    //     }
+    //     value.set(new_value.into());
+    // });
 
-    &value
+    value
 }
 
-pub fn use_get_indexers(cx: &ScopeState) -> &RequestState<Vec<crate::api::IndexerRow>> {
-    let slice = use_slice(cx, TaiglaStore::indexers);
-    let value = use_state(cx, || Into::<RequestState<Vec<crate::api::IndexerRow>>>::into(*slice.read().borrow().clone()));
-    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+// pub fn use_get_indexers() -> RequestState<Vec<crate::api::IndexerRow>> {
+//     let slice = use_slice(TaiglaStore::indexers);
+//     let value = use_signal(|| Into::<RequestState<Vec<crate::api::IndexerRow>>>::into(*slice.read().borrow().clone()));
+//     let dispatcher = use_dispatcher::<TaiglaStore>();
 
-    use_effect(cx, (slice.read().borrow().as_ref(),), |(new_value,)| {
-        if new_value.should_refetch() {
-            dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetIndexers));
-        }
-        value.set(new_value.into());
-        async move {}
-    });
+//     use_effect(|| {
+//         if new_value.should_refetch() {
+//             dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetIndexers));
+//         }
+//         value.set(new_value.into());
+//     });
 
-    &value
-}
+//     &value
+// }
 
-pub fn use_get_indexer(cx: &ScopeState, id: u64) -> &RequestState<crate::api::Indexer> {
-    let slice = use_slice(cx, TaiglaStore::indexer(id));
-    let value = use_state(cx, || Into::<RequestState<crate::api::Indexer>>::into(*slice.read().borrow().clone()));
-    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+// pub fn use_get_indexer(id: u64) -> RequestState<crate::api::Indexer> {
+//     let slice = use_slice(TaiglaStore::indexer(id));
+//     let value = use_state(cx, || Into::<RequestState<crate::api::Indexer>>::into(*slice.read().borrow().clone()));
+//     let dispatcher = use_dispatcher::<TaiglaStore>();
 
-    use_effect(cx, (slice.read().borrow().as_ref(),), |(new_value,)| {
-        if new_value.should_refetch() {
-            dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetIndexer(id)));
-        }
-        value.set(new_value.into());
-        async move {}
-    });
+//     use_effect(cx, (slice.read().borrow().as_ref(),), |(new_value,)| {
+//         if new_value.should_refetch() {
+//             dispatcher.dispatch(TaiglaEvent::ApiEvent(ApiEvent::GetIndexer(id)));
+//         }
+//         value.set(new_value.into());
+//         async move {}
+//     });
 
-    &value
-}
+//     &value
+// }
 
-pub fn use_update_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::Indexer) -> ()> {
-    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+pub fn use_update_indexer_mutation() -> Rc<impl Fn(crate::api::Indexer) -> ()> {
+    let dispatcher = use_dispatcher::<TaiglaStore>();
 
-    cx.use_hook(|| {
+    use_hook(|| {
         to_owned![dispatcher];
         Rc::new(move |indexer: crate::api::Indexer| {
             dispatcher.dispatch(ApiEvent::UpdateIndexer(indexer))
@@ -225,10 +224,10 @@ pub fn use_update_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::I
     })
 }
 
-pub fn use_add_indexer_mutation(cx: &ScopeState) -> &Rc<impl Fn(crate::api::IndexerCreate) -> ()> {
-    let dispatcher = use_dispatcher::<TaiglaStore>(cx);
+pub fn use_add_indexer_mutation() -> Rc<impl Fn(crate::api::IndexerCreate) -> ()> {
+    let dispatcher = use_dispatcher::<TaiglaStore>();
 
-    cx.use_hook(|| {
+    use_hook(|| {
         to_owned![dispatcher];
         Rc::new(move |indexer: crate::api::IndexerCreate| {
             dispatcher.dispatch(ApiEvent::AddIndexer(indexer))
