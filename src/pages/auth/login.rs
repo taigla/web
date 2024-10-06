@@ -21,7 +21,7 @@ pub fn Login(cx: Scope) -> Element {
         cx.spawn({
             to_owned![navigator, token, api, error, loading, dispatcher];
             async move {
-                log::info!("{:?}", event);
+                tracing::info!("{:?}", event);
                 loading.set(true);
                 let username: &str = event.data.values.get("name").unwrap().get(0).unwrap();
                 let password: &str = event.data.values.get("password").unwrap().get(0).unwrap();
@@ -35,7 +35,7 @@ pub fn Login(cx: Scope) -> Element {
                             .unwrap()
                             .unwrap();
                         local_storage.set_item("token", &response.token).unwrap();
-                        log::info!("{}", response.token);
+                        tracing::info!("{}", response.token);
                         token.write().set(&response.token);
                         dispatcher.dispatch(TaiglaEvent::SetToken(response.token));
                         navigator.replace(Routes::Home {});

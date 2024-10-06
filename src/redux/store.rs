@@ -2,23 +2,18 @@ use std::{
     collections::HashSet,
     rc::Rc,
     sync::Arc,
-    pin::Pin,
-    future::Future
+    cell::RefCell,
+    any::TypeId
 };
 use dioxus::prelude::*;
 use super::subscription::Subscriptions;
 use super::value::{ValueComparer, ValueEntry};
 use super::subscription::Subscription;
-use super::simple_hash::SimpleHash;
-use super::effect::{Effect, InnerEffect};
-use super::dispatcher::ReduxDispatcher;
-
-const REQUEST_WORKER_COUNT: u8 = 2;
 
 pub trait Store: Sized {
     type Event;
 
-    fn handle(&mut self, event: Self::Event) -> Effect<Self>;
+    fn handle(&mut self, event: Self::Event);
 }
 
 pub struct ReduxStore<S: Store> {
@@ -30,23 +25,12 @@ pub struct ReduxStore<S: Store> {
     subscriptions: Subscriptions,
 
     schedule_update_any: Arc<dyn Fn(ScopeId)>,
-    requests: async_channel::Sender<Pin<Box<dyn Future<Output = ()>>>>
 }
 
 impl<S: Store> ReduxStore<S> {
     fn handle(&self, event: S::Event) {
         // Notify the store of the new event
-        let effect = self.store.borrow_mut().handle(event);
-
-        match effect.0 {
-            InnerEffect::None => (),
-            InnerEffect::Future(f) => {
-                let dispatcher = ReduxDispatcher { event_dispatcher: self.event_dispatcher.clone() };
-                let future = f(dispatcher);
-                self.requests.send_blocking(future).unwrap();
-                return;
-            }
-        }
+        self.store.borrow_mut().handle(event);
 
         for (_function, value_entry) in self.subscriptions.borrow().iter() {
             let cached_value = &value_entry.value;
@@ -63,7 +47,7 @@ impl<S: Store> ReduxStore<S> {
     pub(super) fn subscribe<V: Clone + 'static>(
         &self,
         scope_id: ScopeId,
-        function_id: SimpleHash,
+        function_id: TypeId,
         value: V,
         compare: impl FnOnce() -> ValueComparer,
     ) -> Subscription {
@@ -98,38 +82,25 @@ impl<S: Store> Clone for ReduxStore<S> {
             event_dispatcher: self.event_dispatcher.clone(),
             subscriptions: self.subscriptions.clone(),
             schedule_update_any: self.schedule_update_any.clone(),
-            requests: self.requests.clone()
         }
     }
 }
 
-pub fn use_init_store<S: Store + 'static>(cx: Scope, create_store: impl FnOnce() -> S) {
-    cx.use_hook(|| {
+pub fn use_init_store<S: Store + 'static>(create_store: impl FnOnce() -> S) {
+    use_hook(|| {
         let (event_tx, event_rx) = async_channel::unbounded::<S::Event>();
-        let (request_notif_tx, request_notif_rx) = async_channel::unbounded();
 
-        let store = cx.provide_context(ReduxStore {
+        let store = provide_context(ReduxStore {
             store: Rc::new(RefCell::new(create_store())),
             event_dispatcher: event_tx,
             subscriptions: Rc::default(),
-            schedule_update_any: cx.schedule_update_any(),
-            requests: request_notif_tx
+            schedule_update_any: schedule_update_any()
         });
 
-        for _ in 0..REQUEST_WORKER_COUNT {
-            let request_notif_rx = request_notif_rx.clone();
-            cx.spawn(async move {
-                while let Ok(f) = request_notif_rx.recv().await {
-                    f.await;
-                }
-            });
-        }
-
-        cx.spawn(async move {
+        spawn(async move {
             while let Ok(event) = event_rx.recv().await {
                 store.handle(event)
             }
         });
     });
 }
-

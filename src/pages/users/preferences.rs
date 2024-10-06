@@ -10,7 +10,7 @@ pub fn ChangePassword(cx: Scope) -> Element {
         cx.spawn({
             to_owned![api];
             async move {
-                log::info!("{:?}", event);
+                tracing::info!("{:?}", event);
                 let password: &str = event.data.values.get("new_password").unwrap().get(0).unwrap();
                 let _ = api.read().post_change_password(password)
                     .await;

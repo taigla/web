@@ -1,18 +1,19 @@
 use std::{
     collections::HashMap,
-    rc::Rc
+    rc::Rc,
+    cell::RefCell,
+    any::TypeId
 };
-use dioxus::prelude::{ScopeId, RefCell};
+use dioxus::prelude::ScopeId;
 use super::value::ValueEntry;
-use super::simple_hash::SimpleHash;
 
-pub(super) type Subscriptions = Rc<RefCell<HashMap<SimpleHash, ValueEntry>>>;
+pub(super) type Subscriptions = Rc<RefCell<HashMap<TypeId, ValueEntry>>>;
 
 #[derive(Clone)]
 pub(super) struct Subscription {
     pub value_entry: ValueEntry,
     pub subscriptions: Subscriptions,
-    pub function_id: SimpleHash,
+    pub function_id: TypeId,
     pub scope_id: ScopeId,
 }
 

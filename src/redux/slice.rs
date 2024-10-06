@@ -1,30 +1,29 @@
 use std::{
     any::Any,
     marker::PhantomData,
-    rc::Rc
+    rc::Rc,
+    cell::RefCell,
+    any::TypeId,
+    fmt::Display
 };
 use dioxus::prelude::*;
 use super::store::{ReduxStore, Store};
 use super::subscription::Subscription;
-use super::simple_hash::SimpleHashable;
 
 pub fn use_slice<
-    'a,
-    F: 'static + Fn(&S) -> (U, T),
-    S: 'static + 'a + Store,
-    U: 'static + SimpleHashable,
+    F: 'static + Fn(&S) -> T,
+    S: 'static + Store,
     T: 'static + Clone + PartialEq
 >(
-    cx: &'a ScopeState,
     slicer: F,
-) -> &'a ReduxSlice<T> {
-    let store = cx.consume_context::<ReduxStore<S>>().unwrap();
-    let subscribe = cx.use_hook({
+) -> ReduxSlice<T> {
+    let store = consume_context::<ReduxStore<S>>();
+    let subscribe = use_hook({
         to_owned![store];
         move || {
             let value = slicer(&store.store.borrow());
-            let hash = value.0.simple_hash();
-            store.subscribe(cx.scope_id(), hash, value.1, || {
+            tracing::info!("{:?}", TypeId::of::<T>());
+            Rc::new(store.subscribe(current_scope_id().unwrap(), TypeId::of::<T>(), value, || {
                 to_owned![store];
                 Rc::new(move |cached: &Rc<RefCell<Box<dyn Any>>>| {
                     let store = &store.store.borrow();
@@ -34,25 +33,26 @@ pub fn use_slice<
                     let is_equal = {
                         let cached = cached.borrow();
                         let cached = cached.downcast_ref::<T>().unwrap();
-                        cached == &current.1
+                        cached == &current
                     };
 
                     if !is_equal {
                         // Update the cached value with the new one
-                        *cached.borrow_mut() = Box::new(current.1);
+                        *cached.borrow_mut() = Box::new(current);
                     }
                     is_equal
                 })
-            })
+            }))
         }
     });
 
-    cx.use_hook(|| ReduxSlice {
-        subscribe: Rc::new(subscribe.clone()),
+    use_hook(|| ReduxSlice {
+        subscribe: subscribe,
         _phantom: PhantomData,
     })
 }
 
+#[derive(Clone)]
 pub struct ReduxSlice<T> {
     subscribe: Rc<Subscription>,
     _phantom: PhantomData<T>,
@@ -62,6 +62,12 @@ impl<T: 'static> ReduxSlice<T> {
     pub fn read(&self) -> Rc<RefCell<Box<T>>> {
         let value = self.subscribe.value_entry.value.clone();
         downcast(value)
+    }
+}
+
+impl<T: Display + 'static> Display for ReduxSlice<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.read().borrow().as_ref().fmt(f)
     }
 }
 
