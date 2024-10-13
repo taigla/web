@@ -67,11 +67,17 @@ impl QueryProvider {
         let registry = self.queries_registry.borrow();
         let entry = registry.get(query);
         if let Some(entry) = entry {
-            let mut storage = entry.value.write().unwrap();
-            *storage = value;
-            for scope_id in &entry.listeners {
-                schedule_update_any()(*scope_id);
+            let storage = entry.value.try_write();
+            if let Ok(mut storage) = storage {
+                *storage = value;
+                for scope_id in &entry.listeners {
+                    schedule_update_any()(*scope_id);
+                }
+            } else {
+                tracing::error!("Failed to lock query for writing");
             }
+        } else {
+            tracing::error!("Tying to mutate an unexisting query");
         }
     }
 }
@@ -113,7 +119,7 @@ pub fn use_query<T: DeserializeOwned>(query: Query) -> QueryValue<Box<dyn Any>> 
 
 // USed to know when to invalidate query du to mutation
 pub enum QueryTags {
-
+    User(i32)
 }
 
 #[derive(Debug, Deserialize)]
@@ -122,8 +128,11 @@ pub struct User {}
 pub fn use_get_user(user_id: i32) -> QueryValue<User> {
     let query = use_query::<User>(Query { url: "http://localhost:1234/api/v1/users".to_string(), ..Default::default() });
     // let query = use_query::<User>(Query { url: "https://app.gama.ovh/api".to_string(), ..Default::default() });
-    let tmp: Box<dyn Any> = Box::new(String::from("oki"));
-    let aa: Box<String> = tmp.downcast().unwrap();
+    let tmp: Box<String> = Box::new(String::from("oki"));
+    let zz: Arc<RwLock<Box<dyn Any>>> = Arc::new(RwLock::new(tmp));
+    let aez = zz.read().unwrap();
+    let aa = aez.downcast_ref::<String>().unwrap();//.downcast().unwrap();
+    tracing::info!("aa {:?}", aa);
 
     let zzzz = query.read().unwrap();
     let v: *const RwLock<QueryResult<Box<dyn Any>>> = Arc::into_raw(query.clone());
