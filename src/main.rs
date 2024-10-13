@@ -2,12 +2,14 @@
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use dioxus_logger::tracing::Level;
+use tracing::info;
 use web_sys::window;
 use taigla::routes::Routes;
 use taigla::api::{TaiglaApi, Token};
 // use taigla::services::use_init_service;
 use taigla::redux::use_init_store;
 use taigla::store::TaiglaStore;
+use taigla::query::{use_init_query_provider, use_get_user};
 
 fn api_address() -> String {
     match env!("TAIGLA_BACKEND_URL") {
@@ -26,6 +28,9 @@ fn main() {
 
 fn App() -> Element {
     use_init_store(TaiglaStore::new);
+    use_init_query_provider();
+    let user = use_get_user(1);
+    let user2 = use_get_user(1);
     // use_init_atom_root(cx);
     // use_shared_state_provider(|| Token::default());
     // let token = use_shared_state::<Token>().unwrap();
@@ -33,6 +38,8 @@ fn App() -> Element {
     // let api = TaiglaApi::new(&api_address, token.read().clone());
     // use_shared_state_provider(cx, || api.clone());
     // use_init_service(cx, api.clone());
+
+    tracing::info!("value: {:?}", user.read().unwrap());
 
     rsx! {
         div {

@@ -7,5 +7,6 @@ pub mod api;
 pub mod redux;
 pub mod reducers;
 pub mod store;
+pub mod query;
 
 pub mod routes;
