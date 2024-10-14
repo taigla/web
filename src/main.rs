@@ -10,6 +10,7 @@ use taigla::api::{TaiglaApi, Token};
 use taigla::redux::use_init_store;
 use taigla::store::TaiglaStore;
 use taigla::query::use_init_query_provider;
+use taigla::query::QueryTags;
 
 fn api_address() -> String {
     match env!("TAIGLA_BACKEND_URL") {
@@ -28,7 +29,7 @@ fn main() {
 
 fn App() -> Element {
     use_init_store(TaiglaStore::new);
-    use_init_query_provider();
+    use_init_query_provider::<QueryTags>();
     // use_init_atom_root(cx);
     // use_shared_state_provider(|| Token::default());
     // let token = use_shared_state::<Token>().unwrap();
